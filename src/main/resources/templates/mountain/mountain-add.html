@@ -1,0 +1,43 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:include="fragments/head::head"/>
+    <script th:src="@{/js/form-script.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/form-style.css}"/>
+</head>
+<body>
+<header>
+    <th:block th:include="fragments/header::header"/>
+</header>
+<main>
+    <div id="formWrapper">
+        <form th:method="post" th:action="@{/mountains/add}" enctype="multipart/form-data">
+            <div id="form">
+                <div class="logo">
+                    <p>Add Mountain</p>
+                </div>
+                <div class="form-item">
+                    <p class="formLabel">Name</p>
+                    <input type="text" name="name" id="email" class="form-style" autocomplete="off"/>
+                </div>
+                <div class="form-item">
+                    <p class="formLabel">Description</p>
+                    <textarea rows="4" name="description"></textarea>
+                </div>
+                <div class="form-item">
+                    <input type="file" name="image" accept="image/*">
+                </div>
+                <div class="form-item">
+                    <input type="submit" class="login pull-right" value="Add mountain">
+                    <div class="clear-fix"></div>
+                </div>
+            </div>
+        </form>
+    </div>
+</main>
+<footer>
+    <th:block th:include="fragments/footer::footer"/>
+</footer>
+</body>
+
+</html>

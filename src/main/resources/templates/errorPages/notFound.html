@@ -1,0 +1,23 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:include="fragments/head::head"/>
+    <link rel="stylesheet" th:href="@{/css/error-style.css}" />
+</head>
+
+<body>
+<header>
+    <th:block th:include="fragments/header::header"/>
+</header>
+<main>
+    <div class="wrapper">
+        <img th:src="${__${T(com.dimkov.bgMountains.util.Constants).MODEL_ATTR_NAME}__}" alt="some img"/>
+        <p th:text="${__${T(com.dimkov.bgMountains.util.Constants).EXEPTION_MESSAGE_ATTR_NAME}__}"></p>
+    </div>
+</main>
+<footer>
+    <th:block th:include="fragments/footer::footer"/>
+</footer>
+</body>
+
+</html>

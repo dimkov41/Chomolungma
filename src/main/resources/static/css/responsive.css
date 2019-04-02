@@ -1,0 +1,72 @@
+@media screen and (max-width: 1100px) {
+    .team-description ul {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+
+    .blog-news ul .item {
+        margin-top: 2em;
+    }
+
+    .blog-news ul {
+        flex-wrap: wrap;
+    }
+
+    .team-description ul li img {
+        margin-top: 2em;
+
+    }
+}
+
+@media screen and (max-width: 800px){
+    header nav ul li {
+        display: block;
+    }
+
+    nav > ul {
+        width: 13%;
+        margin: auto;
+    }
+
+    nav > ul > li {
+        padding-bottom: 0.5em;
+    }
+
+    nav > img{
+        margin-left: 39%;
+        margin-bottom: 1rem;
+    }
+
+    header nav {
+        display: block;
+        position: relative;
+        margin: 0;
+    }
+
+    .header-title {
+        padding: 1em 0;
+    }
+
+    .choose-us ul {
+        display: block;
+    }
+
+    .choose-us p {
+        width: 55%;
+        text-align: center;
+        margin: 0 auto;
+    }
+
+    .list-type6 ul li {
+        margin: 0;
+        margin-right: 3em;
+        margin-left: 3em;
+        width: initial;
+    }
+
+    .blog-news ul {
+        display: block;
+        padding-top: 2rem;
+    }
+}

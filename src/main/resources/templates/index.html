@@ -1,0 +1,109 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:include="fragments/head::head" />
+</head>
+
+<body>
+    <header>
+        <th:block th:include="fragments/header::header" />
+    </header>
+    <main>
+        <section class="about-us">
+            <h3>ABOUT US</h3>
+            <p>Nunc auctor turpis quis mollis porttitor</p>
+            <p>Penatibus et magnis dis parturient montes, nascetur ridiculus mus. Fusce a metus et mauris suscipit
+                maximus. Vestibulum eget tellus et nulla vestibulum vulputate. Mauris eget magna eget orci consequat
+                interdum. Aenean vel nisi sollicitudin. Penatibus et magnis dis parturient montes, nascetur ridiculus
+                mus. Fusce a metus et mauris suscipit maximus.</p>
+        </section>
+        <section class="team-description">
+            <div class="team-description-wrapper">
+                <h3>OUR FABULOUS TEAM</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                <ul>
+                    <li>
+                        <img src="./images/person-1.jpg" alt="pic">
+                        <p>John Doe</p>
+                        <p>Cortina, Italy</p>
+                    </li>
+                    <li>
+                        <img src="./images/person-2.jpg" alt="pic">
+                        <p>Jessica Simpson</p>
+                        <p>Chamonix-Mont-Blanc, France</p>
+                    </li>
+                    <li>
+                        <img src="./images/person-3.png" alt="pic">
+                        <p>Lily Chapman</p>
+                        <p>London, United Kingdom</p>
+                    </li>
+                    <li>
+                        <img src="./images/person-4.jpg" alt="pic">
+                        <p>Robert Brown</p>
+                        <p>Kitzbuhel, Austria</p>
+                    </li>
+                </ul>
+            </div>
+        </section>
+        <section class="choose-us">
+            <ul>
+                <li>
+                    <img src="./images/icon-1.png" alt="cloud">
+                    <h4>In every conditions</h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem harum aspernatur sapiente
+                        error,
+                        voluptas fuga, laudantium ullam magni fugit. Qui!</p>
+                </li>
+                <li>
+                    <img src="./images/icon-2.png" alt="bag">
+                    <h4>Professional Team</h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem harum aspernatur sapiente
+                        error,
+                        voluptas fuga, laudantium ullam magni fugit. Qui!</p>
+                </li>
+                <li>
+                    <img src="./images/icon-3.png" alt="knife">
+                    <h4>Expert hikers</h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem harum aspernatur sapiente
+                        error,
+                        voluptas fuga, laudantium ullam magni fugit. Qui!</p>
+                </li>
+            </ul>
+
+        </section>
+        <section class="blog-news">
+            <h3>BLOG NEWS</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+            <ul class="blog-list">
+                <li class="item">
+                    <section class="avatar">
+                        <img src="./images/blog-1.jpg">
+                    </section>
+                    <section class="content">
+                        <h4>PROJECT DESCRIPTION VIDEO</h4>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut aliquid
+                            scire se gaudeant? Immo
+                            alio genere; Quod vestri non.</p>
+                    </section>
+                </li>
+                <li class="item">
+                    <section class="avatar">
+                        <img src="./images/blog-2.jpg">
+                    </section>
+                    <section class="content">
+                        <h4>PROJECT DESCRIPTION IMAGE</h4>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut aliquid
+                            scire se gaudeant? Immo
+                            alio genere; Quod vestri non.</p>
+                    </section>
+                </li>
+            </ul>
+
+        </section>
+    </main>
+    <footer>
+        <th:block th:include="fragments/footer::footer" />
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,33 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:include="fragments/head::head"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/mountains-style.css}"/>
+</head>
+<body>
+<header>
+    <th:block th:include="fragments/header::header"/>
+</header>
+<main>
+    <section class="blog-news">
+        <h3>Mountains</h3>
+        <p>Explore bulgarian nature.</p>
+        <div class="list-type6">
+            <ul class="mountain-list">
+                <th:block th:each="mountain, iter : ${__${T(com.dimkov.bgMountains.util.Constants).MODEL_ATTR_NAME}__}">
+                    <li>
+                        <img th:src="@{/images/mountain.png}" alt="mountain"/>
+                        <a th:href="@{/mountains/details/{id}(id=${mountain.id})}" th:text="${mountain.name}"></a>
+                    </li>
+                </th:block>
+            </ul>
+        </div>
+
+    </section>
+</main>
+<footer>
+    <th:block th:include="fragments/footer::footer"/>
+</footer>
+</body>
+
+</html>

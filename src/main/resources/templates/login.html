@@ -1,0 +1,39 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:include="fragments/head::head" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/auth-style.css}"/>
+</head>
+<body>
+<header>
+    <th:block th:include="fragments/header::header" />
+</header>
+<main>
+    <div class='login'>
+        <h2>Login</h2>
+        <div class="error">
+            <p>Wrong username or password!</p>
+            <p>Don't have account? <a th:href="@{/users/register}">Sign up</a></p>
+        </div>
+        <form id="login-form" th:action="@{/users/login}" th:method="post">
+            <div id="usernameWrapper">
+                <input id='username' name='username' placeholder='Username' type='text'>
+                <i class="fas fa-check"></i>
+                <i class="fas fa-times"></i>
+            </div>
+            <div id="passwordWrapper">
+                <input id='pw' name='password' placeholder='Password' type='password'>
+                <i class="fas fa-check"></i>
+                <i class="fas fa-times"></i>
+            </div>
+            <input class='animated' type='submit' value='Login'>
+        </form>
+        <a class='forgot' th:href="@{/users/register}">Don't have account? Sign up!</a>
+    </div>
+</main>
+<footer>
+    <th:block th:include="fragments/footer::footer" />
+</footer>
+</body>
+
+</html>

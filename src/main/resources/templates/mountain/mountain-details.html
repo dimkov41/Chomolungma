@@ -1,0 +1,29 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:include="fragments/head::head"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/form-style.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/mountain-details-style.css}"/>
+</head>
+<body>
+<header>
+    <th:block th:include="fragments/header::header"/>
+</header>
+<main>
+    <div class="card">
+        <th:block th:object="${__${T(com.dimkov.bgMountains.util.Constants).MODEL_ATTR_NAME}__}">
+            <img th:src="*{imageUrl}" alt="Mountain img" class="img">
+            <p class="title" th:text="*{name}"></p>
+            <p class="description" th:text="*{description}">Harvard University</p>
+            <p><button>Peaks</button></p>
+            <p><button>Routes</button></p>
+            <p><button>Huts</button></p>
+        </th:block>
+    </div>
+</main>
+<footer>
+    <th:block th:include="fragments/footer::footer"/>
+</footer>
+</body>
+
+</html>

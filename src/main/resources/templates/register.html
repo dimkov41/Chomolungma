@@ -1,0 +1,49 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:include="fragments/head::head"/>
+    <script th:src="@{/js/register-script.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/auth-style.css}"/>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Sofia' rel='stylesheet' type='text/css'>
+</head>
+<body>
+<header>
+    <th:block th:include="fragments/header::header"/>
+</header>
+<main>
+    <div class='login'>
+        <h2>Register</h2>
+        <form id="register-form" th:action="@{/users/register}" th:method="post">
+            <div id="usernameWrapper">
+                <input id='username' name='username' placeholder='Username' type='text'>
+                <i class="fas fa-check"></i>
+                <i class="fas fa-times"></i>
+            </div>
+            <div id="passwordWrapper">
+                <input id='pw' name='password' placeholder='Password' type='password'>
+                <i class="fas fa-check"></i>
+                <i class="fas fa-times"></i>
+            </div>
+            <div id="confirmPasswordWrapper">
+                <input id='confirmPw' name='confirmPassword' placeholder='Confirm Password' type='password'>
+                <i class="fas fa-check"></i>
+                <i class="fas fa-times"></i>
+            </div>
+            <div id="emailWrapper">
+                <input id="email" name='email' placeholder='E-Mail Address' type='email'>
+                <i class="fas fa-check"></i>
+                <i class="fas fa-times"></i>
+            </div>
+            <input class='animated' type='submit' value='Register'>
+        </form>
+        <a class='forgot' th:href="@{/users/login}">Already have an account?</a>
+    </div>
+
+</main>
+<footer>
+    <th:block th:include="fragments/footer::footer"/>
+</footer>
+</body>
+
+</html>
