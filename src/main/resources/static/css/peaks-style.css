@@ -1,0 +1,49 @@
+.blog-news ul {
+    flex-wrap: wrap;
+ }
+
+.blog-news ul .item {
+  display: block;
+  box-shadow: 0 0.3rem 1rem 0.3rem rgba(0,0,0,0.3); 
+  flex: 0 0 18rem;
+  margin: 1em;
+}
+
+.blog-news .content {
+    width: 18rem;
+    padding: 2rem 2rem 2.7em;
+    text-align: center;
+    display: block;
+}
+
+.blog-news ul .item .content a{
+    float: right;
+    margin-top: 0.5em;
+    text-decoration: none;
+    color: rgb(94, 91, 91);
+}
+
+.blog-news ul .item .content a::before {
+    font-family: "Font Awesome 5 Free"; 
+    font-weight: 900; 
+    margin-right: 0.2em;
+    content: "\f0a4";
+}
+
+
+.blog-news ul .item .buttons {
+    display: flex;
+    justify-content: space-around;
+}
+
+.blog-news ul .item .buttons a{
+    width: 100%;
+    text-decoration: none;
+    padding: 0.5em;
+    color: rgb(94, 91, 91);
+}
+
+.blog-news ul .item .buttons a:hover{
+    background-color: gray;
+    color: white;
+}

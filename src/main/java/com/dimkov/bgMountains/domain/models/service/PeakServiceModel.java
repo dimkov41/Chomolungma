@@ -5,6 +5,7 @@ import com.dimkov.bgMountains.domain.entities.Mountain;
 public class PeakServiceModel {
     private String id;
     private String name;
+    private String description;
     private double elevation;
     private String imageUrl;
     private Mountain location;
@@ -24,6 +25,14 @@ public class PeakServiceModel {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public double getElevation() {

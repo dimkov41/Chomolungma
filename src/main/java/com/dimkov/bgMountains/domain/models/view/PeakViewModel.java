@@ -1,19 +1,24 @@
-package com.dimkov.bgMountains.domain.entities;
+package com.dimkov.bgMountains.domain.models.view;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import com.dimkov.bgMountains.domain.entities.Mountain;
 
-@Entity(name = "peaks")
-public class Peak extends BaseEntity {
+public class PeakViewModel {
+    private String id;
     private String name;
     private String description;
     private double elevation;
     private String imageUrl;
     private Mountain location;
 
-    @Column(nullable = false, updatable = false, unique = true)
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
@@ -22,7 +27,6 @@ public class Peak extends BaseEntity {
         this.name = name;
     }
 
-    @Column(nullable = false,columnDefinition = "TEXT")
     public String getDescription() {
         return description;
     }
@@ -31,7 +35,6 @@ public class Peak extends BaseEntity {
         this.description = description;
     }
 
-    @Column(nullable = false)
     public double getElevation() {
         return elevation;
     }
@@ -40,7 +43,6 @@ public class Peak extends BaseEntity {
         this.elevation = elevation;
     }
 
-    @Column(nullable = false)
     public String getImageUrl() {
         return imageUrl;
     }
@@ -49,7 +51,6 @@ public class Peak extends BaseEntity {
         this.imageUrl = imageUrl;
     }
 
-    @ManyToOne(targetEntity = Mountain.class)
     public Mountain getLocation() {
         return location;
     }

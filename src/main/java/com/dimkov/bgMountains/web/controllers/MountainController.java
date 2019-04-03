@@ -1,6 +1,6 @@
 package com.dimkov.bgMountains.web.controllers;
 
-import com.dimkov.bgMountains.domain.models.binding.MountainRegisterBindingModel;
+import com.dimkov.bgMountains.domain.models.binding.MountainAddBindingModel;
 import com.dimkov.bgMountains.domain.models.service.MountainServiceModel;
 import com.dimkov.bgMountains.domain.models.view.MountainDetailsViewModel;
 import com.dimkov.bgMountains.domain.models.view.MountainViewModel;
@@ -65,11 +65,11 @@ public class MountainController extends BaseController {
 
     @PostMapping("/add")
     @PreAuthorize("hasAuthority(T(com.dimkov.bgMountains.util.Constants).ROLE_MODERATOR)")
-    public ModelAndView addMountain(@Valid @ModelAttribute MountainRegisterBindingModel mountainRegisterBindingModel) throws IOException {
-        MountainServiceModel mountain = this.modelMapper.map(mountainRegisterBindingModel, MountainServiceModel.class);
+    public ModelAndView addMountain(@Valid @ModelAttribute MountainAddBindingModel mountainAddBindingModel) throws IOException {
+        MountainServiceModel mountain = this.modelMapper.map(mountainAddBindingModel, MountainServiceModel.class);
 
         mountain.setImageUrl(
-                cloudinaryService.uploadImage(mountainRegisterBindingModel.getImage())
+                cloudinaryService.uploadImage(mountainAddBindingModel.getImage())
         );
 
         if (!this.mountainService.save(mountain)) {
