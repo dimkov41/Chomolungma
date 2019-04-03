@@ -60,7 +60,7 @@ input {
 }
 
 input.form-style,
-textarea{
+textarea {
     color: #8a8a8a;
     display: block;
     width: 100%;
@@ -79,7 +79,7 @@ textarea{
     letter-spacing: .8px;
 }
 
-textarea{
+textarea {
     height: initial;
 }
 
@@ -137,4 +137,11 @@ input[type="submit"].login:hover {
 
 input[type="submit"].login:focus {
     outline: none;
+}
+
+.error {
+    color: red;
+    font-size: 11px;
+    text-align: center;
+    display: none;
 }

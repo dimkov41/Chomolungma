@@ -269,3 +269,9 @@ footer {
   -webkit-text-fill-color: transparent;
   transition: all 265ms ease-in;
 }
+
+.freelancer{
+  background-color: orange;
+  padding: 0.3em;
+  border-radius: 20px;
+}

@@ -1,13 +1,14 @@
 package com.dimkov.bgMountains.domain.models.service;
 
 import com.dimkov.bgMountains.domain.entities.Mountain;
+import org.springframework.web.multipart.MultipartFile;
 
 public class PeakServiceModel {
     private String id;
     private String name;
     private String description;
     private double elevation;
-    private String imageUrl;
+    private String image;
     private Mountain location;
 
 
@@ -43,12 +44,12 @@ public class PeakServiceModel {
         this.elevation = elevation;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getImage() {
+        return image;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public Mountain getLocation() {

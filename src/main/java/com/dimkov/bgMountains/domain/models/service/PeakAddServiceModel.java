@@ -1,17 +1,25 @@
-package com.dimkov.bgMountains.domain.models.binding;
+package com.dimkov.bgMountains.domain.models.service;
 
+import com.dimkov.bgMountains.domain.entities.Mountain;
+import com.dimkov.bgMountains.mappings.IHaveCustomMappings;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.constraints.NotNull;
-
-public class PeakAddBindingModel {
+public class PeakAddServiceModel {
+    private String id;
     private String name;
     private String description;
     private double elevation;
     private MultipartFile image;
     private String mountainName;
 
-    @NotNull
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
@@ -20,7 +28,6 @@ public class PeakAddBindingModel {
         this.name = name;
     }
 
-    @NotNull
     public String getDescription() {
         return description;
     }
@@ -29,7 +36,6 @@ public class PeakAddBindingModel {
         this.description = description;
     }
 
-    @NotNull
     public double getElevation() {
         return elevation;
     }
@@ -38,7 +44,6 @@ public class PeakAddBindingModel {
         this.elevation = elevation;
     }
 
-    @NotNull
     public MultipartFile getImage() {
         return image;
     }
@@ -47,7 +52,6 @@ public class PeakAddBindingModel {
         this.image = image;
     }
 
-    @NotNull
     public String getMountainName() {
         return mountainName;
     }

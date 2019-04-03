@@ -50,5 +50,12 @@ public class MountainServiceImpl implements MountainService {
 
     }
 
+    @Override
+    public Optional<MountainServiceModel> findByName(String name) {
+        Optional<Mountain> mountain = this.mountainRepository.findByName(name);
+        return mountain
+                .map(m -> this.modelMapper.map(m, MountainServiceModel.class));
+    }
+
 
 }

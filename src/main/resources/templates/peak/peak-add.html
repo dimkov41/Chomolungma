@@ -3,6 +3,7 @@
 <head>
     <th:block th:include="fragments/head::head"/>
     <script th:src="@{/js/form-script.js}"></script>
+    <script th:src="@{/js/add-peak-script.js}"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/css/form-style.css}"/>
 </head>
 <body>
@@ -11,25 +12,28 @@
 </header>
 <main>
     <div id="formWrapper">
-        <form th:method="post" th:action="@{/peaks/add}" enctype="multipart/form-data">
+        <form th:method="post" th:object="${__${T(com.dimkov.bgMountains.util.Constants).MODEL_ATTR_NAME}__}" th:action="@{/peaks/add}" enctype="multipart/form-data" id="actualForm">
             <div id="form">
                 <div class="logo">
                     <p>Add Peak</p>
                 </div>
+                <div class="error" id="error">
+                    <p>You must fill all fields.</p>
+                </div>
                 <div class="form-item">
                     <p class="formLabel">Name</p>
-                    <input type="text" name="name" id="name" class="form-style" autocomplete="off"/>
+                    <input th:value="*{name}" type="text" name="name" id="name" class="form-style" autocomplete="off"/>
                 </div>
                 <div class="form-item">
                     <p class="formLabel">Elevation</p>
-                    <input type="number" name="elevation" id="elevation" class="form-style" autocomplete="off"/>
+                    <input th:value="*{elevation}" type="number" name="elevation" id="elevation" class="form-style" autocomplete="off"/>
                 </div>
                 <div class="form-item">
                     <p class="formLabel">Description</p>
-                    <textarea rows="4" name="description"></textarea>
+                    <textarea th:value="*{description}" rows="4" name="description" id="description"></textarea>
                 </div>
                 <div class="form-item">
-                    <input type="file" name="image" accept="image/*">
+                    <input type="file" id="image" name="image" accept="image/*">
                 </div>
                 <div class="form-item">
                     <select class="form-control" id="mountain" name="mountainName">

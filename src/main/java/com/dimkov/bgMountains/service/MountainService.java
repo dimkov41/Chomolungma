@@ -13,4 +13,6 @@ public interface MountainService {
     List<MountainServiceModel> findAll();
 
     Optional<MountainServiceModel> findById(String id);
+
+    Optional<MountainServiceModel> findByName(String name);
 }

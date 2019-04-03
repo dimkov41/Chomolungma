@@ -23,8 +23,6 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/mountains")
 public class MountainController extends BaseController {
-    private static final String NOT_FOUND_MESSAGE = "Mountain not found!";
-
     private static final String MOUNTAINS_VIEW = "mountain/mountains-home";
     private static final String ADD_MOUNTAIN_VIEW = "mountain/mountain-add";
     private static final String DETAILS_MOUNTAIN_VIEW = "mountain/mountain-details";
@@ -82,7 +80,7 @@ public class MountainController extends BaseController {
     @GetMapping("/details/{id}")
     public ModelAndView showMountainDetails(@PathVariable String id, ModelAndView modelAndView) {
         MountainServiceModel foundMountain = this.mountainService.findById(id)
-                .orElseThrow(() -> new NoSuchElementException(NOT_FOUND_MESSAGE));
+                .orElseThrow(() -> new NoSuchElementException(Constants.MOUNTAIN_NOT_FOUND_MESSAGE));
 
         modelAndView.addObject(Constants.MODEL_ATTR_NAME, this.modelMapper.map(foundMountain, MountainDetailsViewModel.class));
 

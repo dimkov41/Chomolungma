@@ -1,6 +1,7 @@
 package com.dimkov.bgMountains.service;
 
 import com.dimkov.bgMountains.domain.entities.Peak;
+import com.dimkov.bgMountains.domain.models.service.PeakAddServiceModel;
 import com.dimkov.bgMountains.domain.models.service.PeakServiceModel;
 import org.springframework.data.domain.Page;
 
@@ -12,5 +13,5 @@ public interface PeakService {
 
     List<PeakServiceModel> findAll();
 
-
+    boolean save(PeakAddServiceModel peakAddServiceModel);
 }
