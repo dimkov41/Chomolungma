@@ -1,8 +1,10 @@
 package com.dimkov.bgMountains.web.controllers;
 
 import com.dimkov.bgMountains.util.Constants;
+import org.apache.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.NoSuchElementException;

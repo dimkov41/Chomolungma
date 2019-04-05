@@ -10,8 +10,11 @@
 </header>
 <main>
     <section class="blog-news">
-        <h3>Mountains</h3>
-        <p>Explore bulgarian nature.</p>
+        <div class="header">
+            <h3>Mountains</h3>
+            <p>Explore bulgarian nature.</p>
+        </div>
+        <a sec:authorize="hasRole('ROLE_MODERATOR')" href="/mountains/add" class="addButton">Add Mountain</a>
         <div class="list-type6">
             <ul class="mountain-list">
                 <th:block th:each="mountain, iter : ${__${T(com.dimkov.bgMountains.util.Constants).MODEL_ATTR_NAME}__}">

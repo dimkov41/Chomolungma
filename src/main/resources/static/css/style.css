@@ -85,6 +85,7 @@ header nav ul li {
 
 h3 {
   font-size: 24px;
+  margin-bottom: 1em;
 }
 
 .team-description-wrapper,
@@ -274,4 +275,12 @@ footer {
   background-color: orange;
   padding: 0.3em;
   border-radius: 20px;
+}
+
+.addButton{
+  text-decoration: none;
+  background-color: #0981e1;
+  border-radius: 10px;
+  color: white;
+  padding: 0.5em;
 }
