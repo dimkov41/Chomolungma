@@ -26,7 +26,7 @@
                 </div>
                 <div class="form-item">
                     <p class="formLabel">Elevation</p>
-                    <input th:value="*{elevation}" type="number" name="elevation" id="elevation" class="form-style" autocomplete="off"/>
+                    <input th:value="*{elevation == 0 ? '' : elevation}" type="number" name="elevation" id="elevation" class="form-style" autocomplete="off"/>
                 </div>
                 <div class="form-item">
                     <p class="formLabel">Description</p>

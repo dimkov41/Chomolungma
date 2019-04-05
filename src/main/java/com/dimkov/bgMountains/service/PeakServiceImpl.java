@@ -57,27 +57,26 @@ public class PeakServiceImpl implements PeakService {
 
     @Override
     public boolean save(PeakAddServiceModel peakAddServiceModel) {
-             if(!peakValidationService.isValid(peakAddServiceModel)){
-                throw new IllegalArgumentException(PEAK_VALIDATION_ERROR_MESSAGE);
-            }
+        if (!peakValidationService.isValid(peakAddServiceModel)) {
+            throw new IllegalArgumentException(PEAK_VALIDATION_ERROR_MESSAGE);
+        }
 
-            Peak peak = this.modelMapper.map(peakAddServiceModel, Peak.class);
+        Peak peak = this.modelMapper.map(peakAddServiceModel, Peak.class);
 
-            MountainServiceModel mountainServiceModel =
-                    this.mountainService
-                            .findByName(
-                                    peakAddServiceModel.getMountainName()
-                            )
-                    .orElseThrow(() -> new NoSuchElementException(Constants.MOUNTAIN_NOT_FOUND_MESSAGE));
+        MountainServiceModel mountainServiceModel =
+                this.mountainService
+                        .findByName(
+                                peakAddServiceModel.getMountainName()
+                        )
+                        .orElseThrow(() -> new NoSuchElementException(Constants.MOUNTAIN_NOT_FOUND_MESSAGE));
 
-            peak.setLocation(this.modelMapper.map(mountainServiceModel, Mountain.class));
+        peak.setLocation(this.modelMapper.map(mountainServiceModel, Mountain.class));
 
         try {
-            if (!peakAddServiceModel.getImage().getOriginalFilename().equals("")) {
-                peak.setImageUrl(
-                        this.cloudinaryService.uploadImage(peakAddServiceModel.getImage())
-                );
-            }
+            peak.setImageUrl(
+                    this.cloudinaryService.uploadImage(peakAddServiceModel.getImage())
+            );
+
 
             this.peakRepository.save(peak);
         } catch (Exception e) {

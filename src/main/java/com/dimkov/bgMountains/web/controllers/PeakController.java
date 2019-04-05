@@ -25,6 +25,7 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Controller
@@ -52,9 +53,13 @@ public class PeakController extends BaseController {
 
     @GetMapping
     public ModelAndView showPeakHome(ModelAndView modelAndView) {
-        List<PeakServiceModel> peaks = this.peakService.findAll();
+        List<PeakViewModel> peaks =
+                this.peakService.findAll()
+                .stream()
+                .map(m -> this.modelMapper.map(m, PeakViewModel.class))
+                .collect(Collectors.toList());
 
-        modelAndView.addObject(Constants.MODEL_ATTR_NAME, this.modelMapper.map(peaks, PeakViewModel.class));
+        modelAndView.addObject(Constants.MODEL_ATTR_NAME, peaks);
 
         return view(PEAKS_VIEW, modelAndView);
     }
@@ -67,11 +72,12 @@ public class PeakController extends BaseController {
                         .map(m -> this.modelMapper.map(m, MountainViewModel.class))
                         .collect(Collectors.toList());
 
+        PeakRedirectViewModel peakRedirectViewModel = new PeakRedirectViewModel();
         if(model.containsAttribute(Constants.MODEL_ATTR_NAME)){
-            PeakRedirectViewModel peakRedirectViewModel = (PeakRedirectViewModel) model.asMap().get(Constants.MODEL_ATTR_NAME);
-            modelAndView.addObject(Constants.MODEL_ATTR_NAME, peakRedirectViewModel);
+            peakRedirectViewModel = (PeakRedirectViewModel) model.asMap().get(Constants.MODEL_ATTR_NAME);
         }
 
+        modelAndView.addObject(Constants.MODEL_ATTR_NAME, peakRedirectViewModel);
         modelAndView.addObject(Constants.MOUNTAINS_ATTR_NAME_FOR_ADD_PEAK_VIEW, mountains);
 
         return view(ADD_PEAK_VIEW, modelAndView);
@@ -79,10 +85,10 @@ public class PeakController extends BaseController {
 
     @PostMapping("/add")
     public ModelAndView addPeak(@Valid @ModelAttribute PeakAddBindingModel peakAddBindingModel,
-                                RedirectAttributes redirectAttributes) throws IOException {
+                                RedirectAttributes redirectAttributes){
         PeakAddServiceModel peakAddServiceModel = this.modelMapper.map(peakAddBindingModel, PeakAddServiceModel.class);
 
-        if (true) {
+        if (!this.peakService.save(peakAddServiceModel)) {
             PeakRedirectViewModel peakRedirectViewModel = this.modelMapper.map(peakAddBindingModel,PeakRedirectViewModel.class);
             redirectAttributes.addFlashAttribute(Constants.MODEL_ATTR_NAME, peakRedirectViewModel);
             return redirect(ADD_PEAK_PATH);

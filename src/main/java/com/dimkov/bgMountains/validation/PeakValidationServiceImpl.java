@@ -10,12 +10,7 @@ import java.lang.reflect.Field;
 public class PeakValidationServiceImpl implements PeakValidationService {
     @Override
     public boolean isValid(PeakAddServiceModel peakAddServiceModel) {
-        if(peakAddServiceModel != null){
-            if(ifFieldsAreEmpty(peakAddServiceModel)){
-                return true;
-            }
-        }
-        return false;
+        return peakAddServiceModel != null && ifFieldsAreEmpty(peakAddServiceModel);
     }
 
 

@@ -11,16 +11,11 @@
 <main>
     <section class="blog-news">
         <h3>Peaks</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
         <ul class="blog-list">
             <th:block th:each="peak, iter : ${__${T(com.dimkov.bgMountains.util.Constants).MODEL_ATTR_NAME}__}">
-                <li>
-                    <img th:src="@{/images/mountain.png}" alt="mountain"/>
-                    <a th:href="@{/mountains/details/{id}(id=${mountain.id})}" th:text="${mountain.name}"></a>
-                </li>
                 <li class="item">
                     <section class="avatar">
-                        <img th:src="@{peak.image}">
+                        <img th:src="${peak.imageUrl}">
                     </section>
                     <section class="content">
                         <h4 th:text="${peak.name}"></h4>
@@ -28,7 +23,7 @@
                         <a th:href="@{/peaks/details/{id}(id=${peak.id})}">More Info</a>
                     </section>
                     <section class="buttons">
-                        <a href="#">Mountain Info</a>
+                        <a th:href="@{/mountains/details/{id}(id=${peak.location.id})}">Mountain Info</a>
                     </section>
                 </li>
             </th:block>

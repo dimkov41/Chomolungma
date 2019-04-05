@@ -2,15 +2,11 @@ package com.dimkov.bgMountains.domain.models.service;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public class MountainServiceModel {
+public class MountainAddServiceModel {
     private String id;
     private String name;
     private String description;
-    private String imageUrl;
-
-    public String getName() {
-        return name;
-    }
+    private MultipartFile image;
 
     public String getId() {
         return id;
@@ -18,6 +14,10 @@ public class MountainServiceModel {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void setName(String name) {
@@ -32,11 +32,11 @@ public class MountainServiceModel {
         this.description = description;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public MultipartFile getImage() {
+        return image;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImage(MultipartFile image) {
+        this.image = image;
     }
 }

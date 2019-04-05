@@ -8,7 +8,7 @@ public class PeakViewModel {
     private String description;
     private double elevation;
     private String imageUrl;
-    private Mountain location;
+    private MountainViewModel location;
 
 
     public String getId() {
@@ -51,11 +51,11 @@ public class PeakViewModel {
         this.imageUrl = imageUrl;
     }
 
-    public Mountain getLocation() {
+    public MountainViewModel getLocation() {
         return location;
     }
 
-    public void setLocation(Mountain location) {
+    public void setLocation(MountainViewModel location) {
         this.location = location;
     }
 }
