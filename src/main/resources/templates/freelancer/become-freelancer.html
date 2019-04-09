@@ -11,23 +11,31 @@
 </header>
 <main>
     <div id="formWrapper">
-        <form th:method="post" th:action="@{/mountains/add}" enctype="multipart/form-data">
+        <form th:method="post" th:action="@{/becomeFreelancer}" enctype="multipart/form-data">
             <div id="form">
                 <div class="logo">
-                    <p>Add Mountain</p>
+                    <p>Become freelancer</p>
                 </div>
                 <th:block th:if="${(param.error != null) and (param.error[0] == 'true')}">
-                    <div id="error" class="error">
-                        <p>You must fill all fields</p>
+                    <div class="error" id="error">
+                        <p>You must fill all fields.</p>
                     </div>
                 </th:block>
                 <div class="form-item">
-                    <p class="formLabel">Name</p>
-                    <input type="text" name="name" id="email" class="form-style" autocomplete="off"/>
+                    <p class="formLabel">Certificate number</p>
+                    <input type="number" name="certificateNumber" id="certificateNumber" class="form-style" autocomplete="off"/>
                 </div>
                 <div class="form-item">
-                    <p class="formLabel">Description</p>
-                    <textarea rows="4" name="description"></textarea>
+                    <p class="formLabel">Age experience</p>
+                    <input type="number" max="90" name="ageExperience" id="ageExperience" class="form-style" autocomplete="off"/>
+                </div>
+                <div class="form-item">
+                    <p class="formLabel">Mobile number</p>
+                    <input type="text" name="mobileNumber" id="mobileNumber" class="form-style" autocomplete="off"/>
+                </div>
+                <div class="form-item">
+                    <p class="formLabel">Fee per day</p>
+                    <input type="number" min="1" name="fee" id="fee" class="form-style" autocomplete="off"/>
                 </div>
                 <div class="form-item">
                     <input type="file" name="image" accept="image/*">

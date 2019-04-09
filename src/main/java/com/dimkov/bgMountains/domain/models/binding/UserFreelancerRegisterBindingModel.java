@@ -1,16 +1,20 @@
-package com.dimkov.bgMountains.domain.entities;
+package com.dimkov.bgMountains.domain.models.binding;
 
-import javax.persistence.Entity;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
-@Entity(name = "freelancers")
-public class Freelancer extends User {
+public class UserFreelancerRegisterBindingModel {
     private int ageExperience;
     private int certificateNumber;
     private String mobileNumber;
     private BigDecimal fee;
-    private String imageUrl;
+    private MultipartFile image;
 
+    @NotNull
     public int getAgeExperience() {
         return ageExperience;
     }
@@ -19,6 +23,7 @@ public class Freelancer extends User {
         this.ageExperience = ageExperience;
     }
 
+    @NotNull
     public int getCertificateNumber() {
         return certificateNumber;
     }
@@ -27,6 +32,7 @@ public class Freelancer extends User {
         this.certificateNumber = certificateNumber;
     }
 
+    @NotEmpty
     public String getMobileNumber() {
         return mobileNumber;
     }
@@ -35,6 +41,7 @@ public class Freelancer extends User {
         this.mobileNumber = mobileNumber;
     }
 
+    @DecimalMin("0.00")
     public BigDecimal getFee() {
         return fee;
     }
@@ -43,11 +50,12 @@ public class Freelancer extends User {
         this.fee = fee;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    @NotNull
+    public MultipartFile getImage() {
+        return image;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImage(MultipartFile image) {
+        this.image = image;
     }
 }

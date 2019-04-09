@@ -30,6 +30,7 @@ public class MountainController extends BaseController {
     private static final String DETAILS_MOUNTAIN_VIEW = "mountain/mountain-details";
 
     private static final String ADD_MOUNTAIN_PATH = "/mountains/add";
+    private static final String ADD_MOUNTAIN_ERROR_PATH = "/mountains/add?error=true";
     private static final String ALL_MOUNTAINS_PATH = "/mountains";
 
     private final ModelMapper modelMapper;
@@ -65,13 +66,13 @@ public class MountainController extends BaseController {
     public ModelAndView addMountain(@Valid @ModelAttribute MountainAddBindingModel mountainAddBindingModel,
                                     Errors errors) throws IOException {
         if(errors.hasErrors()){
-            return redirect(ADD_MOUNTAIN_PATH);
+            return redirect(ADD_MOUNTAIN_ERROR_PATH);
         }
 
         MountainAddServiceModel mountain = this.modelMapper.map(mountainAddBindingModel, MountainAddServiceModel.class);
 
         if (!this.mountainService.save(mountain)) {
-            return redirect(ADD_MOUNTAIN_PATH);
+            return redirect(ADD_MOUNTAIN_ERROR_PATH);
         }
 
         return redirect(ALL_MOUNTAINS_PATH);

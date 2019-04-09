@@ -31,9 +31,10 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/peaks")
-public class    PeakController extends BaseController {
+public class PeakController extends BaseController {
     private static final String ALL_PEAKS_PATH = "/peaks";
     private static final String ADD_PEAK_PATH = "/peaks/add";
+    private static final String ADD_PEAK_ERROR_PATH = "/peaks/add?error=true";
 
     private static final String PEAKS_VIEW = "peak/peaks-home";
     private static final String ADD_PEAK_VIEW = "peak/peak-add";
@@ -56,9 +57,9 @@ public class    PeakController extends BaseController {
     public ModelAndView showPeakHome(ModelAndView modelAndView) {
         List<PeakViewModel> peaks =
                 this.peakService.findAll()
-                .stream()
-                .map(m -> this.modelMapper.map(m, PeakViewModel.class))
-                .collect(Collectors.toList());
+                        .stream()
+                        .map(m -> this.modelMapper.map(m, PeakViewModel.class))
+                        .collect(Collectors.toList());
 
         modelAndView.addObject(Constants.MODEL_ATTR_NAME, peaks);
 
@@ -74,7 +75,7 @@ public class    PeakController extends BaseController {
                         .collect(Collectors.toList());
 
         PeakRedirectViewModel peakRedirectViewModel = new PeakRedirectViewModel();
-        if(model.containsAttribute(Constants.MODEL_ATTR_NAME)){
+        if (model.containsAttribute(Constants.MODEL_ATTR_NAME)) {
             peakRedirectViewModel = (PeakRedirectViewModel) model.asMap().get(Constants.MODEL_ATTR_NAME);
         }
 
@@ -88,17 +89,18 @@ public class    PeakController extends BaseController {
     public ModelAndView addPeak(@Valid @ModelAttribute PeakAddBindingModel peakAddBindingModel,
                                 RedirectAttributes redirectAttributes,
                                 Errors errors) throws IOException {
-        if(errors.hasErrors()){
-            return redirect(ADD_PEAK_PATH);
+        if (errors.hasErrors()) {
+            return redirect(ADD_PEAK_ERROR_PATH);
         }
 
         PeakAddServiceModel peakAddServiceModel = this.modelMapper.map(peakAddBindingModel, PeakAddServiceModel.class);
 
         if (!this.peakService.save(peakAddServiceModel)) {
-            PeakRedirectViewModel peakRedirectViewModel = this.modelMapper.map(peakAddBindingModel,PeakRedirectViewModel.class);
+            PeakRedirectViewModel peakRedirectViewModel = this.modelMapper.map(peakAddBindingModel, PeakRedirectViewModel.class);
             redirectAttributes.addFlashAttribute(Constants.MODEL_ATTR_NAME, peakRedirectViewModel);
-            return redirect(ADD_PEAK_PATH);
+            return redirect(ADD_PEAK_ERROR_PATH);
         }
+
 
         return redirect(ALL_PEAKS_PATH);
     }

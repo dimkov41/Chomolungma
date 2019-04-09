@@ -1,5 +1,6 @@
 package com.dimkov.bgMountains.service;
 
+import com.dimkov.bgMountains.domain.models.service.UserFreelancerRegisterServiceModel;
 import org.modelmapper.ModelMapper;
 import com.dimkov.bgMountains.domain.entities.User;
 import com.dimkov.bgMountains.domain.models.service.UserServiceModel;
@@ -11,6 +12,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.nio.channels.NoConnectionPendingException;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -46,6 +49,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean registerFreelancer(UserFreelancerRegisterServiceModel userFreelancerRegisterServiceModel,
+                                      String username){
+        User user = this.userRepository.findByUsername(username)
+                .orElseThrow(() -> new NoSuchElementException("Username does not exists"));
+
+        setFreelancerFields(user, userFreelancerRegisterServiceModel);
+
+        
+
+
+    }
+
+    @Override
     public Optional<UserServiceModel> findByUsername(String username) {
         return this.userRepository.findByUsername(username).map(u -> this.modelMapper.map(u, UserServiceModel.class));
     }
@@ -70,6 +86,16 @@ public class UserServiceImpl implements UserService {
         } else {
             user.getAuthorities().add(this.roleRepository.findByAuthority("ROLE_USER"));
         }
+
+        return user;
+    }
+
+    private User setFreelancerFields(User user,
+                                     UserFreelancerRegisterServiceModel userFreelancerRegisterServiceModel){
+        user.setAgeExperience(userFreelancerRegisterServiceModel.getAgeExperience());
+        user.setCertificateNumber(userFreelancerRegisterServiceModel.getCertificateNumber());
+        user.setFee(userFreelancerRegisterServiceModel.getFee());
+        user.setMobileNumber(userFreelancerRegisterServiceModel.getMobileNumber());
 
         return user;
     }

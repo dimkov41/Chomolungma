@@ -16,7 +16,7 @@
             <th:block sec:authorize="isAuthenticated()">
                 <li><a href="#">Profile</a></li>
                 <th:block sec:authorize="!hasAuthority('ROLE_FREELANCER')">
-                    <li><a href="#" class="freelancer">Become freelancer</a></li>
+                    <li><a href="/becomeFreelancer" class="freelancer">Become freelancer</a></li>
                 </th:block>
             </th:block>
         </ul>

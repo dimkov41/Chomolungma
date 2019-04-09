@@ -143,5 +143,4 @@ input[type="submit"].login:focus {
     color: red;
     font-size: 11px;
     text-align: center;
-    display: none;
 }

@@ -1,16 +1,20 @@
 $(function () {
+        $("#error").css("display", "none");
+
         $("#actualForm").submit(function (event) {
             let name = $("#name").val();
             let elevation = $("#elevation").val();
             let description = $("#description").val();
             let image = $("#image").val();
+            let mountain = $("#mountain").val();
 
             if (name === "" ||
                 elevation === "" ||
                 description === "" ||
-                image === "") {
+                image === "" ||
+                mountain === null) {
                 event.preventDefault();
-                $("#error").css("display","block");
+                $("#error").css("display", "block");
                 return false;
             }
 
