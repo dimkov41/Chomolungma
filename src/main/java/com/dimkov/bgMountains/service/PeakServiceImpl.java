@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -56,7 +57,7 @@ public class PeakServiceImpl implements PeakService {
 
 
     @Override
-    public boolean save(PeakAddServiceModel peakAddServiceModel) {
+    public boolean save(PeakAddServiceModel peakAddServiceModel) throws IOException {
         if (!peakValidationService.isValid(peakAddServiceModel)) {
             throw new IllegalArgumentException(PEAK_VALIDATION_ERROR_MESSAGE);
         }
@@ -72,12 +73,12 @@ public class PeakServiceImpl implements PeakService {
 
         peak.setLocation(this.modelMapper.map(mountainServiceModel, Mountain.class));
 
+        peak.setImageUrl(
+                this.cloudinaryService.uploadImage(peakAddServiceModel.getImage())
+        );
+
+
         try {
-            peak.setImageUrl(
-                    this.cloudinaryService.uploadImage(peakAddServiceModel.getImage())
-            );
-
-
             this.peakRepository.save(peak);
         } catch (Exception e) {
             return false;

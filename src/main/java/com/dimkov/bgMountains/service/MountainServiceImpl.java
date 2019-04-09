@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -34,17 +35,17 @@ public class MountainServiceImpl implements MountainService {
     }
 
     @Override
-    public boolean save(MountainAddServiceModel mountainAddServiceModel) {
+    public boolean save(MountainAddServiceModel mountainAddServiceModel) throws IOException {
         if (!mountainValidationService.isValid(mountainAddServiceModel)) {
             throw new IllegalArgumentException(MOUNTAIN_VALIDATION_ERROR_MESSAGE);
         }
 
         Mountain mountain = this.modelMapper.map(mountainAddServiceModel, Mountain.class);
 
-        try {
-            String imageUrl = this.cloudinaryService.uploadImage(mountainAddServiceModel.getImage());
-            mountain.setImageUrl(imageUrl);
+        String imageUrl = this.cloudinaryService.uploadImage(mountainAddServiceModel.getImage());
+        mountain.setImageUrl(imageUrl);
 
+        try {
             this.mountainRepository.save(mountain);
         } catch (Exception e) {
             return false;

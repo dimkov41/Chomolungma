@@ -5,11 +5,12 @@ import com.dimkov.bgMountains.domain.models.service.MountainAddServiceModel;
 import com.dimkov.bgMountains.domain.models.service.MountainServiceModel;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
 public interface MountainService {
-    boolean save(MountainAddServiceModel mountainAddServiceModel);
+    boolean save(MountainAddServiceModel mountainAddServiceModel) throws IOException;
 
     List<MountainServiceModel> findAll();
 

@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -18,9 +19,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String SESSION_ATTR_NAME = "_csrf";
 
     private static final String LOGIN_PAGE_URL = "/users/login";
+    private static final String SUCCESS_URL = "/";
+    private static final String LOGIN_FAILURE_URL = "/users/login?error=true";
+
     private static final String USERNAME_PARAM = "username";
     private static final String PASSWORD_PARAM = "password";
-    private static final String SUCCESS_URL = "/";
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -40,9 +43,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .usernameParameter(USERNAME_PARAM)
                 .passwordParameter(PASSWORD_PARAM)
                 .defaultSuccessUrl(SUCCESS_URL)
+                .failureUrl(LOGIN_FAILURE_URL)
                 .and()
                 .logout()
-                .logoutUrl("/logout")
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl(SUCCESS_URL)
                 .and()
                 .exceptionHandling()

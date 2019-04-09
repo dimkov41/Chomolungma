@@ -14,6 +14,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,7 +31,7 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/peaks")
-public class PeakController extends BaseController {
+public class    PeakController extends BaseController {
     private static final String ALL_PEAKS_PATH = "/peaks";
     private static final String ADD_PEAK_PATH = "/peaks/add";
 
@@ -85,7 +86,12 @@ public class PeakController extends BaseController {
 
     @PostMapping("/add")
     public ModelAndView addPeak(@Valid @ModelAttribute PeakAddBindingModel peakAddBindingModel,
-                                RedirectAttributes redirectAttributes){
+                                RedirectAttributes redirectAttributes,
+                                Errors errors) throws IOException {
+        if(errors.hasErrors()){
+            return redirect(ADD_PEAK_PATH);
+        }
+
         PeakAddServiceModel peakAddServiceModel = this.modelMapper.map(peakAddBindingModel, PeakAddServiceModel.class);
 
         if (!this.peakService.save(peakAddServiceModel)) {

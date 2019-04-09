@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity(name = "users")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class User extends BaseEntity implements UserDetails {
     private String username;
     private String password;

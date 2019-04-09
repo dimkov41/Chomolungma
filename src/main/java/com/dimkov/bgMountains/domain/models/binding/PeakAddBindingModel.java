@@ -2,6 +2,7 @@ package com.dimkov.bgMountains.domain.models.binding;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 public class PeakAddBindingModel {
@@ -11,7 +12,7 @@ public class PeakAddBindingModel {
     private MultipartFile image;
     private String mountainName;
 
-    @NotNull
+    @NotEmpty
     public String getName() {
         return name;
     }
@@ -20,7 +21,7 @@ public class PeakAddBindingModel {
         this.name = name;
     }
 
-    @NotNull
+    @NotEmpty
     public String getDescription() {
         return description;
     }
@@ -29,7 +30,7 @@ public class PeakAddBindingModel {
         this.description = description;
     }
 
-    @NotNull
+    @NotEmpty
     public double getElevation() {
         return elevation;
     }
@@ -47,7 +48,7 @@ public class PeakAddBindingModel {
         this.image = image;
     }
 
-    @NotNull
+    @NotEmpty
     public String getMountainName() {
         return mountainName;
     }

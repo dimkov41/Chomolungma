@@ -12,6 +12,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -61,7 +62,12 @@ public class MountainController extends BaseController {
 
     @PostMapping("/add")
     @PreAuthorize("hasAuthority(T(com.dimkov.bgMountains.util.Constants).ROLE_MODERATOR)")
-    public ModelAndView addMountain(@Valid @ModelAttribute MountainAddBindingModel mountainAddBindingModel) throws IOException {
+    public ModelAndView addMountain(@Valid @ModelAttribute MountainAddBindingModel mountainAddBindingModel,
+                                    Errors errors) throws IOException {
+        if(errors.hasErrors()){
+            return redirect(ADD_MOUNTAIN_PATH);
+        }
+
         MountainAddServiceModel mountain = this.modelMapper.map(mountainAddBindingModel, MountainAddServiceModel.class);
 
         if (!this.mountainService.save(mountain)) {

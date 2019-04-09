@@ -17,7 +17,7 @@ public class UserApiController{
 
     @GetMapping("/checkUsername/{username}")
     @ResponseBody
-    public boolean checkUsername(@PathVariable String username, Principal principal){
+    public boolean checkUsername(@PathVariable String username){
         return this.userService.findByUsername(username).isPresent();
     }
 

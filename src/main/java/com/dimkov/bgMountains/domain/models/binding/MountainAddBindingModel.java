@@ -3,6 +3,7 @@ package com.dimkov.bgMountains.domain.models.binding;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Component
@@ -11,7 +12,7 @@ public class MountainAddBindingModel {
     private String description;
     private MultipartFile image;
 
-    @NotNull
+    @NotEmpty
     public String getName() {
         return name;
     }
@@ -20,7 +21,7 @@ public class MountainAddBindingModel {
         this.name = name;
     }
 
-    @NotNull
+    @NotEmpty
     public String getDescription() {
         return description;
     }
