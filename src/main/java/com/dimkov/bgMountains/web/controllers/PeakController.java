@@ -24,6 +24,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -88,14 +89,16 @@ public class PeakController extends BaseController {
     @PostMapping("/add")
     public ModelAndView addPeak(@Valid @ModelAttribute PeakAddBindingModel peakAddBindingModel,
                                 RedirectAttributes redirectAttributes,
-                                Errors errors) throws IOException {
+                                Errors errors,
+                                Principal principal) throws IOException {
         if (errors.hasErrors()) {
             return redirect(ADD_PEAK_ERROR_PATH);
         }
 
         PeakAddServiceModel peakAddServiceModel = this.modelMapper.map(peakAddBindingModel, PeakAddServiceModel.class);
 
-        if (!this.peakService.save(peakAddServiceModel)) {
+        if (!this.peakService.save(peakAddServiceModel, principal.getName())) {
+
             PeakRedirectViewModel peakRedirectViewModel = this.modelMapper.map(peakAddBindingModel, PeakRedirectViewModel.class);
             redirectAttributes.addFlashAttribute(Constants.MODEL_ATTR_NAME, peakRedirectViewModel);
             return redirect(ADD_PEAK_ERROR_PATH);

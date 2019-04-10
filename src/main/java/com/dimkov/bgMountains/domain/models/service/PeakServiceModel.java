@@ -10,7 +10,6 @@ public class PeakServiceModel {
     private String imageUrl;
     private MountainServiceModel location;
 
-
     public String getId() {
         return id;
     }

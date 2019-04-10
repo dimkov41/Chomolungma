@@ -195,19 +195,10 @@ h3 {
   margin: 0;
 }
 
-.blog-news ul .item .avatar:before {
-  display: block;
-  content: '';
-  padding-top: 100%;
-}
-
 .blog-news ul .item .avatar img {
   display: block;
   width: 100%;
-  height: auto;
-  position: absolute;
-  top: 0;
-  left: 0;
+  height: 15em;
 }
 
 footer {

@@ -12,6 +12,7 @@ public class Peak extends BaseEntity {
     private double elevation;
     private String imageUrl;
     private Mountain location;
+    private User author;
 
     @Column(nullable = false, updatable = false, unique = true)
     public String getName() {
@@ -56,5 +57,14 @@ public class Peak extends BaseEntity {
 
     public void setLocation(Mountain location) {
         this.location = location;
+    }
+
+    @ManyToOne(targetEntity = User.class)
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
     }
 }

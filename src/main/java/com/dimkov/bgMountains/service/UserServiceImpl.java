@@ -1,6 +1,7 @@
 package com.dimkov.bgMountains.service;
 
 import com.dimkov.bgMountains.domain.models.service.UserFreelancerRegisterServiceModel;
+import com.dimkov.bgMountains.util.Constants;
 import org.modelmapper.ModelMapper;
 import com.dimkov.bgMountains.domain.entities.User;
 import com.dimkov.bgMountains.domain.models.service.UserServiceModel;
@@ -12,7 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.nio.channels.NoConnectionPendingException;
+import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -24,13 +25,19 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
     private final ModelMapper modelMapper;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final CloudinaryService cloudinaryService;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, ModelMapper modelMapper, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserServiceImpl(UserRepository userRepository,
+                           RoleRepository roleRepository,
+                           ModelMapper modelMapper,
+                           BCryptPasswordEncoder bCryptPasswordEncoder,
+                           CloudinaryService cloudinaryService) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.modelMapper = modelMapper;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.cloudinaryService = cloudinaryService;
     }
 
     @Override
@@ -50,15 +57,30 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean registerFreelancer(UserFreelancerRegisterServiceModel userFreelancerRegisterServiceModel,
-                                      String username){
+                                      String username) throws IOException {
         User user = this.userRepository.findByUsername(username)
                 .orElseThrow(() -> new NoSuchElementException("Username does not exists"));
 
+        if(user.isFreelancer()){
+            throw new IllegalArgumentException("You are already a freelancer");
+        }
+
         setFreelancerFields(user, userFreelancerRegisterServiceModel);
+        user.setFreelancer(true);
 
-        
+        String imageUrl = this.cloudinaryService.uploadImage(userFreelancerRegisterServiceModel.getImage());
+        user.setImageUrl(imageUrl);
 
-
+        //set role
+        user.getAuthorities().clear();
+        user.getAuthorities().add(this.roleRepository.findByAuthority(Constants.ROLE_USER));
+        user.getAuthorities().add(this.roleRepository.findByAuthority(Constants.ROLE_FREELANCER));
+        try {
+            this.userRepository.save(user);
+        } catch (Exception e){
+            return false;
+        }
+        return true;
     }
 
     @Override

@@ -14,5 +14,5 @@ public interface PeakService {
 
     List<PeakServiceModel> findAll();
 
-    boolean save(PeakAddServiceModel peakAddServiceModel) throws IOException;
+    boolean save(PeakAddServiceModel peakAddServiceModel, String authorName) throws IOException;
 }

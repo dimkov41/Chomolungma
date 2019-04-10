@@ -12,7 +12,7 @@ import java.util.NoSuchElementException;
 @ControllerAdvice
 public class ExeptionHandlingController extends BaseController {
     private static final String NOT_FOUND_IMG_PATH = "/images/ic_notfound.png";
-    private static final String TRY_AGAIN_IMG_PATH = "/images/ic_notfound.png";
+    private static final String TRY_AGAIN_IMG_PATH = "/images/tryAgain.jpg";
 
     private static final String NOT_FOUND_VIEW = "errorPages/errorPage";
 

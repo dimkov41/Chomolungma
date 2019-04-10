@@ -2,9 +2,11 @@ package com.dimkov.bgMountains.service;
 
 import com.dimkov.bgMountains.domain.entities.Mountain;
 import com.dimkov.bgMountains.domain.entities.Peak;
+import com.dimkov.bgMountains.domain.entities.User;
 import com.dimkov.bgMountains.domain.models.service.MountainServiceModel;
 import com.dimkov.bgMountains.domain.models.service.PeakAddServiceModel;
 import com.dimkov.bgMountains.domain.models.service.PeakServiceModel;
+import com.dimkov.bgMountains.domain.models.service.UserServiceModel;
 import com.dimkov.bgMountains.repository.PeakRepository;
 import com.dimkov.bgMountains.util.Constants;
 import com.dimkov.bgMountains.validation.PeakValidationService;
@@ -28,18 +30,21 @@ public class PeakServiceImpl implements PeakService {
     private final CloudinaryService cloudinaryService;
     private final ModelMapper modelMapper;
     private final PeakValidationService peakValidationService;
+    private final UserService userService;
 
     @Autowired
     public PeakServiceImpl(PeakRepository peakRepository,
                            MountainService mountainService,
                            ModelMapper modelMapper,
                            CloudinaryService cloudinaryService,
-                           PeakValidationService peakValidationService) {
+                           PeakValidationService peakValidationService,
+                           UserService userService) {
         this.peakRepository = peakRepository;
         this.mountainService = mountainService;
         this.modelMapper = modelMapper;
         this.cloudinaryService = cloudinaryService;
         this.peakValidationService = peakValidationService;
+        this.userService = userService;
     }
 
     @Override
@@ -53,11 +58,12 @@ public class PeakServiceImpl implements PeakService {
                 .stream()
                 .map(p -> this.modelMapper.map(p, PeakServiceModel.class))
                 .collect(Collectors.toList());
+
     }
 
 
     @Override
-    public boolean save(PeakAddServiceModel peakAddServiceModel) throws IOException {
+    public boolean save(PeakAddServiceModel peakAddServiceModel, String authorUsername) throws IOException {
         if (!peakValidationService.isValid(peakAddServiceModel)) {
             throw new IllegalArgumentException(PEAK_VALIDATION_ERROR_MESSAGE);
         }
@@ -71,7 +77,17 @@ public class PeakServiceImpl implements PeakService {
                         )
                         .orElseThrow(() -> new NoSuchElementException(Constants.MOUNTAIN_NOT_FOUND_MESSAGE));
 
-        peak.setLocation(this.modelMapper.map(mountainServiceModel, Mountain.class));
+        peak.setLocation(
+                this.modelMapper.map(mountainServiceModel, Mountain.class)
+        );
+
+        UserServiceModel userServiceModel =
+                this.userService.findByUsername(authorUsername)
+                        .orElseThrow(() -> new NoSuchElementException(Constants.USERNAME_NOT_FOUND_MESSAGE));
+
+        peak.setAuthor(
+                this.modelMapper.map(userServiceModel, User.class)
+        );
 
         peak.setImageUrl(
                 this.cloudinaryService.uploadImage(peakAddServiceModel.getImage())

@@ -6,9 +6,18 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class UserServiceModel {
+    private String id;
     private String username;
     private String password;
     private String email;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getUsername() {
         return username;
