@@ -11,10 +11,9 @@
 </header>
 <main>
     <section class="blog-news">
-        <h3>Peaks</h3>
-        <a href="/peaks/add" class="addButton">Add peak</a>
+        <h3>Mountain Guides</h3>
         <ul class="blog-list">
-            <th:block th:each="peak, iter : ${__${T(com.dimkov.bgMountains.util.Constants).MODEL_ATTR_NAME}__}">
+            <th:block th:each="guide, iter : ${__${T(com.dimkov.bgMountains.util.Constants).MODEL_ATTR_NAME}__}">
                 <li class="item">
                     <section class="avatar">
                         <img th:src="${peak.imageUrl}">

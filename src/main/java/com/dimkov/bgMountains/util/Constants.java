@@ -16,6 +16,7 @@ public class Constants {
 
     public static final String MOUNTAIN_NOT_FOUND_MESSAGE = "Mountain not found!";
     public static final String USERNAME_NOT_FOUND_MESSAGE = "User with such username does not exists";
+    public static final String PAGE_ERROR_MESSAGE = "Such page does not exists";
 
 
     public static final int ONE = 1;

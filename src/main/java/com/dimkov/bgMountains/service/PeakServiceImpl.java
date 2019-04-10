@@ -55,6 +55,10 @@ public class PeakServiceImpl implements PeakService {
         Pageable pageRequest = PageRequest.of(page - Constants.ONE, MAX_ELEMENTS_PER_PAGE);
         Page<Peak> peaks = this.peakRepository.findAll(pageRequest);
 
+        if(page > peaks.getTotalPages()){
+            throw new NoSuchElementException(Constants.PAGE_ERROR_MESSAGE);
+        }
+
         return peaks.map(p -> this.modelMapper.map(p, PeakServiceModel.class));
     }
 

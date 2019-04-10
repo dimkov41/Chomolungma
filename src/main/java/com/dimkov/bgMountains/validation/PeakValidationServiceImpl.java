@@ -5,6 +5,7 @@ import com.dimkov.bgMountains.domain.models.service.PeakServiceModel;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
+import java.util.Objects;
 
 @Component
 public class PeakValidationServiceImpl implements PeakValidationService {
@@ -17,7 +18,7 @@ public class PeakValidationServiceImpl implements PeakValidationService {
     private boolean ifFieldsAreEmpty(PeakAddServiceModel peakAddServiceModel){
         return peakAddServiceModel.getName() != null &&
                 peakAddServiceModel.getElevation() != 0 &&
-                !peakAddServiceModel.getImage().getOriginalFilename().equals("") &&
+                !Objects.equals(peakAddServiceModel.getImage().getOriginalFilename(), "") &&
                 peakAddServiceModel.getMountainName() != null &&
                 peakAddServiceModel.getDescription() != null;
     }

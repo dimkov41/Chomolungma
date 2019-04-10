@@ -1,20 +1,17 @@
-package com.dimkov.bgMountains.domain.models.binding;
+package com.dimkov.bgMountains.domain.models.service;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
-public class UserFreelancerRegisterBindingModel {
+public class FreelancerServiceModel {
     private int ageExperience;
     private int certificateNumber;
     private String mobileNumber;
     private BigDecimal fee;
     private MultipartFile image;
 
-    @NotNull
+
     public int getAgeExperience() {
         return ageExperience;
     }
@@ -23,7 +20,6 @@ public class UserFreelancerRegisterBindingModel {
         this.ageExperience = ageExperience;
     }
 
-    @NotNull
     public int getCertificateNumber() {
         return certificateNumber;
     }
@@ -32,7 +28,6 @@ public class UserFreelancerRegisterBindingModel {
         this.certificateNumber = certificateNumber;
     }
 
-    @NotEmpty
     public String getMobileNumber() {
         return mobileNumber;
     }
@@ -41,7 +36,6 @@ public class UserFreelancerRegisterBindingModel {
         this.mobileNumber = mobileNumber;
     }
 
-    @DecimalMin("0.00")
     public BigDecimal getFee() {
         return fee;
     }
@@ -50,7 +44,6 @@ public class UserFreelancerRegisterBindingModel {
         this.fee = fee;
     }
 
-    @NotNull
     public MultipartFile getImage() {
         return image;
     }
