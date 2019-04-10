@@ -14,6 +14,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -24,6 +25,8 @@ import java.util.stream.Collectors;
 @Service
 public class PeakServiceImpl implements PeakService {
     private static final String PEAK_VALIDATION_ERROR_MESSAGE = "Entered peak data is not correct!";
+
+    private static final int MAX_ELEMENTS_PER_PAGE = 8;
 
     private final PeakRepository peakRepository;
     private final MountainService mountainService;
@@ -48,8 +51,11 @@ public class PeakServiceImpl implements PeakService {
     }
 
     @Override
-    public Page<Peak> findPaginated(int page, int size) {
-        return this.peakRepository.findAll(PageRequest.of(page, size));
+    public Page<PeakServiceModel> findPaginated(int page) {
+        Pageable pageRequest = PageRequest.of(page - Constants.ONE, MAX_ELEMENTS_PER_PAGE);
+        Page<Peak> peaks = this.peakRepository.findAll(pageRequest);
+
+        return peaks.map(p -> this.modelMapper.map(p, PeakServiceModel.class));
     }
 
     @Override

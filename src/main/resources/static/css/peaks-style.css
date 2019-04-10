@@ -1,16 +1,22 @@
+.blog-news{
+    padding: initial;
+    padding-top: 2.5em;
+}
+
 .blog-news ul {
     flex-wrap: wrap;
  }
 
 .blog-news ul .item {
   display: block;
-  box-shadow: 0 0.3rem 1rem 0.3rem rgba(0,0,0,0.3); 
+  box-shadow: 0 0.3rem 1rem 0.3rem rgba(0,0,0,0.3);
   flex: 0 0 18rem;
   margin: 1em;
 }
 
 .blog-news .content {
     width: 18rem;
+    height: 15em;
     padding: 2rem 2rem 2.7em;
     text-align: center;
     display: block;
@@ -48,3 +54,22 @@
     color: white;
 }
 
+.pagination {
+    display: inline-block;
+    margin: 1em;
+    border: #4CAF50 1px solid;
+}
+
+.pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+
+.pagination a.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.pagination a:hover:not(.active) {background-color: #ddd;}
