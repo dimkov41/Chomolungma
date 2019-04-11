@@ -1,7 +1,5 @@
 package com.dimkov.bgMountains.service;
 
-import com.dimkov.bgMountains.domain.models.service.FreelancerServiceModel;
-import com.dimkov.bgMountains.domain.models.service.UserFreelancerServiceModel;
 import com.dimkov.bgMountains.util.Constants;
 import org.modelmapper.ModelMapper;
 import com.dimkov.bgMountains.domain.entities.User;
@@ -9,15 +7,11 @@ import com.dimkov.bgMountains.domain.models.service.UserServiceModel;
 import com.dimkov.bgMountains.repository.RoleRepository;
 import com.dimkov.bgMountains.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -75,7 +69,7 @@ public class UserServiceImpl implements UserService {
     public boolean setUserAuthorities(User user, String authority) {
         user.getAuthorities().clear();
 
-        switch (authority){
+        switch (authority) {
             case Constants.ROLE_USER:
                 user.getAuthorities().add(this.roleRepository.findByAuthority(Constants.ROLE_USER));
                 break;
@@ -96,23 +90,11 @@ public class UserServiceImpl implements UserService {
 
         try {
             this.userRepository.save(user);
-        } catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
         return true;
     }
-
-    //    @Override
-//    public Page<UserFreelancerServiceModel> findPaginatedFreelancers(int page) {
-//        Pageable pageRequest = PageRequest.of(page - Constants.ONE, MAX_ELEMENTS_PER_PAGE);
-//        Page<User> freelancers = this.userRepository.findAllByFreelancerTrue(pageRequest);
-//
-//        if(page > freelancers.getTotalPages()){
-//            throw new NoSuchElementException(Constants.PAGE_ERROR_MESSAGE);
-//        }
-//
-//        return freelancers.map(p -> this.modelMapper.map(p, UserFreelancerServiceModel.class));
-//    }
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {

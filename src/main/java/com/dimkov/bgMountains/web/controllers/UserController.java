@@ -56,32 +56,4 @@ public class UserController extends BaseController {
     public ModelAndView showLoginPage() {
         return view(LOGIN_VIEW);
     }
-//
-//    @GetMapping("/mountainguides/{page}")
-//    public ModelAndView showAllMountainGuides(
-//            ModelAndView modelAndView,
-//            @PathVariable("page") int page) {
-//
-//        Page<UserFreelance> freelancerPage = this.peakService.findPaginated(page);
-//        int pageCount = peakPage.getTotalPages();
-//
-//        if (pageCount > Constants.ZERO) {
-//            List<Integer> pageNumbers =
-//                    IntStream.rangeClosed(1, pageCount)
-//                            .boxed()
-//                            .collect(Collectors.toList());
-//
-//            modelAndView.addObject(Constants.PEAKS_PAGES_ATTR_NAME, pageNumbers);
-//        }
-//
-//        List<PeakViewModel> peaks =
-//                peakPage
-//                        .map(p -> this.modelMapper.map(p, PeakViewModel.class))
-//                        .getContent();
-//
-//        modelAndView.addObject(Constants.MODEL_ATTR_NAME, peaks);
-//
-//        return view(PEAKS_VIEW, modelAndView);
-//        return null;
-//    }
 }

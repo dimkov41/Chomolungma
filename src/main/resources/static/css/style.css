@@ -275,3 +275,10 @@ footer {
   color: white;
   padding: 0.5em;
 }
+
+
+.error {
+  color: red;
+  font-size: 11px;
+  text-align: center;
+}

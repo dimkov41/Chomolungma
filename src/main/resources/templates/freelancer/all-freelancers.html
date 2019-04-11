@@ -2,7 +2,7 @@
 
 <head>
     <th:block th:include="fragments/head::head"/>
-    <script th:src="@{/js/peaks-home-script.js}"></script>
+    <script th:src="@{/js/pagination-script.js}"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/css/peaks-style.css}"/>
 </head>
 <body>
@@ -16,21 +16,26 @@
             <th:block th:each="guide, iter : ${__${T(com.dimkov.bgMountains.util.Constants).MODEL_ATTR_NAME}__}">
                 <li class="item">
                     <section class="avatar">
-                        <img th:src="${peak.imageUrl}">
+                        <img th:src="${guide.imageUrl}">
                     </section>
                     <section class="content">
-                        <h4 th:text="${peak.name}"></h4>
-                        <p th:text="${peak.description}"></p>
-                        <a th:href="@{/peaks/details/{id}(id=${peak.id})}">More Info</a>
+                        <h4 th:utext="${guide.fullName}"></h4>
+                        <p th:utext="${'Years experience: ' + guide.ageExperience}"></p>
+                        <p th:utext="${'Certificate Number: ' + guide.certificateNumber}"></p>
+                        <p th:utext="${'Fee per day: ' + guide.fee + '$'}"></p>
+                        <br/>
+                        <p>About me: </p>
+                        <p th:utext="${guide.description}"></p>
+                        <!--<a th:href="@{/peaks/details/{id}(id=${peak.id})}">More Info</a>-->
                     </section>
                     <section class="buttons">
-                        <a th:href="@{/mountains/details/{id}(id=${peak.location.id})}">Mountain Info</a>
+                        <a th:href="@{|/mountainguides/details/${guide.id}|}">More details</a>
                     </section>
                 </li>
             </th:block>
         </ul>
         <div class="pagination">
-            <th:block th:each="pageNumber :  ${__${T(com.dimkov.bgMountains.util.Constants).PEAKS_PAGES_ATTR_NAME}__}">
+            <th:block th:each="pageNumber :  ${__${T(com.dimkov.bgMountains.util.Constants).PAGES_ATTR_NAME}__}">
                 <a th:href="@{|/peaks/${pageNumber}|}" th:utext="${pageNumber}"></a>
             </th:block>
         </div>

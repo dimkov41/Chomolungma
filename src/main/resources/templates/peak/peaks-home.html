@@ -2,7 +2,7 @@
 
 <head>
     <th:block th:include="fragments/head::head"/>
-    <script th:src="@{/js/peaks-home-script.js}"></script>
+    <script th:src="@{/js/pagination-script.js}"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/css/peaks-style.css}"/>
 </head>
 <body>
@@ -31,7 +31,7 @@
             </th:block>
         </ul>
         <div class="pagination">
-            <th:block th:each="pageNumber :  ${__${T(com.dimkov.bgMountains.util.Constants).PEAKS_PAGES_ATTR_NAME}__}">
+            <th:block th:each="pageNumber :  ${__${T(com.dimkov.bgMountains.util.Constants).PAGES_ATTR_NAME}__}">
                 <a th:href="@{|/peaks/${pageNumber}|}" th:utext="${pageNumber}"></a>
             </th:block>
         </div>

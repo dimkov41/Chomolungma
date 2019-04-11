@@ -1,0 +1,67 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:include="fragments/head::head"/>
+    <script th:src="@{/js/comments-script.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/peaks-style.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/comments-style.css}"/>
+</head>
+<body>
+<header>
+    <th:block th:include="fragments/header::header"/>
+</header>
+<main>
+    <section class="blog-news">
+        <th:block th:object="${__${T(com.dimkov.bgMountains.util.Constants).MODEL_ATTR_NAME}__}">
+            <h3 th:utext="*{fullName}"></h3>
+            <ul class="blog-list">
+                <section class="avatar">
+                    <img th:src="*{imageUrl}">
+                </section>
+                <section class="content">
+                    <h4 th:utext="*{fullName}"></h4>
+                    <p th:utext="*{'Years experience: ' + ageExperience}"></p>
+                    <p th:utext="*{'Certificate Number: ' + certificateNumber}"></p>
+                    <p th:utext="*{'Fee per day: ' + fee + '$'}"></p>
+                    <p th:utext="*{'Mobile number: ' + mobileNumber}"></p>
+                    <p th:utext="*{'Email: ' + user.email}"></p>
+                    <br/>
+                    <p>About me: </p>
+                    <p th:utext="*{description}"></p>
+                </section>
+                <div class="comments">
+                    <p class="error" id="error">Comment field is empty or have at least 255 characters!</p>
+                    <div class="editor">
+                        <div class="editor-header">
+                            <a href='#' data-role='bold'>B</a>
+                            <a href='#' data-role='italic'>I</a>
+                            <a href='#' data-role='underline'>U</a>
+                            <a href='#' data-role='justifyleft'><i class="menu-left"></i></a>
+                            <a href='#' data-role='justifycenter'><i class="menu-center"></i></a>
+                            <a href='#' data-role='justifyright'><i class="menu-right"></i></a>
+                        </div>
+                        <div id="text" class="editor-content" contenteditable>
+                        </div>
+                    </div>
+                    <div class="insert-text">
+                        <span class="loading">Loading...</span>
+                        <span class="total-comment"></span>
+                        <p>
+                            <input type="button" value="Comment"/>
+                        </p>
+                    </div>
+                    <div class="list-comments">
+                        <div>Hello!</div>
+                        <div>My name's Tuan Linh.</div>
+                    </div>
+                </div>
+            </ul>
+        </th:block>
+    </section>
+</main>
+<footer>
+    <th:block th:include="fragments/footer::footer"/>
+</footer>
+</body>
+
+</html>

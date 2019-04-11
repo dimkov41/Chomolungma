@@ -2,7 +2,6 @@ package com.dimkov.bgMountains.domain.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import java.math.BigDecimal;
 
@@ -13,6 +12,8 @@ public class Freelancer extends BaseEntity{
     private String mobileNumber;
     private BigDecimal fee;
     private String imageUrl;
+    private String fullName;
+    private String description;
     private User user;
 
     @Column(nullable = false)
@@ -58,6 +59,25 @@ public class Freelancer extends BaseEntity{
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+
+    @Column(nullable = false)
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    @Column(nullable = false)
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @OneToOne(targetEntity = User.class)

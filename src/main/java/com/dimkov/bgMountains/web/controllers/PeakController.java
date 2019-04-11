@@ -69,7 +69,7 @@ public class PeakController extends BaseController {
                             .boxed()
                             .collect(Collectors.toList());
 
-            modelAndView.addObject(Constants.PEAKS_PAGES_ATTR_NAME, pageNumbers);
+            modelAndView.addObject(Constants.PAGES_ATTR_NAME, pageNumbers);
         }
 
         List<PeakViewModel> peaks =
