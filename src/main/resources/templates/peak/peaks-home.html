@@ -32,7 +32,7 @@
         </ul>
         <div class="pagination">
             <th:block th:each="pageNumber :  ${__${T(com.dimkov.bgMountains.util.Constants).PAGES_ATTR_NAME}__}">
-                <a th:href="@{|/peaks/${pageNumber}|}" th:utext="${pageNumber}"></a>
+                <a th:href="@{|/peaks/*{pageNumber}|}" th:utext="${pageNumber}"></a>
             </th:block>
         </div>
     </section>

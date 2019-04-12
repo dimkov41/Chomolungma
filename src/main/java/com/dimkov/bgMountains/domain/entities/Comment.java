@@ -8,7 +8,6 @@ import javax.persistence.OneToMany;
 @Entity(name = "comments")
 public class Comment extends BaseEntity{
     private String comment;
-    private User author;
     private Freelancer freelancer;
 
     @Column(nullable =  false)
@@ -18,15 +17,6 @@ public class Comment extends BaseEntity{
 
     public void setComment(String comment) {
         this.comment = comment;
-    }
-
-    @ManyToOne
-    public User getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(User author) {
-        this.author = author;
     }
 
     @ManyToOne

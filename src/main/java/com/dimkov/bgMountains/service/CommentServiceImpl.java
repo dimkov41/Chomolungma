@@ -19,28 +19,22 @@ public class CommentServiceImpl implements CommentService {
 
     private static final int MAX_COMMENT_LENGTH = 255;
 
-    private final UserService userService;
     private final FreelancerService freelancerService;
     private final CommentRepository commentRepository;
     private final ModelMapper modelMapper;
 
     @Autowired
     public CommentServiceImpl(
-            UserService userService,
             FreelancerService freelancerService,
             CommentRepository commentRepository,
             ModelMapper modelMapper) {
-        this.userService = userService;
         this.freelancerService = freelancerService;
         this.commentRepository = commentRepository;
         this.modelMapper = modelMapper;
     }
 
     @Override
-    public boolean saveComment(String comment, String user, String freelancerId){
-        UserServiceModel userServiceModel = this.userService.findByUsername(user)
-                .orElseThrow(() -> new NoSuchElementException(Constants.USERNAME_NOT_FOUND_MESSAGE));
-
+    public boolean saveComment(String comment, String freelancerId){
         FreelancerServiceModel freelancerServiceModel =
                 this.freelancerService.findById(freelancerId)
                 .orElseThrow(() -> new NoSuchElementException(FREELANCER_NOT_FOUND_MESSAGE));
@@ -48,7 +42,6 @@ public class CommentServiceImpl implements CommentService {
         if(!comment.equals("") && comment.length() <= MAX_COMMENT_LENGTH){
 
             Comment c = new Comment();
-            c.setAuthor(this.modelMapper.map(userServiceModel, User.class));
             c.setFreelancer(this.modelMapper.map(freelancerServiceModel, Freelancer.class));
             c.setComment(comment);
 

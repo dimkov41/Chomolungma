@@ -29,32 +29,38 @@
                     <p>About me: </p>
                     <p th:utext="*{description}"></p>
                 </section>
-                <div class="comments">
-                    <p class="error" id="error">Comment field is empty or have at least 255 characters!</p>
-                    <div class="editor">
-                        <div class="editor-header">
-                            <a href='#' data-role='bold'>B</a>
-                            <a href='#' data-role='italic'>I</a>
-                            <a href='#' data-role='underline'>U</a>
-                            <a href='#' data-role='justifyleft'><i class="menu-left"></i></a>
-                            <a href='#' data-role='justifycenter'><i class="menu-center"></i></a>
-                            <a href='#' data-role='justifyright'><i class="menu-right"></i></a>
-                        </div>
-                        <div id="text" class="editor-content" contenteditable>
-                        </div>
+                <!--<div class="comments">-->
+                <!--<p class="error" id="error">Comment field is empty or have at least 255 characters!</p>-->
+                <!--<form th:method="POST" th:href="@{|/comment/*{id}|}">-->
+                <!--<div class="editor">-->
+                <!--<textarea id="text" class="editor-content" maxlength="255">-->
+                <!--</textarea>-->
+                <!--</div>-->
+                <!--<div class="insert-text">-->
+                <!--<span class="loading">Loading...</span>-->
+                <!--<span class="total-comment"></span>-->
+                <!--<p>-->
+                <!--<input type="submit" value="Comment"/>-->
+                <!--</p>-->
+                <!--</div>-->
+                <!--</form>-->
+                <!--<div class="list-comments">-->
+                <!--<div>Hello!</div>-->
+                <!--<div>My name's Tuan Linh.</div>-->
+                <!--</div>-->
+                <!--</div>-->
+                <form id="form" th:method="POST" th:action="@{|/comment/*{id}|}">
+                    <div class="formWrapper">
+                        <p>Leave a comment:</p>
+                        <p class="error" id="error">Your comment is empty or is at least 255 characters long</p>
+                        <textarea id="comment" name="comment" maxlength="255" rows="4"></textarea>
+                        <input type="submit" value="Comment"/>
                     </div>
-                    <div class="insert-text">
-                        <span class="loading">Loading...</span>
-                        <span class="total-comment"></span>
-                        <p>
-                            <input type="button" value="Comment"/>
-                        </p>
+                    <div class="comments">
+                        <p>Pesho e mnogo lud</p>
+                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis,</p>
                     </div>
-                    <div class="list-comments">
-                        <div>Hello!</div>
-                        <div>My name's Tuan Linh.</div>
-                    </div>
-                </div>
+                </form>
             </ul>
         </th:block>
     </section>
