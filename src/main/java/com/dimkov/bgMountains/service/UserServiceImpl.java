@@ -1,5 +1,6 @@
 package com.dimkov.bgMountains.service;
 
+import com.dimkov.bgMountains.domain.entities.Freelancer;
 import com.dimkov.bgMountains.util.Constants;
 import org.modelmapper.ModelMapper;
 import com.dimkov.bgMountains.domain.entities.User;
@@ -12,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -99,6 +101,22 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         return this.userRepository.findByUsername(s).orElseThrow(() -> new UsernameNotFoundException(USERNAME_NOT_FOUND_MESSAGE));
+    }
+
+    @Override
+    public boolean setFreelancer(Freelancer freelancer, String username){
+        User user = this.userRepository.findByUsername(username)
+                .orElseThrow(() -> new NoSuchElementException(Constants.USERNAME_NOT_FOUND_MESSAGE));
+
+        user.getHires().add(freelancer);
+
+        try{
+            this.userRepository.save(user);
+        } catch (Exception e){
+            return false;
+        }
+
+        return true;
     }
 
     private User giveRolesToUser(User user){

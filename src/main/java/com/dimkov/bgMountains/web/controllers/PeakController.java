@@ -37,6 +37,7 @@ public class PeakController extends BaseController {
 
     private static final String PEAKS_VIEW = "peak/peaks-home";
     private static final String ADD_PEAK_VIEW = "peak/peak-add";
+    private static final String PEAK_DETAILS_VIEW = "peak/peak-details";
 
     private final PeakService peakService;
     private final MountainService mountainService;
@@ -56,7 +57,7 @@ public class PeakController extends BaseController {
     public ModelAndView showPaginatedPeakHome(
             @PathVariable("page") int page,
             ModelAndView modelAndView) {
-        return this.findPaginated(page,null, modelAndView);
+        return this.findPaginated(page, null, modelAndView);
     }
 
     @GetMapping("/add")
@@ -111,22 +112,22 @@ public class PeakController extends BaseController {
     @GetMapping("/details/{id}")
     public ModelAndView showPeakDetails(
             @PathVariable String id,
-            ModelAndView modelAndView){
+            ModelAndView modelAndView) {
         PeakServiceModel peakServiceModel =
                 this.peakService.findById(id)
-                .orElseThrow(() -> new NoSuchElementException(Constants.PEAK_NOT_FOUND_MESSAGE));
+                        .orElseThrow(() -> new NoSuchElementException(Constants.PEAK_NOT_FOUND_MESSAGE));
 
         modelAndView.addObject(Constants.MODEL_ATTR_NAME, this.modelMapper.map(peakServiceModel, PeakViewModel.class));
 
-        return view( ,modelAndView);
+        return view(PEAK_DETAILS_VIEW, modelAndView);
     }
 
 
-    private ModelAndView findPaginated(int page, String mountainId, ModelAndView modelAndView){
+    private ModelAndView findPaginated(int page, String mountainId, ModelAndView modelAndView) {
         Page<PeakServiceModel> peakPage = this.peakService.findPaginated(page);
 
-        if(mountainId != null){
-            peakPage = this.peakService.findPaginated(page,mountainId);
+        if (mountainId != null) {
+            peakPage = this.peakService.findPaginated(page, mountainId);
         }
 
         int pageCount = peakPage.getTotalPages();
@@ -143,6 +144,13 @@ public class PeakController extends BaseController {
         List<PeakViewModel> peaks =
                 peakPage
                         .map(p -> this.modelMapper.map(p, PeakViewModel.class))
+                        .map(p -> {
+                            String desc = p.getDescription();
+                            if (desc.length() > 101) {
+                                p.setDescription(desc.substring(0, 101) + "...");
+                            }
+                            return p;
+                        })
                         .getContent();
 
         modelAndView.addObject(Constants.MODEL_ATTR_NAME, peaks);

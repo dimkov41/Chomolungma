@@ -1,5 +1,6 @@
 package com.dimkov.bgMountains.domain.models.service;
 
+import com.dimkov.bgMountains.domain.entities.Freelancer;
 import com.dimkov.bgMountains.domain.entities.Role;
 
 import java.util.HashSet;
@@ -10,6 +11,12 @@ public class UserServiceModel {
     private String username;
     private String password;
     private String email;
+
+    private Set<Freelancer> hires;
+
+    public UserServiceModel() {
+        hires = new HashSet<>();
+    }
 
     public String getId() {
         return id;
@@ -41,5 +48,13 @@ public class UserServiceModel {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Set<Freelancer> getHires() {
+        return hires;
+    }
+
+    public void setHires(Set<Freelancer> hires) {
+        this.hires = hires;
     }
 }

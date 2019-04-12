@@ -73,3 +73,8 @@
 }
 
 .pagination a:hover:not(.active) {background-color: #ddd;}
+
+.avatar a {
+    display: block;
+    margin-top: 1em;
+}

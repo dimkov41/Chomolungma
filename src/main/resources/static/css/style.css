@@ -266,6 +266,9 @@ footer {
   background-color: orange;
   padding: 0.3em;
   border-radius: 20px;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
 }
 
 .addButton{
@@ -281,4 +284,8 @@ footer {
   color: red;
   font-size: 11px;
   text-align: center;
+}
+
+.dateForm{
+    display: none;
 }

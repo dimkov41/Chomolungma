@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity(name = "users")
@@ -14,10 +15,12 @@ public class User extends BaseEntity implements UserDetails {
     private String password;
     private String email;
 
+    private Set<Freelancer> hires;
     private Set<Role> authorities;
 
     public User() {
         this.authorities = new HashSet<>();
+        this.hires = new HashSet<>();
     }
 
     @Column(nullable = false, unique = true, updatable = false)
@@ -55,6 +58,15 @@ public class User extends BaseEntity implements UserDetails {
 
     public void setAuthorities(Set<Role> authorities) {
         this.authorities = authorities;
+    }
+
+    @OneToMany(targetEntity = Freelancer.class)
+    public Set<Freelancer> getHires() {
+        return hires;
+    }
+
+    public void setHires(Set<Freelancer> hires) {
+        this.hires = hires;
     }
 
     @Override

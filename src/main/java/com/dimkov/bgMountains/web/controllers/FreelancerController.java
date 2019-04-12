@@ -1,7 +1,9 @@
 package com.dimkov.bgMountains.web.controllers;
 
+import com.dimkov.bgMountains.domain.models.binding.FreelancerHireBindingModel;
 import com.dimkov.bgMountains.domain.models.binding.FreelancerRegisterBindingModel;
 import com.dimkov.bgMountains.domain.models.service.FreelancerAddServiceModel;
+import com.dimkov.bgMountains.domain.models.service.FreelancerHireServiceModel;
 import com.dimkov.bgMountains.domain.models.service.FreelancerServiceModel;
 import com.dimkov.bgMountains.domain.models.view.FreelancerViewModel;
 import com.dimkov.bgMountains.service.FreelancerService;
@@ -33,6 +35,7 @@ public class FreelancerController extends BaseController {
     private static final String BECOME_FREELANCER_VIEW = "freelancer/become-freelancer";
     private static final String FREELANCER_VIEW = "freelancer/all-freelancers";
     private static final String FREELANCER_DETAILS_VIEW = "freelancer/freelancer-details";
+    private static final String SUCCESSFULL_HIRED_FREELANCER_VIEW  = "freelancer/successful-hired-freelancer";
 
 
     private static final String FREELANCERS_PATH = "/freelancers";
@@ -114,5 +117,19 @@ public class FreelancerController extends BaseController {
         );
 
         return view(FREELANCER_DETAILS_VIEW, modelAndView);
+    }
+
+    @PostMapping("/hire/{id}")
+    public ModelAndView hireFreelancer(
+            @PathVariable("id") String id,
+            @ModelAttribute FreelancerHireBindingModel freelancerHireBindingModel,
+            Principal principal
+    ){
+        freelancerHireBindingModel.setId(id);
+        FreelancerHireServiceModel freelancerHireServiceModel =
+                this.modelMapper.map(freelancerHireBindingModel, FreelancerHireServiceModel.class);
+//        this.freelancerService.hireFreelancer(freelancerHireServiceModel, principal.getName());
+
+        return view(SUCCESSFULL_HIRED_FREELANCER_VIEW);
     }
 }

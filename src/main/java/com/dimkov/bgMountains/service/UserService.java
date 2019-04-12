@@ -1,5 +1,6 @@
 package com.dimkov.bgMountains.service;
 
+import com.dimkov.bgMountains.domain.entities.Freelancer;
 import com.dimkov.bgMountains.domain.entities.User;
 import com.dimkov.bgMountains.domain.models.service.UserFreelancerServiceModel;
 import com.dimkov.bgMountains.domain.models.service.UserServiceModel;
@@ -15,4 +16,6 @@ public interface UserService extends UserDetailsService {
     Optional<UserServiceModel> findByEmail(String email);
 
     boolean setUserAuthorities(User user, String authority);
+
+    boolean setFreelancer(Freelancer freelancer, String username);
 }

@@ -1,9 +1,9 @@
 package com.dimkov.bgMountains.domain.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
 
 @Entity(name = "freelancers")
 public class Freelancer extends BaseEntity{
@@ -15,6 +15,7 @@ public class Freelancer extends BaseEntity{
     private String fullName;
     private String description;
     private User user;
+    private List<Date> employment;
 
     @Column(nullable = false)
     public int getAgeExperience() {
@@ -87,5 +88,14 @@ public class Freelancer extends BaseEntity{
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @ElementCollection
+    public List<Date> getEmployment() {
+        return employment;
+    }
+
+    public void setEmployment(List<Date> employment) {
+        this.employment = employment;
     }
 }

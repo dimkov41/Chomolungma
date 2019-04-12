@@ -3,8 +3,10 @@
 <head>
     <th:block th:include="fragments/head::head"/>
     <script th:src="@{/js/comments-script.js}"></script>
+    <script th:src="@{/js/hire-freelancer-script.js}"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/css/peaks-style.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/comments-style.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/date-style.css}"/>
 </head>
 <body>
 <header>
@@ -17,12 +19,25 @@
             <ul class="blog-list">
                 <section class="avatar">
                     <img th:src="*{imageUrl}">
+                    <a href="#" class="freelancer" id="hire">Наеми</a>
+                    <form th:method="POST" th:action="@{|/hire/*{id}|}" id="dateForm" class="dateForm">
+                        <p class="error" id="dateError">Грешна дата!</p>
+                        <div class="formWrapper">
+                            <label for="startDate">Начална дата:</label>
+                            <input type="date" name="startDate" id="startDate" required/>
+                        </div>
+                        <div class="formWrapper">
+                            <label for="endDate">Крайна дата:</label>
+                            <input type="date" name="endDate" id="endDate" required/>
+                        </div>
+                        <input type="submit" value="Наеми"/>
+                    </form>
                 </section>
                 <section class="content">
                     <h4 th:utext="*{fullName}"></h4>
                     <p th:utext="*{'Years experience: ' + ageExperience}"></p>
                     <p th:utext="*{'Certificate Number: ' + certificateNumber}"></p>
-                    <p th:utext="*{'Fee per day: ' + fee + '$'}"></p>
+                    <p id="fee" th:utext="*{'Fee per day: ' + fee + '$'}"></p>
                     <p th:utext="*{'Mobile number: ' + mobileNumber}"></p>
                     <p th:utext="*{'Email: ' + user.email}"></p>
                     <br/>
@@ -58,7 +73,9 @@
                     </div>
                     <div class="comments">
                         <p>Pesho e mnogo lud</p>
-                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis,</p>
+                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
+                            Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur
+                            ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis,</p>
                     </div>
                 </form>
             </ul>
