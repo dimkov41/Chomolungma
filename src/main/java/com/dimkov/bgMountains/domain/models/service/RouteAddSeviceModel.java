@@ -3,9 +3,10 @@ package com.dimkov.bgMountains.domain.models.service;
 import com.dimkov.bgMountains.domain.entities.Mountain;
 import com.dimkov.bgMountains.domain.entities.User;
 
-public class RouteSeviceModel {
+public class RouteAddSeviceModel {
     private String id;
-    private String name;
+    private String start;
+    private String end;
     private String description;
     private double lenght;
     private String username;
@@ -19,12 +20,20 @@ public class RouteSeviceModel {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getStart() {
+        return start;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setStart(String start) {
+        this.start = start;
+    }
+
+    public String getEnd() {
+        return end;
+    }
+
+    public void setEnd(String end) {
+        this.end = end;
     }
 
     public String getDescription() {

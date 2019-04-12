@@ -1,16 +1,25 @@
 package com.dimkov.bgMountains.domain.models.view;
 
 public class RouteRedirectViewModel {
-    private String name;
+    private String start;
+    private String end;
     private double lenght;
     private String description;
 
-    public String getName() {
-        return name;
+    public String getStart() {
+        return start;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setStart(String start) {
+        this.start = start;
+    }
+
+    public String getEnd() {
+        return end;
+    }
+
+    public void setEnd(String end) {
+        this.end = end;
     }
 
     public double getLenght() {

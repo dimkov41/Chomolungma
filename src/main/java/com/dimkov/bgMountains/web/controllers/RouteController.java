@@ -1,7 +1,7 @@
 package com.dimkov.bgMountains.web.controllers;
 
 import com.dimkov.bgMountains.domain.models.binding.RouteAddBindingModel;
-import com.dimkov.bgMountains.domain.models.service.RouteSeviceModel;
+import com.dimkov.bgMountains.domain.models.service.RouteAddSeviceModel;
 import com.dimkov.bgMountains.domain.models.view.MountainViewModel;
 import com.dimkov.bgMountains.domain.models.view.RouteRedirectViewModel;
 import com.dimkov.bgMountains.service.MountainService;
@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 public class RouteController extends BaseController{
     private static final String ADD_ROUTE_VIEW = "route/route-add";
 
-    private static final String ADD_ROUTE_ERROR_PATH = "/route/add?error=true";
+    private static final String ADD_ROUTE_ERROR_PATH = "/routes/add?error=true";
     private static final String ALL_ROUTES_PATH = "/routes";
 
     private final ModelMapper modelMapper;
@@ -73,7 +73,7 @@ public class RouteController extends BaseController{
         routeAddBindingModel.setUsername(principal.getName());
         if (errors.hasErrors() ||
                 !this.routeService.save(
-                        this.modelMapper.map(routeAddBindingModel, RouteSeviceModel.class)
+                        this.modelMapper.map(routeAddBindingModel, RouteAddSeviceModel.class)
                 )) {
             redirectAttributes.addFlashAttribute(Constants.MODEL_ATTR_NAME, routeRedirectViewModel);
             return redirect(ADD_ROUTE_ERROR_PATH);

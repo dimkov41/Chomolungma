@@ -1,6 +1,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
+    <th:block th:include="fragments/head::head"/>
     <script th:src="@{/js/form-script.js}"></script>
     <script th:src="@{/js/add-peak-script.js}"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/css/form-style.css}"/>
@@ -17,11 +18,9 @@
                 <div class="logo">
                     <p>Add Peak</p>
                 </div>
-                <th:block th:if="${(param.error != null) and (param.error[0] == 'true')}">
-                    <div class="error" id="error">
-                        <p>You must fill all fields.</p>
-                    </div>
-                </th:block>
+                <div class="error" id="error">
+                    <p>You must fill all fields.</p>
+                </div>
                 <div class="form-item">
                     <p class="formLabel">Name</p>
                     <input th:value="*{name}" type="text" name="name" id="name" class="form-style" autocomplete="off"/>

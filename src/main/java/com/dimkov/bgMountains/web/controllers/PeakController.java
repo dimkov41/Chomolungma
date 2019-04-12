@@ -1,6 +1,7 @@
 package com.dimkov.bgMountains.web.controllers;
 
 import com.dimkov.bgMountains.domain.models.binding.PeakAddBindingModel;
+import com.dimkov.bgMountains.domain.models.service.MountainServiceModel;
 import com.dimkov.bgMountains.domain.models.service.PeakAddServiceModel;
 import com.dimkov.bgMountains.domain.models.service.PeakServiceModel;
 import com.dimkov.bgMountains.domain.models.view.MountainViewModel;
@@ -23,6 +24,7 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -54,27 +56,7 @@ public class PeakController extends BaseController {
     public ModelAndView showPaginatedPeakHome(
             @PathVariable("page") int page,
             ModelAndView modelAndView) {
-
-        Page<PeakServiceModel> peakPage = this.peakService.findPaginated(page);
-        int pageCount = peakPage.getTotalPages();
-
-        if (pageCount > Constants.ZERO) {
-            List<Integer> pageNumbers =
-                    IntStream.rangeClosed(1, pageCount)
-                            .boxed()
-                            .collect(Collectors.toList());
-
-            modelAndView.addObject(Constants.PAGES_ATTR_NAME, pageNumbers);
-        }
-
-        List<PeakViewModel> peaks =
-                peakPage
-                        .map(p -> this.modelMapper.map(p, PeakViewModel.class))
-                        .getContent();
-
-        modelAndView.addObject(Constants.MODEL_ATTR_NAME, peaks);
-
-        return view(PEAKS_VIEW, modelAndView);
+        return this.findPaginated(page,null, modelAndView);
     }
 
     @GetMapping("/add")
@@ -116,5 +98,55 @@ public class PeakController extends BaseController {
 
 
         return redirect(ALL_PEAKS_PATH);
+    }
+
+    @GetMapping(value = "/{mountainId}/{page}")
+    public ModelAndView showPeaksForMountain(
+            @PathVariable("page") int page,
+            @PathVariable String mountainId,
+            ModelAndView modelAndView) {
+        return this.findPaginated(page, mountainId, modelAndView);
+    }
+
+    @GetMapping("/details/{id}")
+    public ModelAndView showPeakDetails(
+            @PathVariable String id,
+            ModelAndView modelAndView){
+        PeakServiceModel peakServiceModel =
+                this.peakService.findById(id)
+                .orElseThrow(() -> new NoSuchElementException(Constants.PEAK_NOT_FOUND_MESSAGE));
+
+        modelAndView.addObject(Constants.MODEL_ATTR_NAME, this.modelMapper.map(peakServiceModel, PeakViewModel.class));
+
+        return view( ,modelAndView);
+    }
+
+
+    private ModelAndView findPaginated(int page, String mountainId, ModelAndView modelAndView){
+        Page<PeakServiceModel> peakPage = this.peakService.findPaginated(page);
+
+        if(mountainId != null){
+            peakPage = this.peakService.findPaginated(page,mountainId);
+        }
+
+        int pageCount = peakPage.getTotalPages();
+
+        if (pageCount > Constants.ZERO) {
+            List<Integer> pageNumbers =
+                    IntStream.rangeClosed(1, pageCount)
+                            .boxed()
+                            .collect(Collectors.toList());
+
+            modelAndView.addObject(Constants.PAGES_ATTR_NAME, pageNumbers);
+        }
+
+        List<PeakViewModel> peaks =
+                peakPage
+                        .map(p -> this.modelMapper.map(p, PeakViewModel.class))
+                        .getContent();
+
+        modelAndView.addObject(Constants.MODEL_ATTR_NAME, peaks);
+
+        return view(PEAKS_VIEW, modelAndView);
     }
 }

@@ -1,5 +1,7 @@
 package com.dimkov.bgMountains.domain.entities;
 
+import org.springframework.stereotype.Controller;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -14,7 +16,7 @@ public class Peak extends BaseEntity {
     private Mountain location;
     private User author;
 
-    @Column(nullable = false, updatable = false, unique = true)
+    @Column(nullable = false, unique = true)
     public String getName() {
         return name;
     }

@@ -8,19 +8,29 @@ import javax.validation.constraints.Email;
 
 @Entity(name = "routes")
 public class Route extends BaseEntity {
-    private String name;
+    private String start;
+    private String end;
     private String description;
     private double lenght;
     private User author;
     private Mountain location;
 
-    @Column(nullable = false, updatable = false, unique = true)
-    public String getName() {
-        return name;
+    @Column(nullable = false)
+    public String getStart() {
+        return start;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setStart(String start) {
+        this.start = start;
+    }
+
+    @Column(nullable = false)
+    public String getEnd() {
+        return end;
+    }
+
+    public void setEnd(String end) {
+        this.end = end;
     }
 
     @Column(nullable = false)

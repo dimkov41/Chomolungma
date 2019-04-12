@@ -1,7 +1,7 @@
 package com.dimkov.bgMountains.service;
 
-import com.dimkov.bgMountains.domain.models.service.RouteSeviceModel;
+import com.dimkov.bgMountains.domain.models.service.RouteAddSeviceModel;
 
 public interface RouteService {
-    boolean save(RouteSeviceModel routeSeviceModel);
+    boolean save(RouteAddSeviceModel routeAddSeviceModel);
 }

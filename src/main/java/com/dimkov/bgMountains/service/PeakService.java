@@ -13,6 +13,10 @@ import java.util.Optional;
 public interface PeakService {
     Page<PeakServiceModel> findPaginated(int page);
 
+    Page<PeakServiceModel> findPaginated(int page, String mountainId);
+
+    Optional<PeakServiceModel> findById(String id);
+
     List<PeakServiceModel> findAll();
 
     boolean save(PeakAddServiceModel peakAddServiceModel, String authorName) throws IOException;

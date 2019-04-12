@@ -6,19 +6,29 @@ import org.hibernate.validator.constraints.Range;
 import javax.validation.constraints.NotEmpty;
 
 public class RouteAddBindingModel {
-    private String name;
+    private String start;
+    private String end;
     private String description;
     private double lenght;
     private String username;
     private String mountainName;
 
     @NotEmpty
-    public String getName() {
-        return name;
+    public String getStart() {
+        return start;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setStart(String start) {
+        this.start = start;
+    }
+
+    @NotEmpty
+    public String getEnd() {
+        return end;
+    }
+
+    public void setEnd(String end) {
+        this.end = end;
     }
 
     @NotEmpty
@@ -30,7 +40,7 @@ public class RouteAddBindingModel {
         this.description = description;
     }
 
-    @Range(min = 1)
+    @Range(min = 1, message = "Lenght must be at least 1km !")
     public double getLenght() {
         return lenght;
     }
