@@ -1,20 +1,12 @@
-package com.dimkov.bgMountains.domain.models.binding;
+package com.dimkov.bgMountains.domain.models.service;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import com.dimkov.bgMountains.domain.entities.Freelancer;
 
-public class CommentBindingModel {
+public class CommentServiceModel {
     private String comment;
     private String date;
     private String freelancerId;
 
-    public CommentBindingModel(String comment, String date, String freelancerId) {
-        this.comment = comment;
-        this.date = date;
-        this.freelancerId = freelancerId;
-    }
-
-    @NotEmpty
     public String getComment() {
         return comment;
     }
@@ -23,7 +15,6 @@ public class CommentBindingModel {
         this.comment = comment;
     }
 
-    @NotEmpty
     public String getDate() {
         return date;
     }
@@ -32,7 +23,6 @@ public class CommentBindingModel {
         this.date = date;
     }
 
-    @NotEmpty
     public String getFreelancerId() {
         return freelancerId;
     }

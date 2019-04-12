@@ -3,6 +3,7 @@ package com.dimkov.bgMountains.service;
 import com.dimkov.bgMountains.domain.entities.Comment;
 import com.dimkov.bgMountains.domain.entities.Freelancer;
 import com.dimkov.bgMountains.domain.entities.User;
+import com.dimkov.bgMountains.domain.models.service.CommentServiceModel;
 import com.dimkov.bgMountains.domain.models.service.FreelancerServiceModel;
 import com.dimkov.bgMountains.domain.models.service.UserServiceModel;
 import com.dimkov.bgMountains.repository.CommentRepository;
@@ -34,23 +35,24 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public boolean saveComment(String comment, String freelancerId){
+    public boolean saveComment(CommentServiceModel commentServiceModel){
         FreelancerServiceModel freelancerServiceModel =
-                this.freelancerService.findById(freelancerId)
+                this.freelancerService.findById(commentServiceModel.getFreelancerId())
                 .orElseThrow(() -> new NoSuchElementException(FREELANCER_NOT_FOUND_MESSAGE));
 
+        String comment = commentServiceModel.getComment();
         if(!comment.equals("") && comment.length() <= MAX_COMMENT_LENGTH){
 
-            Comment c = new Comment();
+            Comment c = this.modelMapper.map(commentServiceModel,Comment.class);
             c.setFreelancer(this.modelMapper.map(freelancerServiceModel, Freelancer.class));
-            c.setComment(comment);
 
             try {
                 this.commentRepository.save(c);
-                return true;
             } catch (Exception e){
                 return false;
             }
+
+            return true;
         }
 
         return false;

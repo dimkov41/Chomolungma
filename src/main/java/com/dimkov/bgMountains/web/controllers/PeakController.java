@@ -1,20 +1,17 @@
 package com.dimkov.bgMountains.web.controllers;
 
-import com.dimkov.bgMountains.domain.entities.Peak;
 import com.dimkov.bgMountains.domain.models.binding.PeakAddBindingModel;
 import com.dimkov.bgMountains.domain.models.service.PeakAddServiceModel;
 import com.dimkov.bgMountains.domain.models.service.PeakServiceModel;
 import com.dimkov.bgMountains.domain.models.view.MountainViewModel;
 import com.dimkov.bgMountains.domain.models.view.PeakRedirectViewModel;
 import com.dimkov.bgMountains.domain.models.view.PeakViewModel;
-import com.dimkov.bgMountains.service.CloudinaryService;
 import com.dimkov.bgMountains.service.MountainService;
 import com.dimkov.bgMountains.service.PeakService;
 import com.dimkov.bgMountains.util.Constants;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -26,8 +23,6 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -96,7 +91,7 @@ public class PeakController extends BaseController {
         }
 
         modelAndView.addObject(Constants.MODEL_ATTR_NAME, peakRedirectViewModel);
-        modelAndView.addObject(Constants.MOUNTAINS_ATTR_NAME_FOR_ADD_PEAK_VIEW, mountains);
+        modelAndView.addObject(Constants.MOUNTAINS_ATTR_NAME, mountains);
 
         return view(ADD_PEAK_VIEW, modelAndView);
     }

@@ -9,6 +9,7 @@ import javax.persistence.OneToMany;
 public class Comment extends BaseEntity{
     private String comment;
     private Freelancer freelancer;
+    private String date;
 
     @Column(nullable =  false)
     public String getComment() {
@@ -26,5 +27,14 @@ public class Comment extends BaseEntity{
 
     public void setFreelancer(Freelancer freelancer) {
         this.freelancer = freelancer;
+    }
+
+    @Column(nullable = false)
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

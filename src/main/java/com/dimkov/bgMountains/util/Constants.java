@@ -5,7 +5,7 @@ public class Constants {
 
 
     public static final String MODEL_ATTR_NAME = "model";
-    public static final String MOUNTAINS_ATTR_NAME_FOR_ADD_PEAK_VIEW = "mountains";
+    public static final String MOUNTAINS_ATTR_NAME = "mountains";
     public static final String EXEPTION_MESSAGE_ATTR_NAME = "exeptionMessage";
     public static final String PAGES_ATTR_NAME = "pageNumbers";
 
