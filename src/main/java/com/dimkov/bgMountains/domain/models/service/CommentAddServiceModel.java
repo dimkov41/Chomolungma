@@ -2,9 +2,10 @@ package com.dimkov.bgMountains.domain.models.service;
 
 import com.dimkov.bgMountains.domain.entities.Freelancer;
 
-public class CommentServiceModel {
+public class CommentAddServiceModel {
     private String comment;
     private String date;
+    private String freelancerId;
 
     public String getComment() {
         return comment;
@@ -20,5 +21,13 @@ public class CommentServiceModel {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getFreelancerId() {
+        return freelancerId;
+    }
+
+    public void setFreelancerId(String freelancerId) {
+        this.freelancerId = freelancerId;
     }
 }

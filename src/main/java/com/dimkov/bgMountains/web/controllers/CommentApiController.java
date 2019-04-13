@@ -1,14 +1,21 @@
 package com.dimkov.bgMountains.web.controllers;
 
 import com.dimkov.bgMountains.domain.models.binding.CommentBindingModel;
+import com.dimkov.bgMountains.domain.models.service.CommentAddServiceModel;
 import com.dimkov.bgMountains.domain.models.service.CommentServiceModel;
 import com.dimkov.bgMountains.service.CommentService;
+import com.dimkov.bgMountains.util.Constants;
+import com.google.gson.Gson;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @RestController
 @RequestMapping("/comment")
@@ -29,41 +36,22 @@ public class CommentApiController {
     public boolean registerComment(
             @PathVariable String id,
             HttpServletRequest request,
-            @ModelAttribute CommentBindingModel commentBindingModelommentBindingModel) throws IOException {
+            @ModelAttribute CommentBindingModel commentBindingModel) throws IOException {
 
         String comment = request.getParameter(COMMENT_PARAM_NAME);
         String date = request.getParameter(DATE_PARAM_NAME);
 
-        CommentBindingModel commentBindingModel = new CommentBindingModel(comment, date, id);
+        commentBindingModel = new CommentBindingModel(comment, date, id);
 
-//        return this.commentService.saveComment(this.modelMapper.map(commentBindingModel, CommentServiceModel.class));
-        return true;
+        return this.commentService.saveComment(this.modelMapper.map(commentBindingModel, CommentAddServiceModel.class));
     }
 
-    //    @GetMapping(value = "/{page}")
-    //    public ModelAndView showPaginatedPeakHome(
-    //            @PathVariable("page") int page,
-    //            ModelAndView modelAndView) {
-    //
-    //        Page<PeakServiceModel> peakPage = this.peakService.findPaginated(page);
-    //        int pageCount = peakPage.getTotalPages();
-    //
-    //        if (pageCount > Constants.ZERO) {
-    //            List<Integer> pageNumbers =
-    //                    IntStream.rangeClosed(1, pageCount)
-    //                            .boxed()
-    //                            .collect(Collectors.toList());
-    //
-    //            modelAndView.addObject(Constants.PAGES_ATTR_NAME, pageNumbers);
-    //        }
-    //
-    //        List<PeakViewModel> peaks =
-    //                peakPage
-    //                        .map(p -> this.modelMapper.map(p, PeakViewModel.class))
-    //                        .getContent();
-    //
-    //        modelAndView.addObject(Constants.MODEL_ATTR_NAME, peaks);
-    //
-    //        return view(PEAKS_VIEW, modelAndView);
-    //    }
+        @GetMapping(value = "/show/{id}")
+        public String showPaginatedPeakHome(
+                @PathVariable("id") String id) {
+
+            List<CommentServiceModel> comments = this.commentService.findAll(id);
+
+            return new Gson().toJson(comments);
+        }
 }

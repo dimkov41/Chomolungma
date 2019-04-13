@@ -128,6 +128,7 @@ public class FreelancerController extends BaseController {
         freelancerHireBindingModel.setId(id);
         FreelancerHireServiceModel freelancerHireServiceModel =
                 this.modelMapper.map(freelancerHireBindingModel, FreelancerHireServiceModel.class);
+        //TODO: uncomment bottom line of code
 //        this.freelancerService.hireFreelancer(freelancerHireServiceModel, principal.getName());
 
         return view(SUCCESSFULL_HIRED_FREELANCER_VIEW);

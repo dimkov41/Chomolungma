@@ -29,4 +29,6 @@ public class FreelancerApiController extends BaseController {
             ) throws ParseException {
         this.freelancerService.checkIfAvailable("2019-04-05", "2019-04-11");
     }
+
+
 }

@@ -19,19 +19,22 @@
             <ul class="blog-list">
                 <section class="avatar">
                     <img th:src="*{imageUrl}">
-                    <a href="#" class="freelancer" id="hire">Наеми</a>
-                    <form th:method="POST" th:action="@{|/hire/*{id}|}" id="dateForm" class="dateForm">
-                        <p class="error" id="dateError">Грешна дата!</p>
-                        <div class="formWrapper">
-                            <label for="startDate">Начална дата:</label>
-                            <input type="date" name="startDate" id="startDate" required/>
-                        </div>
-                        <div class="formWrapper">
-                            <label for="endDate">Крайна дата:</label>
-                            <input type="date" name="endDate" id="endDate" required/>
-                        </div>
-                        <input type="submit" value="Наеми"/>
-                    </form>
+                    <th:block
+                            th:unless="${#authentication.principal.username == __${T(com.dimkov.bgMountains.util.Constants).MODEL_ATTR_NAME}__.user.username}">
+                        <a href="#" class="freelancer" id="hire">Наеми</a>
+                        <form th:method="POST" th:action="@{|/hire/*{id}|}" id="dateForm" class="dateForm">
+                            <p class="error" id="dateError">Грешна дата!</p>
+                            <div class="formWrapper">
+                                <label for="startDate">Начална дата:</label>
+                                <input type="date" name="startDate" id="startDate" required/>
+                            </div>
+                            <div class="formWrapper">
+                                <label for="endDate">Крайна дата:</label>
+                                <input type="date" name="endDate" id="endDate" required/>
+                            </div>
+                            <input type="submit" value="Наеми"/>
+                        </form>
+                    </th:block>
                 </section>
                 <section class="content">
                     <h4 th:utext="*{fullName}"></h4>
@@ -44,26 +47,6 @@
                     <p>About me: </p>
                     <p th:utext="*{description}"></p>
                 </section>
-                <!--<div class="comments">-->
-                <!--<p class="error" id="error">Comment field is empty or have at least 255 characters!</p>-->
-                <!--<form th:method="POST" th:href="@{|/comment/*{id}|}">-->
-                <!--<div class="editor">-->
-                <!--<textarea id="text" class="editor-content" maxlength="255">-->
-                <!--</textarea>-->
-                <!--</div>-->
-                <!--<div class="insert-text">-->
-                <!--<span class="loading">Loading...</span>-->
-                <!--<span class="total-comment"></span>-->
-                <!--<p>-->
-                <!--<input type="submit" value="Comment"/>-->
-                <!--</p>-->
-                <!--</div>-->
-                <!--</form>-->
-                <!--<div class="list-comments">-->
-                <!--<div>Hello!</div>-->
-                <!--<div>My name's Tuan Linh.</div>-->
-                <!--</div>-->
-                <!--</div>-->
                 <form id="form" th:method="POST" th:action="@{|/comment/*{id}|}">
                     <div class="formWrapper">
                         <p>Leave a comment:</p>
@@ -71,12 +54,10 @@
                         <textarea id="comment" name="comment" maxlength="255" rows="4"></textarea>
                         <input type="submit" value="Comment"/>
                     </div>
-                    <div class="comments">
-                        <p>Pesho e mnogo lud</p>
-                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
-                            Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur
-                            ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis,</p>
-                    </div>
+                    <div id="listingTable" class="comments"></div>
+                    <a href="javascript:prevPage()" id="btn_prev">Prev</a>
+                    <a href="javascript:nextPage()" id="btn_next">Next</a>
+                    page: <span id="page"></span>
                 </form>
             </ul>
         </th:block>
