@@ -9,10 +9,16 @@
             background: initial;
         }
 
-        #freelancerProfile{
+        #freelancerProfile, #hiredFreelancers{
             width: 15em;
             padding: 1em;
             margin: 0 auto;
+            display: inline-block;
+            margin-top: 0.5em;
+        }
+
+        #hiredFreelancers{
+            background-color: limegreen;
         }
     </style>
 </head>
@@ -29,6 +35,7 @@
                 <!--</section>-->
                 <section class="content">
                     <a th:href="@{/mountainguides/profile}" class="freelancer" id="freelancerProfile">Планински водач профил</a>
+                    <a th:href="@{/users/hiredmountainguides}" class="freelancer" id="hiredFreelancers">Наети планински водачи</a>
                     <div class='login'>
                         <form id="profileForm" th:method="POST" th:action="@{/users/profile}">
                             <h2>Профил</h2>

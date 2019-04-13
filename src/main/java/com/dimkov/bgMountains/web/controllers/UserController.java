@@ -1,7 +1,9 @@
 package com.dimkov.bgMountains.web.controllers;
 
 import com.dimkov.bgMountains.domain.models.binding.UserChangeBindingModel;
+import com.dimkov.bgMountains.domain.models.service.FreelancerServiceModel;
 import com.dimkov.bgMountains.domain.models.service.UserChangeServiceModel;
+import com.dimkov.bgMountains.domain.models.view.FreelancerViewModel;
 import com.dimkov.bgMountains.domain.models.view.UserViewModel;
 import com.dimkov.bgMountains.util.Constants;
 import org.modelmapper.ModelMapper;
@@ -18,6 +20,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.NoSuchElementException;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value = "/users")
@@ -97,6 +101,25 @@ public class UserController extends BaseController {
         }
 
         return redirect(HOME_PATH);
+    }
+
+    @GetMapping("/hiredmountainguides")
+    public ModelAndView showHiredGuides(
+            ModelAndView modelAndView,
+            Principal principal){
+
+        Set<FreelancerServiceModel> freelancerServiceModelSet =
+                this.userService.getHiredFreelancers(principal.getName());
+
+        Set<FreelancerViewModel> freelancerViewModels =
+                freelancerServiceModelSet
+                .stream()
+                .map(f -> this.modelMapper.map(f, FreelancerViewModel.class))
+                .collect(Collectors.toSet());
+
+        modelAndView.addObject(Constants.MODEL_ATTR_NAME, freelancerViewModels);
+
+        return view("hired-freelancers", modelAndView);
     }
 
 }

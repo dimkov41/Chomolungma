@@ -1,8 +1,10 @@
 package com.dimkov.bgMountains.web.controllers;
 
+import com.dimkov.bgMountains.domain.models.binding.FreelancerChangeBindingModel;
 import com.dimkov.bgMountains.domain.models.binding.FreelancerHireBindingModel;
 import com.dimkov.bgMountains.domain.models.binding.FreelancerRegisterBindingModel;
 import com.dimkov.bgMountains.domain.models.service.FreelancerAddServiceModel;
+import com.dimkov.bgMountains.domain.models.service.FreelancerChangeServiceModel;
 import com.dimkov.bgMountains.domain.models.service.FreelancerHireServiceModel;
 import com.dimkov.bgMountains.domain.models.service.FreelancerServiceModel;
 import com.dimkov.bgMountains.domain.models.view.FreelancerViewModel;
@@ -43,7 +45,8 @@ public class FreelancerController extends BaseController {
     private static final String LOGOUT_PATH = "/mountainguides/1";
     private static final String FREELANCERS_PATH = "/mountainguides/1";
     private static final String FREELANCER_DETAILS_PATH = "/mountainguides/details/";
-    private static final String BECOME_FREELANCER_PATH = "/users/profile";
+    private static final String BECOME_FREELANCER_PATH = "/becomeFreelancer";
+    private static final String MOUNTAINS_GUIDES_PROFILE_ERROR_PATH = "/mountainguides/profile?error=true";
 
     private static final String ERROR_ATTR = "?error=true";
 
@@ -165,5 +168,26 @@ public class FreelancerController extends BaseController {
         );
 
         return view(FREELANCER_PROFILE_VIEW, modelAndView);
+    }
+
+    @PostMapping("/mountainguides/profile")
+    public ModelAndView makeChanges(
+            Principal principal,
+            @ModelAttribute @Valid FreelancerChangeBindingModel freelancerChangeBindingModel,
+            Errors errors
+    ) {
+        if (errors.hasErrors()) {
+            return redirect(MOUNTAINS_GUIDES_PROFILE_ERROR_PATH);
+        }
+
+        FreelancerChangeServiceModel freelancerChangeServiceModel =
+                this.modelMapper.map(freelancerChangeBindingModel, FreelancerChangeServiceModel.class);
+
+        freelancerChangeServiceModel.setUsername(principal.getName());
+        if(!this.freelancerService.makeChanges(freelancerChangeServiceModel)){
+            return redirect(MOUNTAINS_GUIDES_PROFILE_ERROR_PATH);
+        }
+
+        return redirect(FREELANCERS_PATH);
     }
 }

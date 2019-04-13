@@ -5,6 +5,7 @@ import com.dimkov.bgMountains.domain.entities.Route;
 import com.dimkov.bgMountains.domain.entities.User;
 import com.dimkov.bgMountains.domain.models.service.MountainServiceModel;
 import com.dimkov.bgMountains.domain.models.service.RouteAddSeviceModel;
+import com.dimkov.bgMountains.domain.models.service.RouteServiceModel;
 import com.dimkov.bgMountains.domain.models.service.UserServiceModel;
 import com.dimkov.bgMountains.repository.RouteRepository;
 import com.dimkov.bgMountains.util.Constants;
@@ -13,7 +14,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
 public class RouteServiceImpl implements RouteService {
@@ -32,6 +35,15 @@ public class RouteServiceImpl implements RouteService {
         this.routeValidationService = routeValidationService;
         this.mountainService = mountainService;
         this.userService = userService;
+    }
+
+    @Override
+    public List<RouteServiceModel> findAll(){
+        List<Route> routes = this.routeRepository.findAll();
+        return routes
+                .stream()
+                .map(r -> this.modelMapper.map(r, RouteServiceModel.class))
+                .collect(Collectors.toList());
     }
 
     @Override

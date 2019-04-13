@@ -8,10 +8,14 @@
             background: initial;
         }
 
-        #freelancerProfile {
-            width: 15em;
-            padding: 1em;
-            margin: 0 auto;
+        input[type="number"], textarea {
+            width: 90%;
+            padding: 0.5em;
+            margin-top: 1em;
+        }
+
+        .blog-news ul {
+            flex-wrap: wrap;
         }
     </style>
 </head>
@@ -40,7 +44,7 @@
                                            type='text' disabled>
                                 </div>
                                 <div>
-                                    <input name='fullName' th:value="*{fullName}" type='text' disabled>
+                                    <input id="fullName" name='fullName' th:value="*{fullName}" type='text' disabled>
                                 </div>
                                 <div>
                                     <input name='ageExperience' th:value="*{ageExperience}" type='number'>
@@ -58,7 +62,7 @@
                                     <textarea rows="4" th:text="*{description}" id="description" name="description" maxlength="80"></textarea>
                                 </div>
                                 <div>
-                                    <input name='password' id="password" placeholder="Потвърди с парола" type='text'>
+                                    <input name='password' id="password" placeholder="Потвърди с парола" type='password'>
                                 </div>
                                 <div id="emailWrapper">
                                     <input id="email" name='email' th:value="*{user.email}" placeholder='E-Mail Address'

@@ -1,6 +1,7 @@
 package com.dimkov.bgMountains.service;
 
 import com.dimkov.bgMountains.domain.entities.Freelancer;
+import com.dimkov.bgMountains.domain.models.service.FreelancerServiceModel;
 import com.dimkov.bgMountains.domain.models.service.UserChangeServiceModel;
 import com.dimkov.bgMountains.util.Constants;
 import com.dimkov.bgMountains.validation.UserValidationService;
@@ -15,9 +16,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -125,6 +125,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Set<FreelancerServiceModel> getHiredFreelancers(String username){
+        User user = this.userRepository.findByUsername(username)
+                .orElseThrow(() -> new NoSuchElementException(Constants.USERNAME_NOT_FOUND_MESSAGE));
+
+        Set<Freelancer> freelancerSet = user.getHires();
+
+        return freelancerSet
+                .stream()
+                .map(f -> this.modelMapper.map(f,FreelancerServiceModel.class))
+                .collect(Collectors.toSet());
+    }
+
+    @Override
     public boolean changePassword(UserChangeServiceModel userChangeServiceModel){
         if(!this.userValidationService.isChangeModelValid(userChangeServiceModel)){
             throw new IllegalArgumentException(USERNAME_MODEL_NOT_VALID_MESSAGE);
@@ -133,7 +146,8 @@ public class UserServiceImpl implements UserService {
         User user = this.userRepository.findByUsername(userChangeServiceModel.getUsername())
                 .orElseThrow(() -> new NoSuchElementException(Constants.USERNAME_NOT_FOUND_MESSAGE));
 
-        if(!userChangeServiceModel.getNewPassword().equals(userChangeServiceModel.getRepeatPassword())){
+        if(!userChangeServiceModel.getNewPassword().equals(userChangeServiceModel.getRepeatPassword()) ||
+            !bCryptPasswordEncoder.matches(userChangeServiceModel.getOldPassword(), user.getPassword())){
             return false;
         }
 

@@ -2,8 +2,10 @@ package com.dimkov.bgMountains.web.controllers;
 
 import com.dimkov.bgMountains.domain.models.binding.RouteAddBindingModel;
 import com.dimkov.bgMountains.domain.models.service.RouteAddSeviceModel;
+import com.dimkov.bgMountains.domain.models.service.RouteServiceModel;
 import com.dimkov.bgMountains.domain.models.view.MountainViewModel;
 import com.dimkov.bgMountains.domain.models.view.RouteRedirectViewModel;
+import com.dimkov.bgMountains.domain.models.view.RouteViewModel;
 import com.dimkov.bgMountains.service.MountainService;
 import com.dimkov.bgMountains.service.RouteService;
 import com.dimkov.bgMountains.util.Constants;
@@ -28,6 +30,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/routes")
 public class RouteController extends BaseController{
     private static final String ADD_ROUTE_VIEW = "route/route-add";
+    private static final String ALL_ROUTES_VIEW = "route/all-routes";
 
     private static final String ADD_ROUTE_ERROR_PATH = "/routes/add?error=true";
     private static final String ALL_ROUTES_PATH = "/routes";
@@ -80,5 +83,20 @@ public class RouteController extends BaseController{
         }
 
         return redirect(ALL_ROUTES_PATH);
+    }
+
+    @GetMapping()
+    public ModelAndView showAll(ModelAndView modelAndView){
+        List<RouteServiceModel> routeServiceModels = this.routeService.findAll();
+
+        List<RouteViewModel> routeViewModels =
+                routeServiceModels
+                .stream()
+                .map(r -> this.modelMapper.map(r, RouteViewModel.class))
+                .collect(Collectors.toList());
+
+        modelAndView.addObject(Constants.MODEL_ATTR_NAME, routeViewModels);
+
+        return view(ALL_ROUTES_VIEW, modelAndView);
     }
 }

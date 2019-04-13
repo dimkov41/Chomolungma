@@ -37,8 +37,7 @@ public class FreelancerApiController extends BaseController {
         String startDate = request.getParameter(START_DATE_PARAM_NAME);
         String endDate = request.getParameter(END_DATE_PARAM_NAME);
 
-//        return this.freelancerService.checkIfAvailable(startDate, endDate, id);
-        return false;
+        return this.freelancerService.checkIfAvailable(startDate, endDate, id);
     }
 
 

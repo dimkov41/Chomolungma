@@ -1,0 +1,68 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:include="fragments/head::head"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/datatables-style.css}"/>
+    <script th:src="@{/js/jquery-datatables-script.js}"></script>
+    <script>
+        $(document).ready(function () {
+            $('#example').DataTable();
+        });
+    </script>
+    <style>
+        main{
+            margin: 1em;
+        }
+
+        .addButton{
+            float: right;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <th:block th:include="fragments/header::header"/>
+</header>
+<main>
+    <a th:href="@{/routes/add}" class="addButton">Add route</a>
+    <table id="example" class="display" style="width:100%">
+        <thead>
+        <tr>
+            <th>Начална точка</th>
+            <th>Крайна точка</th>
+            <th>Описание на маршрута</th>
+            <th>Дължина</th>
+            <th>Автор</th>
+            <th>Местоположение</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="route, iter : ${__${T(com.dimkov.bgMountains.util.Constants).MODEL_ATTR_NAME}__}">
+            <tr>
+                <td th:text="${route.start}"></td>
+                <td th:text="${route.end}"></td>
+                <td th:text="${route.description}"></td>
+                <td th:text="${route.lenght}"></td>
+                <td th:text="${route.author.username}"></td>
+                <td th:text="${route.location.name}"></td>
+            </tr>
+        </th:block>
+        </tbody>
+        <tfoot>
+        <tr>
+            <th>Начална точка</th>
+            <th>Крайна точка</th>
+            <th>Описание на маршрута</th>
+            <th>Дължина</th>
+            <th>Автор</th>
+            <th>Местоположение</th>
+        </tr>
+        </tfoot>
+    </table>
+</main>
+<footer>
+    <th:block th:include="fragments/footer::footer"/>
+</footer>
+</body>
+
+</html>

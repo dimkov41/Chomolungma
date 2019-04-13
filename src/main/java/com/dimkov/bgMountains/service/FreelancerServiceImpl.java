@@ -3,10 +3,7 @@ package com.dimkov.bgMountains.service;
 import com.dimkov.bgMountains.domain.entities.Freelancer;
 import com.dimkov.bgMountains.domain.entities.Role;
 import com.dimkov.bgMountains.domain.entities.User;
-import com.dimkov.bgMountains.domain.models.service.FreelancerAddServiceModel;
-import com.dimkov.bgMountains.domain.models.service.FreelancerHireServiceModel;
-import com.dimkov.bgMountains.domain.models.service.FreelancerServiceModel;
-import com.dimkov.bgMountains.domain.models.service.UserServiceModel;
+import com.dimkov.bgMountains.domain.models.service.*;
 import com.dimkov.bgMountains.repository.FreelancerRepository;
 import com.dimkov.bgMountains.repository.UserRepository;
 import com.dimkov.bgMountains.util.Constants;
@@ -20,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.joda.time.format.DateTimeFormat;
 
@@ -40,6 +38,7 @@ public class FreelancerServiceImpl implements FreelancerService {
     private final CloudinaryService cloudinaryService;
     private final FreelancerValidationService freelancerValidationService;
     private final UserRepository userRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
     @Autowired
@@ -48,7 +47,7 @@ public class FreelancerServiceImpl implements FreelancerService {
             ModelMapper modelMapper,
             FreelancerRepository freelancerRepository,
             CloudinaryService cloudinaryService,
-            FreelancerValidationService freelancerValidationService, UserRepository userRepository) {
+            FreelancerValidationService freelancerValidationService, UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
 
         this.userService = userService;
         this.modelMapper = modelMapper;
@@ -56,6 +55,7 @@ public class FreelancerServiceImpl implements FreelancerService {
         this.cloudinaryService = cloudinaryService;
         this.freelancerValidationService = freelancerValidationService;
         this.userRepository = userRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @Override
@@ -114,7 +114,7 @@ public class FreelancerServiceImpl implements FreelancerService {
                 .orElseThrow(() -> new NoSuchElementException(Constants.USERNAME_NOT_FOUND_MESSAGE));
 
         List<DateTime> desiredDates =
-                    getDesiredDates(startDateStr, endDateStr);
+                getDesiredDates(startDateStr, endDateStr);
 
         List<DateTime> freelancerBusyDates =
                 freelancer
@@ -126,7 +126,7 @@ public class FreelancerServiceImpl implements FreelancerService {
 
         for (DateTime desiredDate : desiredDates) {
             for (DateTime freelancerBusyDate : freelancerBusyDates) {
-                if(desiredDate.withTimeAtStartOfDay().isEqual(freelancerBusyDate.withTimeAtStartOfDay())){
+                if (desiredDate.withTimeAtStartOfDay().isEqual(freelancerBusyDate.withTimeAtStartOfDay())) {
                     return false;
                 }
             }
@@ -136,14 +136,35 @@ public class FreelancerServiceImpl implements FreelancerService {
     }
 
     @Override
-    public boolean checkFreelacerExists(String username){
+    public boolean makeChanges(FreelancerChangeServiceModel freelancerChangeServiceModel) {
+        Freelancer freelancer = this.freelancerRepository.findByUserUsername(freelancerChangeServiceModel.getUsername())
+                .orElseThrow(() -> new NoSuchElementException(Constants.USERNAME_NOT_FOUND_MESSAGE));
+
+        if (!bCryptPasswordEncoder.matches(freelancerChangeServiceModel.getPassword(),
+                freelancer.getUser().getPassword())){
+            return false;
+        }
+
+           mapFields(freelancer,freelancerChangeServiceModel);
+
+        try {
+            this.freelancerRepository.save(freelancer);
+        } catch (Exception e) {
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean checkFreelacerExists(String username) {
         UserServiceModel userServiceModel =
                 this.userService.findByUsername(username)
-                .orElseThrow(() -> new NoSuchElementException(Constants.USERNAME_NOT_FOUND_MESSAGE));
+                        .orElseThrow(() -> new NoSuchElementException(Constants.USERNAME_NOT_FOUND_MESSAGE));
 
         Set<Role> roles = userServiceModel.getAuthorities();
         for (Role role : roles) {
-            if(role.getAuthority().equalsIgnoreCase(Constants.ROLE_FREELANCER)){
+            if (role.getAuthority().equalsIgnoreCase(Constants.ROLE_FREELANCER)) {
                 return true;
             }
         }
@@ -152,7 +173,7 @@ public class FreelancerServiceImpl implements FreelancerService {
     }
 
     @Override
-    public FreelancerServiceModel findByName(String username){
+    public FreelancerServiceModel findByName(String username) {
         Freelancer freelancer = this.freelancerRepository.findByUserUsername(username)
                 .orElseThrow(() -> new NoSuchElementException(Constants.USERNAME_NOT_FOUND_MESSAGE));
 
@@ -167,8 +188,8 @@ public class FreelancerServiceImpl implements FreelancerService {
         Freelancer freelancer = this.freelancerRepository.findById(freelancerHireServiceModel.getId())
                 .orElseThrow(() -> new NoSuchElementException(Constants.USERNAME_NOT_FOUND_MESSAGE));
 
-        if(!checkIfAvailable(freelancerHireServiceModel.getStartDate(),freelancerHireServiceModel.getEndDate(),
-                freelancer.getId())){
+        if (!checkIfAvailable(freelancerHireServiceModel.getStartDate(), freelancerHireServiceModel.getEndDate(),
+                freelancer.getId())) {
             return false;
         }
 
@@ -195,6 +216,15 @@ public class FreelancerServiceImpl implements FreelancerService {
         freelancer.setFullName(freelancerAddServiceModel.getFullName());
         freelancer.setDescription(freelancerAddServiceModel.getDescription());
         freelancer.setEmployment(new ArrayList<>());
+
+        return freelancer;
+    }
+
+    private Freelancer mapFields(Freelancer freelancer,FreelancerChangeServiceModel freelancerChangeServiceModel){
+        freelancer.setAgeExperience(freelancerChangeServiceModel.getAgeExperience());
+        freelancer.setDescription(freelancerChangeServiceModel.getDescription());
+        freelancer.setMobileNumber(freelancerChangeServiceModel.getMobileNumber());
+        freelancer.setFee(freelancerChangeServiceModel.getFee());
 
         return freelancer;
     }

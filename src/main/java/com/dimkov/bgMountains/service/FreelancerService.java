@@ -1,6 +1,7 @@
 package com.dimkov.bgMountains.service;
 
 import com.dimkov.bgMountains.domain.models.service.FreelancerAddServiceModel;
+import com.dimkov.bgMountains.domain.models.service.FreelancerChangeServiceModel;
 import com.dimkov.bgMountains.domain.models.service.FreelancerHireServiceModel;
 import com.dimkov.bgMountains.domain.models.service.FreelancerServiceModel;
 import org.springframework.data.domain.Page;
@@ -18,6 +19,8 @@ public interface FreelancerService {
     Optional<FreelancerServiceModel> findById(String id);
 
     boolean checkIfAvailable(String startDateStr, String endDateStr, String id) throws ParseException;
+
+    boolean makeChanges(FreelancerChangeServiceModel freelancerChangeServiceModel);
 
     boolean checkFreelacerExists(String username);
 

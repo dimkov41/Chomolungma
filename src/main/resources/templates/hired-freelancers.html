@@ -1,0 +1,63 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:include="fragments/head::head"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/datatables-style.css}"/>
+    <script th:src="@{/js/jquery-datatables-script.js}"></script>
+    <script>
+        $(document).ready(function () {
+            $('#example').DataTable();
+        });
+    </script>
+    <style>
+        main {
+            margin: 1.5em;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <th:block th:include="fragments/header::header"/>
+</header>
+<main>
+    <table id="example" class="display" style="width:100%">
+        <thead>
+        <tr>
+            <th>Име</th>
+            <th>Години опит</th>
+            <th>Номер на удостоверение</th>
+            <th>Телефонен номер</th>
+            <th>Хонорар на ден</th>
+            <th>Имейл</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="freelancer, iter : ${__${T(com.dimkov.bgMountains.util.Constants).MODEL_ATTR_NAME}__}">
+            <tr>
+                <td th:text="${freelancer.fullName}"></td>
+                <td th:text="${freelancer.ageExperience}"></td>
+                <td th:text="${freelancer.certificateNumber}"></td>
+                <td th:text="${freelancer.mobileNumber}"></td>
+                <td th:text="${freelancer.fee}"></td>
+                <td th:text="${freelancer.user.email}"></td>
+            </tr>
+        </th:block>
+        </tbody>
+        <tfoot>
+        <tr>
+            <th>Име</th>
+            <th>Години опит</th>
+            <th>Номер на удостоверение</th>
+            <th>Телефонен номер</th>
+            <th>Хонорар на ден</th>
+            <th>Имейл</th>
+        </tr>
+        </tfoot>
+    </table>
+</main>
+<footer>
+    <th:block th:include="fragments/footer::footer"/>
+</footer>
+</body>
+
+</html>
