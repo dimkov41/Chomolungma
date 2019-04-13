@@ -35,7 +35,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/", "/users/login",
                         "/users/register", "/css/**", "/js/**", "/images/**",
-                        "/users/checkUsername/**", "/users/checkEmail/**", "/comment/**")
+                        "/users/checkUsername/**", "/users/checkEmail/**", "/comment/**",
+                        "/mountainguides/check/**")
                 .permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -52,13 +53,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .exceptionHandling()
                 .accessDeniedHandler(accessDeniedHandler());
-    }
-
-    private CsrfTokenRepository csrfTokenRepository() {
-        HttpSessionCsrfTokenRepository repository =
-                new HttpSessionCsrfTokenRepository();
-        repository.setSessionAttributeName(SESSION_ATTR_NAME);
-        return repository;
     }
 
     @Bean

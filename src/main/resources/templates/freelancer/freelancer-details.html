@@ -24,6 +24,7 @@
                         <a href="#" class="freelancer" id="hire">Наеми</a>
                         <form th:method="POST" th:action="@{|/hire/*{id}|}" id="dateForm" class="dateForm">
                             <p class="error" id="dateError">Грешна дата!</p>
+                            <p class="error" id="wrongDate">Избраните дати са заети!</p>
                             <div class="formWrapper">
                                 <label for="startDate">Начална дата:</label>
                                 <input type="date" name="startDate" id="startDate" required/>

@@ -1,0 +1,73 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:include="fragments/head::head"/>
+    <script th:src="@{/js/profile-script.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/auth-style.css}"/>
+    <style>
+        .blog-news {
+            background: initial;
+        }
+
+        #freelancerProfile{
+            width: 15em;
+            padding: 1em;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <th:block th:include="fragments/header::header"/>
+</header>
+<main>
+    <section class="blog-news">
+        <th:block th:object="${__${T(com.dimkov.bgMountains.util.Constants).MODEL_ATTR_NAME}__}">
+            <ul class="blog-list">
+                <!--<section class="avatar">-->
+                <!--<img th:src="*{imageUrl}">-->
+                <!--</section>-->
+                <section class="content">
+                    <a th:href="@{/mountainguides/profile}" class="freelancer" id="freelancerProfile">Планински водач профил</a>
+                    <div class='login'>
+                        <form id="profileForm" th:method="POST" th:action="@{/users/profile}">
+                            <h2>Профил</h2>
+                            <p class="error" id="error">Паролите не съвпадат!</p>
+                            <th:block th:if="${(param.error != null) and (param.error[0] == 'true')}">
+                                <div class="error">
+                                    <p>Грешна парола!</p>
+                                </div>
+                            </th:block>
+                            <div id="usernameWrapper">
+                                <input id='username' th:value="*{username}" name='username' placeholder='Username'
+                                       type='text' disabled>
+                            </div>
+                            <div>
+                                <input id='pw' name='oldPassword' placeholder='Стара парола' type='password'>
+                            </div>
+                            <div>
+                                <input id='newPw' name='newPassword' placeholder='Нова парола' type='password'>
+                            </div>
+                            <div>
+                                <input id='repeatPw' name='repeatPassword' placeholder='Повтори новата парола'
+                                       type='password'>
+                            </div>
+                            <div id="emailWrapper">
+                                <input id="email" name='email' th:value="*{email}" placeholder='E-Mail Address'
+                                       type='email'
+                                       disabled>
+                            </div>
+                            <input class='animated' type='submit' value='Промени'>
+                        </form>
+                    </div>
+                </section>
+            </ul>
+        </th:block>
+    </section>
+</main>
+<footer>
+    <th:block th:include="fragments/footer::footer"/>
+</footer>
+</body>
+
+</html>

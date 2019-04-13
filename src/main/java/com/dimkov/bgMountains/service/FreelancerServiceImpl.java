@@ -1,12 +1,14 @@
 package com.dimkov.bgMountains.service;
 
 import com.dimkov.bgMountains.domain.entities.Freelancer;
+import com.dimkov.bgMountains.domain.entities.Role;
 import com.dimkov.bgMountains.domain.entities.User;
 import com.dimkov.bgMountains.domain.models.service.FreelancerAddServiceModel;
 import com.dimkov.bgMountains.domain.models.service.FreelancerHireServiceModel;
 import com.dimkov.bgMountains.domain.models.service.FreelancerServiceModel;
 import com.dimkov.bgMountains.domain.models.service.UserServiceModel;
 import com.dimkov.bgMountains.repository.FreelancerRepository;
+import com.dimkov.bgMountains.repository.UserRepository;
 import com.dimkov.bgMountains.util.Constants;
 import com.dimkov.bgMountains.validation.FreelancerValidationService;
 import org.joda.time.DateTime;
@@ -24,6 +26,7 @@ import org.joda.time.format.DateTimeFormat;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class FreelancerServiceImpl implements FreelancerService {
@@ -36,6 +39,7 @@ public class FreelancerServiceImpl implements FreelancerService {
     private final FreelancerRepository freelancerRepository;
     private final CloudinaryService cloudinaryService;
     private final FreelancerValidationService freelancerValidationService;
+    private final UserRepository userRepository;
 
 
     @Autowired
@@ -44,13 +48,14 @@ public class FreelancerServiceImpl implements FreelancerService {
             ModelMapper modelMapper,
             FreelancerRepository freelancerRepository,
             CloudinaryService cloudinaryService,
-            FreelancerValidationService freelancerValidationService) {
+            FreelancerValidationService freelancerValidationService, UserRepository userRepository) {
 
         this.userService = userService;
         this.modelMapper = modelMapper;
         this.freelancerRepository = freelancerRepository;
         this.cloudinaryService = cloudinaryService;
         this.freelancerValidationService = freelancerValidationService;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -75,6 +80,7 @@ public class FreelancerServiceImpl implements FreelancerService {
 
         freelancer.setUser(user);
         try {
+            this.userRepository.save(user);
             this.freelancerRepository.save(freelancer);
         } catch (Exception e) {
             return false;
@@ -103,33 +109,71 @@ public class FreelancerServiceImpl implements FreelancerService {
     }
 
     @Override
-    public boolean checkIfAvailable(String startDateStr, String endDateStr) throws ParseException {
-        DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
+    public boolean checkIfAvailable(String startDateStr, String endDateStr, String id) throws ParseException {
+        Freelancer freelancer = this.freelancerRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException(Constants.USERNAME_NOT_FOUND_MESSAGE));
 
-        DateTime startDate = formatter.parseDateTime(startDateStr);
-        DateTime endDate = formatter.parseDateTime(endDateStr);
+        List<DateTime> desiredDates =
+                    getDesiredDates(startDateStr, endDateStr);
 
-        List<Date> dates = new ArrayList<>();
+        List<DateTime> freelancerBusyDates =
+                freelancer
+                        .getEmployment()
+                        .stream()
+                        .map(DateTime::new)
+                        .collect(Collectors.toList());
+        ;
 
-        int days = Days.daysBetween(startDate, endDate).getDays() + 1;
-        for (int i = 0; i < days; i++) {
-            DateTime d = startDate.withFieldAdded(DurationFieldType.days(), i);
-            dates.add(d.toDate());
+        for (DateTime desiredDate : desiredDates) {
+            for (DateTime freelancerBusyDate : freelancerBusyDates) {
+                if(desiredDate.withTimeAtStartOfDay().isEqual(freelancerBusyDate.withTimeAtStartOfDay())){
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean checkFreelacerExists(String username){
+        UserServiceModel userServiceModel =
+                this.userService.findByUsername(username)
+                .orElseThrow(() -> new NoSuchElementException(Constants.USERNAME_NOT_FOUND_MESSAGE));
+
+        Set<Role> roles = userServiceModel.getAuthorities();
+        for (Role role : roles) {
+            if(role.getAuthority().equalsIgnoreCase(Constants.ROLE_FREELANCER)){
+                return true;
+            }
         }
 
         return false;
     }
 
     @Override
-    public boolean hireFreelancer(FreelancerHireServiceModel freelancerHireServiceModel, String username) {
-        List<Date> busyDates =
-                getBusyDates(freelancerHireServiceModel.getStartDate(), freelancerHireServiceModel.getEndDate());
+    public FreelancerServiceModel findByName(String username){
+        Freelancer freelancer = this.freelancerRepository.findByUserUsername(username)
+                .orElseThrow(() -> new NoSuchElementException(Constants.USERNAME_NOT_FOUND_MESSAGE));
+
+        return this.modelMapper.map(freelancer, FreelancerServiceModel.class);
+    }
+
+    @Override
+    public boolean hireFreelancer(FreelancerHireServiceModel freelancerHireServiceModel, String username) throws ParseException {
+        List<DateTime> desiredDates =
+                getDesiredDates(freelancerHireServiceModel.getStartDate(), freelancerHireServiceModel.getEndDate());
 
         Freelancer freelancer = this.freelancerRepository.findById(freelancerHireServiceModel.getId())
                 .orElseThrow(() -> new NoSuchElementException(Constants.USERNAME_NOT_FOUND_MESSAGE));
 
-        for (Date busyDate : busyDates) {
-            freelancer.getEmployment().add(busyDate);
+        if(!checkIfAvailable(freelancerHireServiceModel.getStartDate(),freelancerHireServiceModel.getEndDate(),
+                freelancer.getId())){
+            return false;
+        }
+
+        for (DateTime busyDate : desiredDates) {
+            freelancer.getEmployment().add(busyDate.plusDays(1).toDate());
         }
 
         try {
@@ -148,22 +192,25 @@ public class FreelancerServiceImpl implements FreelancerService {
         freelancer.setCertificateNumber(freelancerAddServiceModel.getCertificateNumber());
         freelancer.setMobileNumber(freelancerAddServiceModel.getMobileNumber());
         freelancer.setFee(freelancerAddServiceModel.getFee());
+        freelancer.setFullName(freelancerAddServiceModel.getFullName());
+        freelancer.setDescription(freelancerAddServiceModel.getDescription());
+        freelancer.setEmployment(new ArrayList<>());
 
         return freelancer;
     }
 
-    private List<Date> getBusyDates(String startDateStr, String endDateStr) {
+    private List<DateTime> getDesiredDates(String startDateStr, String endDateStr) {
         DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
 
         DateTime startDate = formatter.parseDateTime(startDateStr);
         DateTime endDate = formatter.parseDateTime(endDateStr);
 
-        List<Date> dates = new ArrayList<>();
+        List<DateTime> dates = new ArrayList<>();
 
         int days = Days.daysBetween(startDate, endDate).getDays() + 1;
         for (int i = 0; i < days; i++) {
             DateTime d = startDate.withFieldAdded(DurationFieldType.days(), i);
-            dates.add(d.toDate());
+            dates.add(d);
         }
 
         return dates;

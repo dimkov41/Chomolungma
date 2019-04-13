@@ -17,7 +17,11 @@ public interface FreelancerService {
 
     Optional<FreelancerServiceModel> findById(String id);
 
-    boolean checkIfAvailable(String startDate, String endDate) throws ParseException;
+    boolean checkIfAvailable(String startDateStr, String endDateStr, String id) throws ParseException;
 
-    boolean hireFreelancer(FreelancerHireServiceModel freelancerHireServiceModel, String username);
+    boolean checkFreelacerExists(String username);
+
+    FreelancerServiceModel findByName(String name);
+
+    boolean hireFreelancer(FreelancerHireServiceModel freelancerHireServiceModel, String username) throws ParseException;
 }

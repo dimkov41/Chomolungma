@@ -8,11 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 
 @Controller
 @RequestMapping("/mountainguides")
 public class FreelancerApiController extends BaseController {
+    private final static String START_DATE_PARAM_NAME = "startDate";
+    private final static String END_DATE_PARAM_NAME = "endDate";
+
     private final FreelancerService freelancerService;
     private final ModelMapper modelMapper;
 
@@ -22,12 +26,19 @@ public class FreelancerApiController extends BaseController {
         this.modelMapper = modelMapper;
     }
 
-    @GetMapping("/check/{id}")
-    public void checkIfFree(
+    @PostMapping("/check/{id}")
+    @ResponseBody
+    public boolean checkIfFree(
             @PathVariable("id") String id,
+            HttpServletRequest request,
             @ModelAttribute FreelancerRegisterBindingModel freelancerRegisterBindingModel
-            ) throws ParseException {
-        this.freelancerService.checkIfAvailable("2019-04-05", "2019-04-11");
+    ) throws ParseException {
+
+        String startDate = request.getParameter(START_DATE_PARAM_NAME);
+        String endDate = request.getParameter(END_DATE_PARAM_NAME);
+
+//        return this.freelancerService.checkIfAvailable(startDate, endDate, id);
+        return false;
     }
 
 

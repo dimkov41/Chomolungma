@@ -13,6 +13,7 @@ public class UserServiceModel {
     private String email;
 
     private Set<Freelancer> hires;
+    private Set<Role> authorities;
 
     public UserServiceModel() {
         hires = new HashSet<>();
@@ -57,4 +58,13 @@ public class UserServiceModel {
     public void setHires(Set<Freelancer> hires) {
         this.hires = hires;
     }
+
+    public Set<Role> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Set<Role> authorities) {
+        this.authorities = authorities;
+    }
 }
+

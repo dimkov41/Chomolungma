@@ -1,0 +1,81 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:include="fragments/head::head"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/auth-style.css}"/>
+    <style>
+        .blog-news {
+            background: initial;
+        }
+
+        #freelancerProfile {
+            width: 15em;
+            padding: 1em;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <th:block th:include="fragments/header::header"/>
+</header>
+<main>
+    <section class="blog-news">
+        <th:block th:object="${__${T(com.dimkov.bgMountains.util.Constants).MODEL_ATTR_NAME}__}">
+            <ul class="blog-list">
+                    <section class="avatar">
+                        <img th:src="*{imageUrl}">
+                    </section>
+                    <section class="content">
+                        <div class='login'>
+                            <form id="profileForm" th:method="POST" th:action="@{/mountainguides/profile}">
+                                <h2>Профил</h2>
+                                <th:block th:if="${(param.error != null) and (param.error[0] == 'true')}">
+                                    <div class="error">
+                                        <p>Грешна парола!</p>
+                                    </div>
+                                </th:block>
+                                <div id="usernameWrapper">
+                                    <input id='username' th:value="*{user.username}" name='username' placeholder='Username'
+                                           type='text' disabled>
+                                </div>
+                                <div>
+                                    <input name='fullName' th:value="*{fullName}" type='text' disabled>
+                                </div>
+                                <div>
+                                    <input name='ageExperience' th:value="*{ageExperience}" type='number'>
+                                </div>
+                                <div>
+                                    <input name='ageExperience' th:value="*{certificateNumber}" type='number' disabled>
+                                </div>
+                                <div>
+                                    <input name='mobileNumber' th:value="*{mobileNumber}" type='text'>
+                                </div>
+                                <div>
+                                    <input name='fee' th:value="*{fee}" type='number'><span>лв.</span>
+                                </div>
+                                <div>
+                                    <textarea rows="4" th:text="*{description}" id="description" name="description" maxlength="80"></textarea>
+                                </div>
+                                <div>
+                                    <input name='password' id="password" placeholder="Потвърди с парола" type='text'>
+                                </div>
+                                <div id="emailWrapper">
+                                    <input id="email" name='email' th:value="*{user.email}" placeholder='E-Mail Address'
+                                           type='email'
+                                           disabled>
+                                </div>
+                                <input class='animated' type='submit' value='Промени'>
+                            </form>
+                        </div>
+                    </section>
+            </ul>
+        </th:block>
+    </section>
+</main>
+<footer>
+    <th:block th:include="fragments/footer::footer"/>
+</footer>
+</body>
+
+</html>

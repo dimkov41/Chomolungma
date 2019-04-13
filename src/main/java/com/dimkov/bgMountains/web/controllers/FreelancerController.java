@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.security.Principal;
+import java.text.ParseException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -35,10 +36,16 @@ public class FreelancerController extends BaseController {
     private static final String BECOME_FREELANCER_VIEW = "freelancer/become-freelancer";
     private static final String FREELANCER_VIEW = "freelancer/all-freelancers";
     private static final String FREELANCER_DETAILS_VIEW = "freelancer/freelancer-details";
-    private static final String SUCCESSFULL_HIRED_FREELANCER_VIEW  = "freelancer/successful-hired-freelancer";
+    private static final String SUCCESSFULL_HIRED_FREELANCER_VIEW = "freelancer/successful-hired-freelancer";
+    private static final String FREELANCER_PROFILE_VIEW = "freelancer/freelancer-profile";
 
 
-    private static final String FREELANCERS_PATH = "/freelancers";
+    private static final String LOGOUT_PATH = "/mountainguides/1";
+    private static final String FREELANCERS_PATH = "/mountainguides/1";
+    private static final String FREELANCER_DETAILS_PATH = "/mountainguides/details/";
+    private static final String BECOME_FREELANCER_PATH = "/users/profile";
+
+    private static final String ERROR_ATTR = "?error=true";
 
 
     private final ModelMapper modelMapper;
@@ -52,7 +59,11 @@ public class FreelancerController extends BaseController {
 
     @GetMapping("/becomeFreelancer")
     @PreAuthorize("!hasAuthority(T(com.dimkov.bgMountains.util.Constants).ROLE_FREELANCER)")
-    public ModelAndView showBecomeFreelancerForm() {
+    public ModelAndView showBecomeFreelancerForm(Principal principal) {
+        if (this.freelancerService.checkFreelacerExists(principal.getName())) {
+            return redirect(FREELANCERS_PATH);
+        }
+
         return view(BECOME_FREELANCER_VIEW);
     }
 
@@ -73,7 +84,7 @@ public class FreelancerController extends BaseController {
             return redirect(BECOME_FREELANCER_ERROR_PATH);
         }
 
-        return redirect(FREELANCERS_PATH);
+        return redirect(LOGOUT_PATH);
     }
 
 
@@ -124,13 +135,35 @@ public class FreelancerController extends BaseController {
             @PathVariable("id") String id,
             @ModelAttribute FreelancerHireBindingModel freelancerHireBindingModel,
             Principal principal
-    ){
+    ) throws ParseException {
         freelancerHireBindingModel.setId(id);
         FreelancerHireServiceModel freelancerHireServiceModel =
                 this.modelMapper.map(freelancerHireBindingModel, FreelancerHireServiceModel.class);
-        //TODO: uncomment bottom line of code
-//        this.freelancerService.hireFreelancer(freelancerHireServiceModel, principal.getName());
+
+        if (!this.freelancerService.hireFreelancer(freelancerHireServiceModel, principal.getName())) {
+            return redirect(FREELANCER_DETAILS_PATH + id + ERROR_ATTR);
+        }
 
         return view(SUCCESSFULL_HIRED_FREELANCER_VIEW);
+    }
+
+    @GetMapping("/mountainguides/profile")
+    public ModelAndView showMountainGuideProfile(
+            ModelAndView modelAndView,
+            Principal principal
+    ) {
+        String username = principal.getName();
+        if (!this.freelancerService.checkFreelacerExists(username)) {
+            return redirect(BECOME_FREELANCER_PATH);
+        }
+
+        FreelancerServiceModel freelancerServiceModel = this.freelancerService.findByName(username);
+
+        modelAndView.addObject(
+                Constants.MODEL_ATTR_NAME,
+                this.modelMapper.map(freelancerServiceModel, FreelancerViewModel.class)
+        );
+
+        return view(FREELANCER_PROFILE_VIEW, modelAndView);
     }
 }

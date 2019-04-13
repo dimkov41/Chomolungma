@@ -2,6 +2,7 @@ package com.dimkov.bgMountains.domain.entities;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +17,10 @@ public class Freelancer extends BaseEntity{
     private String description;
     private User user;
     private List<Date> employment;
+
+    public Freelancer() {
+        this.employment = new ArrayList<>();
+    }
 
     @Column(nullable = false)
     public int getAgeExperience() {

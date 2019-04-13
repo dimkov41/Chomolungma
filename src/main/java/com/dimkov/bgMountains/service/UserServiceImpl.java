@@ -1,7 +1,9 @@
 package com.dimkov.bgMountains.service;
 
 import com.dimkov.bgMountains.domain.entities.Freelancer;
+import com.dimkov.bgMountains.domain.models.service.UserChangeServiceModel;
 import com.dimkov.bgMountains.util.Constants;
+import com.dimkov.bgMountains.validation.UserValidationService;
 import org.modelmapper.ModelMapper;
 import com.dimkov.bgMountains.domain.entities.User;
 import com.dimkov.bgMountains.domain.models.service.UserServiceModel;
@@ -13,12 +15,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
     private static final String USERNAME_NOT_FOUND_MESSAGE = "Username not found!";
+    private static final String USERNAME_MODEL_NOT_VALID_MESSAGE = "UserServiceModel not valid";
 
     private static final int MAX_ELEMENTS_PER_PAGE = 8;
 
@@ -26,25 +30,26 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
     private final ModelMapper modelMapper;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final CloudinaryService cloudinaryService;
+    private final UserValidationService userValidationService;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
                            RoleRepository roleRepository,
                            ModelMapper modelMapper,
                            BCryptPasswordEncoder bCryptPasswordEncoder,
-                           CloudinaryService cloudinaryService) {
+                           UserValidationService userValidationService) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.modelMapper = modelMapper;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.cloudinaryService = cloudinaryService;
+        this.userValidationService = userValidationService;
     }
 
     @Override
     public boolean register(UserServiceModel userServiceModel) {
         User user = this.modelMapper.map(userServiceModel,User.class);
         user.setPassword(bCryptPasswordEncoder.encode(userServiceModel.getPassword()));
+        user.setAuthorities(new HashSet<>());
         user = this.giveRolesToUser(user);
 
         try {
@@ -113,6 +118,30 @@ public class UserServiceImpl implements UserService {
         try{
             this.userRepository.save(user);
         } catch (Exception e){
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean changePassword(UserChangeServiceModel userChangeServiceModel){
+        if(!this.userValidationService.isChangeModelValid(userChangeServiceModel)){
+            throw new IllegalArgumentException(USERNAME_MODEL_NOT_VALID_MESSAGE);
+        }
+
+        User user = this.userRepository.findByUsername(userChangeServiceModel.getUsername())
+                .orElseThrow(() -> new NoSuchElementException(Constants.USERNAME_NOT_FOUND_MESSAGE));
+
+        if(!userChangeServiceModel.getNewPassword().equals(userChangeServiceModel.getRepeatPassword())){
+            return false;
+        }
+
+        user.setPassword(bCryptPasswordEncoder.encode(userChangeServiceModel.getNewPassword()));
+
+        try{
+            this.userRepository.save(user);
+        }catch (Exception e){
             return false;
         }
 
