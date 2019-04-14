@@ -14,35 +14,35 @@
         <form th:method="post" th:action="@{/becomeFreelancer}" enctype="multipart/form-data">
             <div id="form">
                 <div class="logo">
-                    <p>Become freelancer</p>
+                    <p>Ти си лицензиран водач? Предложи своите услуги тук!</p>
                 </div>
                 <th:block th:if="${(param.error != null) and (param.error[0] == 'true')}">
                     <div class="error" id="error">
-                        <p>You must fill all fields.</p>
+                        <p>Моля попълнете всички полета</p>
                     </div>
                 </th:block>
                 <div class="form-item">
-                    <p class="formLabel">Full Name</p>
+                    <p class="formLabel">Пълно име</p>
                     <input type="text" name="fullName" id="fullName" class="form-style" autocomplete="off"/>
                 </div>
                 <div class="form-item">
-                    <p class="formLabel">Certificate number</p>
+                    <p class="formLabel">Номер на удостоверение</p>
                     <input type="number" name="certificateNumber" id="certificateNumber" class="form-style" autocomplete="off"/>
                 </div>
                 <div class="form-item">
-                    <p class="formLabel">Age experience</p>
+                    <p class="formLabel">Години опит</p>
                     <input type="number" max="90" name="ageExperience" id="ageExperience" class="form-style" autocomplete="off"/>
                 </div>
                 <div class="form-item">
-                    <p class="formLabel">Mobile number</p>
+                    <p class="formLabel">Телефон за контакт</p>
                     <input type="text" name="mobileNumber" id="mobileNumber" class="form-style" autocomplete="off"/>
                 </div>
                 <div class="form-item">
-                    <p class="formLabel">Fee per day</p>
+                    <p class="formLabel">Хонорар на ден</p>
                     <input type="number" min="1" name="fee" id="fee" class="form-style" autocomplete="off"/>
                 </div>
                 <div class="form-item">
-                    <p class="formLabel">Description</p>
+                    <p class="formLabel">Описание</p>
                     <textarea rows="4" id="description" name="description" maxlength="80"></textarea>
                 </div>
                 <div class="form-item">

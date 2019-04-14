@@ -4,6 +4,7 @@ import com.dimkov.bgMountains.domain.entities.Freelancer;
 import com.dimkov.bgMountains.domain.entities.Role;
 import com.dimkov.bgMountains.domain.models.service.FreelancerServiceModel;
 import com.dimkov.bgMountains.domain.models.service.UserChangeServiceModel;
+import com.dimkov.bgMountains.repository.FreelancerRepository;
 import com.dimkov.bgMountains.util.Constants;
 import com.dimkov.bgMountains.validation.UserValidationService;
 import org.modelmapper.ModelMapper;
@@ -32,18 +33,20 @@ public class UserServiceImpl implements UserService {
     private final ModelMapper modelMapper;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UserValidationService userValidationService;
+    private final FreelancerRepository freelancerRepository;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
                            RoleRepository roleRepository,
                            ModelMapper modelMapper,
                            BCryptPasswordEncoder bCryptPasswordEncoder,
-                           UserValidationService userValidationService) {
+                           UserValidationService userValidationService, FreelancerRepository freelancerRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.modelMapper = modelMapper;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.userValidationService = userValidationService;
+        this.freelancerRepository = freelancerRepository;
     }
 
     @Override
@@ -137,7 +140,7 @@ public class UserServiceImpl implements UserService {
         User user = this.userRepository.findByUsername(username)
                 .orElseThrow(() -> new NoSuchElementException(Constants.USERNAME_NOT_FOUND_MESSAGE));
 
-        user.getHires().add(freelancer);
+        user.getHires().add(freelancer.getUser().getUsername());
 
         try{
             this.userRepository.save(user);
@@ -153,7 +156,16 @@ public class UserServiceImpl implements UserService {
         User user = this.userRepository.findByUsername(username)
                 .orElseThrow(() -> new NoSuchElementException(Constants.USERNAME_NOT_FOUND_MESSAGE));
 
-        Set<Freelancer> freelancerSet = user.getHires();
+        Set<Freelancer> freelancerSet = new HashSet<>();
+
+        Set<String> freelancerNames = new HashSet<>(user.getHires());
+        for (String currentName : freelancerNames) {
+            Freelancer freelancer = this.freelancerRepository.findByUserUsername(currentName)
+                    .orElseThrow(NoSuchElementException::new);
+
+            freelancerSet.add(freelancer);
+        }
+
 
         return freelancerSet
                 .stream()

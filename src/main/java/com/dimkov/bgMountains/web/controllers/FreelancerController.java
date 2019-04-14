@@ -50,6 +50,8 @@ public class FreelancerController extends BaseController {
 
     private static final String ERROR_ATTR = "?error=true";
 
+    private static final int MAX_ELEMENTS_PER_PAGE = 8;
+
 
     private final ModelMapper modelMapper;
     private final FreelancerService freelancerService;
@@ -97,7 +99,7 @@ public class FreelancerController extends BaseController {
             ModelAndView modelAndView,
             @PathVariable("page") int page) {
 
-        Page<FreelancerServiceModel> freelancerPage = this.freelancerService.findPaginated(page);
+        Page<FreelancerServiceModel> freelancerPage = this.freelancerService.findPaginated(page, MAX_ELEMENTS_PER_PAGE);
         int pageCount = freelancerPage.getTotalPages();
 
         if (pageCount > Constants.ZERO) {

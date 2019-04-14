@@ -30,8 +30,6 @@ import java.util.stream.Collectors;
 public class FreelancerServiceImpl implements FreelancerService {
     private static final String FREELANCER_VALIDATION_ERROR_MESSAGE = "Entered data is not correct!";
 
-    private static final int MAX_ELEMENTS_PER_PAGE = 8;
-
     private final UserService userService;
     private final ModelMapper modelMapper;
     private final FreelancerRepository freelancerRepository;
@@ -89,8 +87,8 @@ public class FreelancerServiceImpl implements FreelancerService {
     }
 
     @Override
-    public Page<FreelancerServiceModel> findPaginated(int page) {
-        Pageable pageRequest = PageRequest.of(page - Constants.ONE, MAX_ELEMENTS_PER_PAGE);
+    public Page<FreelancerServiceModel> findPaginated(int page, int maxElements) {
+        Pageable pageRequest = PageRequest.of(page - Constants.ONE, maxElements);
         Page<Freelancer> freelancers = this.freelancerRepository.findAll(pageRequest);
 
         if (page > freelancers.getTotalPages()) {

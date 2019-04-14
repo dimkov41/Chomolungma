@@ -16,28 +16,28 @@
               th:action="@{/routes/add}" enctype="multipart/form-data" id="actualForm">
             <div id="form">
                 <div class="logo">
-                    <p>Add Route</p>
+                    <p>Добави маршрут</p>
                 </div>
                 <div class="error" id="error">
-                    <p>You must fill all fields.</p>
+                    <p>Трябва да попълните всички полета</p>
                 </div>
 
                 <div class="form-item">
-                    <p class="formLabel">Start point</p>
+                    <p class="formLabel">Начална точка</p>
                     <input th:value="*{start}" type="text" name="start" id="start" class="form-style" autocomplete="off"/>
                 </div>
                 <div class="form-item">
-                    <p class="formLabel">End point</p>
+                    <p class="formLabel">Крайна точка</p>
                     <input th:value="*{end}" type="text" name="end" id="end" class="form-style" autocomplete="off"/>
                 </div>
                 <div class="form-item">
-                    <p class="formLabel">Lenght in km</p>
+                    <p class="formLabel">Дължина в км</p>
                     <input th:value="*{lenght == 0 ? '' : lenght}" type="number" name="lenght" id="lenght"
                            class="form-style" autocomplete="off"/>
                 </div>
                 <div class="form-item">
-                    <p class="formLabel">Description</p>
-                    <p class="error" id="descriptionError">Description must be max 255 chars!</p>
+                    <p class="formLabel">Описание</p>
+                    <p class="error" id="descriptionError">Описанието може да бъде максимално 80 символа!</p>
                     <textarea th:value="*{description}" rows="4" name="description" id="description"></textarea>
                 </div>
                 <div class="form-item">
@@ -49,7 +49,7 @@
                     </select>
                 </div>
                 <div class="form-item">
-                    <input type="submit" class="login pull-right" value="Add Peak">
+                    <input type="submit" class="login pull-right" value="Добави">
                     <div class="clear-fix"></div>
                 </div>
 

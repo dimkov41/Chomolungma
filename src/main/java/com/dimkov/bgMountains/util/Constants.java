@@ -9,6 +9,7 @@ public class Constants {
     public static final String MOUNTAINS_ATTR_NAME = "mountains";
     public static final String EXEPTION_MESSAGE_ATTR_NAME = "exeptionMessage";
     public static final String PAGES_ATTR_NAME = "pageNumbers";
+    public static final String PEAKS_ATTR_NAME = "peaks";
 
     public static final String ROLE_USER = "ROLE_USER";
     public static final String ROLE_FREELANCER = "ROLE_FREELANCER";

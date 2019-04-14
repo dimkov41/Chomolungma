@@ -13,6 +13,7 @@ import com.dimkov.bgMountains.util.Constants;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -38,6 +39,8 @@ public class PeakController extends BaseController {
     private static final String PEAKS_VIEW = "peak/peaks-home";
     private static final String ADD_PEAK_VIEW = "peak/peak-add";
     private static final String PEAK_DETAILS_VIEW = "peak/peak-details";
+
+    private static final int MAX_ELEMENTS_PER_PAGE = 8;
 
     private final PeakService peakService;
     private final MountainService mountainService;
@@ -122,12 +125,23 @@ public class PeakController extends BaseController {
         return view(PEAK_DETAILS_VIEW, modelAndView);
     }
 
+    @GetMapping("/delete/{id}")
+    @PreAuthorize("hasAuthority(T(com.dimkov.bgMountains.util.Constants).ROLE_MODERATOR)")
+    public ModelAndView deletePeak(
+            @PathVariable("id") String id
+    ) {
+        this.peakService.deletePeak(id);
 
+        return redirect(ALL_PEAKS_PATH);
+    }
+
+
+    @SuppressWarnings("Duplicates")
     private ModelAndView findPaginated(int page, String mountainId, ModelAndView modelAndView) {
-        Page<PeakServiceModel> peakPage = this.peakService.findPaginated(page);
+        Page<PeakServiceModel> peakPage = this.peakService.findPaginated(page, MAX_ELEMENTS_PER_PAGE);
 
         if (mountainId != null) {
-            peakPage = this.peakService.findPaginated(page, mountainId);
+            peakPage = this.peakService.findPaginated(page, MAX_ELEMENTS_PER_PAGE, mountainId);
         }
 
         int pageCount = peakPage.getTotalPages();

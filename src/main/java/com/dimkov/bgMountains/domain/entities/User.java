@@ -15,7 +15,7 @@ public class User extends BaseEntity implements UserDetails {
     private String password;
     private String email;
 
-    private Set<Freelancer> hires;
+    private Set<String> hires;
     private Set<Role> authorities;
 
     public User() {
@@ -60,12 +60,12 @@ public class User extends BaseEntity implements UserDetails {
         this.authorities = authorities;
     }
 
-    @OneToMany(targetEntity = Freelancer.class)
-    public Set<Freelancer> getHires() {
+    @ElementCollection
+    public Set<String> getHires() {
         return hires;
     }
 
-    public void setHires(Set<Freelancer> hires) {
+    public void setHires(Set<String> hires) {
         this.hires = hires;
     }
 

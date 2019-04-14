@@ -14,7 +14,7 @@ public interface FreelancerService {
     boolean register(FreelancerAddServiceModel freelancerAddServiceModel,
                      String username) throws IOException;
 
-    Page<FreelancerServiceModel> findPaginated(int page);
+    Page<FreelancerServiceModel> findPaginated(int page, int maxElements);
 
     Optional<FreelancerServiceModel> findById(String id);
 

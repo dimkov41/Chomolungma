@@ -27,8 +27,6 @@ import java.util.stream.Collectors;
 public class PeakServiceImpl implements PeakService {
     private static final String PEAK_VALIDATION_ERROR_MESSAGE = "Entered peak data is not correct!";
 
-    private static final int MAX_ELEMENTS_PER_PAGE = 8;
-
     private final PeakRepository peakRepository;
     private final MountainService mountainService;
     private final CloudinaryService cloudinaryService;
@@ -52,8 +50,8 @@ public class PeakServiceImpl implements PeakService {
     }
 
     @Override
-    public Page<PeakServiceModel> findPaginated(int page) {
-        Pageable pageRequest = PageRequest.of(page - Constants.ONE, MAX_ELEMENTS_PER_PAGE);
+    public Page<PeakServiceModel> findPaginated(int page, int maxElements) {
+        Pageable pageRequest = PageRequest.of(page - Constants.ONE, maxElements);
         Page<Peak> peaks = this.peakRepository.findAll(pageRequest);
 
         GenericService.checkPages(page, peaks);
@@ -62,13 +60,13 @@ public class PeakServiceImpl implements PeakService {
     }
 
     @Override
-    public Page<PeakServiceModel> findPaginated(int page, String mountainId) {
+    public Page<PeakServiceModel> findPaginated(int page,int maxElements, String mountainId) {
         MountainServiceModel mountainServiceModel =
                 this.mountainService.findById(mountainId)
                         .orElseThrow(() -> new NoSuchElementException(Constants.MOUNTAIN_NOT_FOUND_MESSAGE));
         Mountain mountain = this.modelMapper.map(mountainServiceModel, Mountain.class);
 
-        Pageable pageRequest = PageRequest.of(page - Constants.ONE, MAX_ELEMENTS_PER_PAGE);
+        Pageable pageRequest = PageRequest.of(page - Constants.ONE, maxElements);
         Page<Peak> peaks = this.peakRepository.findAllByLocation(mountain, pageRequest);
 
         GenericService.checkPages(page, peaks);
@@ -133,4 +131,16 @@ public class PeakServiceImpl implements PeakService {
 
         return true;
     }
+
+    @Override
+    public boolean deletePeak(String id){
+        try {
+            this.peakRepository.deleteById(id);
+        } catch (Exception e){
+            return false;
+        }
+
+        return true;
+    }
+
 }

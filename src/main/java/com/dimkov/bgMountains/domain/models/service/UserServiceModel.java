@@ -12,11 +12,9 @@ public class UserServiceModel {
     private String password;
     private String email;
 
-    private Set<Freelancer> hires;
     private Set<Role> authorities;
 
     public UserServiceModel() {
-        hires = new HashSet<>();
     }
 
     public String getId() {
@@ -49,14 +47,6 @@ public class UserServiceModel {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public Set<Freelancer> getHires() {
-        return hires;
-    }
-
-    public void setHires(Set<Freelancer> hires) {
-        this.hires = hires;
     }
 
     public Set<Role> getAuthorities() {

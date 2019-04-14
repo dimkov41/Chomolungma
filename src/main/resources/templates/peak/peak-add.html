@@ -16,22 +16,22 @@
               th:action="@{/peaks/add}" enctype="multipart/form-data" id="actualForm">
             <div id="form">
                 <div class="logo">
-                    <p>Add Peak</p>
+                    <p>Добави връх</p>
                 </div>
                 <div class="error" id="error">
-                    <p>You must fill all fields.</p>
+                    <p>Трябва да попълните всички полета</p>
                 </div>
                 <div class="form-item">
-                    <p class="formLabel">Name</p>
+                    <p class="formLabel">Име</p>
                     <input th:value="*{name}" type="text" name="name" id="name" class="form-style" autocomplete="off"/>
                 </div>
                 <div class="form-item">
-                    <p class="formLabel">Elevation</p>
+                    <p class="formLabel">Надморска височина</p>
                     <input th:value="*{elevation == 0 ? '' : elevation}" type="number" name="elevation" id="elevation"
                            class="form-style" autocomplete="off"/>
                 </div>
                 <div class="form-item">
-                    <p class="formLabel">Description</p>
+                    <p class="formLabel">Описание</p>
                     <textarea th:value="*{description}" rows="4" name="description" id="description"></textarea>
                 </div>
                 <div class="form-item">

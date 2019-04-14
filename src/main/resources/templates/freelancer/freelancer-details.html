@@ -14,6 +14,11 @@
 </header>
 <main>
     <section class="blog-news">
+        <th:block th:if="${(param.error != null) and (param.error[0] == 'true')}">
+            <div>
+                <p>Възникна грешка! Опитайте отново по-късно</p>
+            </div>
+        </th:block>
         <th:block th:object="${__${T(com.dimkov.bgMountains.util.Constants).MODEL_ATTR_NAME}__}">
             <h3 th:utext="*{fullName}"></h3>
             <ul class="blog-list">
@@ -51,14 +56,14 @@
                 <form id="form" th:method="POST" th:action="@{|/comment/*{id}|}">
                     <div class="formWrapper">
                         <p>Leave a comment:</p>
-                        <p class="error" id="error">Your comment is empty or is at least 255 characters long</p>
+                        <p class="error" id="error">Коментарът трябва да е между 1 и 255 символа</p>
                         <textarea id="comment" name="comment" maxlength="255" rows="4"></textarea>
                         <input type="submit" value="Comment"/>
                     </div>
                     <div id="listingTable" class="comments"></div>
-                    <a href="javascript:prevPage()" id="btn_prev">Prev</a>
-                    <a href="javascript:nextPage()" id="btn_next">Next</a>
-                    page: <span id="page"></span>
+                    <a href="javascript:prevPage()" id="btn_prev">Предишна</a>
+                    <a href="javascript:nextPage()" id="btn_next">Следваща</a>
+                    страница: <span id="page"></span>
                 </form>
             </ul>
         </th:block>

@@ -13,7 +13,7 @@
 </header>
 <main>
     <div class='login'>
-        <h2>Register</h2>
+        <h2>Регистрация</h2>
         <form id="register-form" th:action="@{/users/register}" th:method="post">
             <div id="usernameWrapper">
                 <input id='username' name='username' placeholder='Username' type='text'>
@@ -35,7 +35,7 @@
                 <i class="fas fa-check"></i>
                 <i class="fas fa-times"></i>
             </div>
-            <input class='animated' type='submit' value='Register'>
+            <input class='animated' type='submit' value='Регистрация'>
         </form>
         <a class='forgot' th:href="@{/users/login}">Already have an account?</a>
     </div>

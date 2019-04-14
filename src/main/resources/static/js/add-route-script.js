@@ -13,7 +13,7 @@ $(function () {
             let description = $("#description").val();
             let mountain = $("#mountain").val();
 
-            if(description.length > 255){
+            if(description.length > 80){
                 $("#descriptionError").css("display", "block");
                 event.preventDefault();
                 return false;

@@ -1,27 +1,26 @@
 <th:block th:fragment="header">
     <nav>
         <ul class="menu">
-            <li><a href="/">Home</a></li>
-            <li><a href="/mountains">Mountains</a></li>
-            <li><a href="/peaks/1">Peaks</a></li>
-            <li><a href="/routes">Routes</a></li>
-            <li><a href="/mountainguides/1">Mountain Guides</a></li>
-            <li><a href="#">Contact</a></li>
+            <li><a href="/">Начало</a></li>
+            <li><a href="/mountains">Планини</a></li>
+            <li><a href="/peaks/1">Върхове</a></li>
+            <li><a href="/routes">Маршрути</a></li>
+            <li><a href="/mountainguides/1">Планински водачи</a></li>
         </ul>
         <ul class="user">
             <th:block sec:authorize="isAnonymous()">
-                <li><a href="/users/login">Log In</a></li>
-                <li><a href="/users/register">Sign Up</a></li>
+                <li><a href="/users/login">Логин</a></li>
+                <li><a href="/users/register">Регистрация</a></li>
             </th:block>
             <th:block sec:authorize="isAuthenticated()">
-                <li><a href="/users/profile">Profile</a></li>
+                <li><a href="/users/profile">Профил</a></li>
                 <th:block sec:authorize="!hasAuthority('ROLE_FREELANCER')">
-                    <li><a href="/becomeFreelancer" class="freelancer">Become freelancer</a></li>
+                    <li><a href="/becomeFreelancer" class="freelancer">Започни работа</a></li>
                 </th:block>
                 <th:block sec:authorize="hasAuthority('ROLE_ADMIN')">
-                    <li><a href="/users/admin">Admin panel</a></li>
+                    <li><a href="/users/admin">Админ панел</a></li>
                 </th:block>
-                <li><a href="/logout">Logout</a> </li>
+                <li><a href="/logout">Изход</a> </li>
             </th:block>
         </ul>
     </nav>

@@ -11,7 +11,7 @@
 </header>
 <main>
     <section class="blog-news">
-        <h3>Mountain Guides</h3>
+        <h3>Планински водачи</h3>
         <ul class="blog-list">
             <th:block th:each="guide, iter : ${__${T(com.dimkov.bgMountains.util.Constants).MODEL_ATTR_NAME}__}">
                 <li class="item">
@@ -20,13 +20,12 @@
                     </section>
                     <section class="content">
                         <h4 th:utext="${guide.fullName}"></h4>
-                        <p th:utext="${'Years experience: ' + guide.ageExperience}"></p>
-                        <p th:utext="${'Certificate Number: ' + guide.certificateNumber}"></p>
-                        <p th:utext="${'Fee per day: ' + guide.fee + '$'}"></p>
+                        <p th:utext="${'Години опит: ' + guide.ageExperience}"></p>
+                        <p th:utext="${'Номер на удостоверение: ' + guide.certificateNumber}"></p>
+                        <p th:utext="${'Хонорар на ден: ' + guide.fee + 'лв'}"></p>
                         <br/>
-                        <p>About me: </p>
+                        <p>За мен: </p>
                         <p th:utext="${guide.description}"></p>
-                        <!--<a th:href="@{/peaks/details/{id}(id=${peak.id})}">More Info</a>-->
                     </section>
                     <section class="buttons">
                         <a th:href="@{|/mountainguides/details/${guide.id}|}">More details</a>
