@@ -1,6 +1,7 @@
 package com.dimkov.bgMountains.service;
 
 import com.dimkov.bgMountains.domain.entities.Freelancer;
+import com.dimkov.bgMountains.domain.entities.Role;
 import com.dimkov.bgMountains.domain.models.service.FreelancerServiceModel;
 import com.dimkov.bgMountains.domain.models.service.UserChangeServiceModel;
 import com.dimkov.bgMountains.util.Constants;
@@ -74,6 +75,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean setUserAuthorities(User user, String authority) {
+        boolean isFreelancer = false;
+
+        List<String> authorities =
+                user.getAuthorities()
+                .stream()
+                .map(Role::getAuthority)
+                .collect(Collectors.toList());
+        if(authorities.contains(Constants.ROLE_FREELANCER)){
+            isFreelancer = true;
+        }
+
         user.getAuthorities().clear();
 
         switch (authority) {
@@ -95,12 +107,24 @@ public class UserServiceImpl implements UserService {
                 break;
         }
 
+        if(isFreelancer){
+            user.getAuthorities().add(this.roleRepository.findByAuthority(Constants.ROLE_FREELANCER));
+        }
+
         try {
             this.userRepository.save(user);
         } catch (Exception e) {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public boolean setUserAuthorities(String role,String id){
+        User user = this.userRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException(Constants.USERNAME_NOT_FOUND_MESSAGE));
+
+        return setUserAuthorities(user, role);
     }
 
     @Override
@@ -160,6 +184,14 @@ public class UserServiceImpl implements UserService {
         }
 
         return true;
+    }
+
+    @Override
+    public List<UserServiceModel> findAll(){
+        return this.userRepository.findAll()
+                .stream()
+                .map(u -> this.modelMapper.map(u, UserServiceModel.class))
+                .collect(Collectors.toList());
     }
 
     private User giveRolesToUser(User user){

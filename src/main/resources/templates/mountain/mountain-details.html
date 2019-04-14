@@ -16,7 +16,7 @@
             <p class="title" th:text="*{name}"></p>
             <p class="description" th:text="*{description}">Harvard University</p>
             <p><a th:href="@{|/peaks/*{id}/1|}">Peaks</a></p>
-            <p><a>Routes</a></p>
+            <p><a th:href="@{/routes}">Routes</a></p>
         </th:block>
     </div>
 </main>

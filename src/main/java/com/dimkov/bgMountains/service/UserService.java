@@ -7,6 +7,7 @@ import com.dimkov.bgMountains.domain.models.service.UserChangeServiceModel;
 import com.dimkov.bgMountains.domain.models.service.UserServiceModel;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -23,4 +24,8 @@ public interface UserService extends UserDetailsService {
     Set<FreelancerServiceModel> getHiredFreelancers(String username);
 
     boolean changePassword(UserChangeServiceModel userChangeServiceModel);
+
+    boolean setUserAuthorities(String role, String id);
+
+    List<UserServiceModel> findAll();
 }
