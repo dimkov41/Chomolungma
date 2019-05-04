@@ -18,8 +18,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    private static final String SESSION_ATTR_NAME = "_csrf";
-
     private static final String LOGIN_PAGE_URL = "/users/login";
     private static final String SUCCESS_URL = "/";
     private static final String LOGIN_FAILURE_URL = "/users/login?error=true";
@@ -30,8 +28,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf()
-                .disable()
                 .authorizeRequests()
                 .antMatchers("/", "/users/login",
                         "/users/register", "/css/**", "/js/**", "/images/**",

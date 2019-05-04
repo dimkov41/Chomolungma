@@ -33,7 +33,7 @@ public class HomeController extends BaseController {
     }
 
     @GetMapping("/")
-    @PageTitle("home")
+    @PageTitle("Home")
     public ModelAndView index(ModelAndView modelAndView) {
         List<FreelancerViewModel> freelancers =
                 this.freelancerService

@@ -10,6 +10,7 @@ import com.dimkov.bgMountains.domain.models.service.FreelancerServiceModel;
 import com.dimkov.bgMountains.domain.models.view.FreelancerViewModel;
 import com.dimkov.bgMountains.service.FreelancerService;
 import com.dimkov.bgMountains.util.Constants;
+import com.dimkov.bgMountains.web.annotations.PageTitle;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -41,7 +42,6 @@ public class FreelancerController extends BaseController {
     private static final String SUCCESSFULL_HIRED_FREELANCER_VIEW = "freelancer/successful-hired-freelancer";
     private static final String FREELANCER_PROFILE_VIEW = "freelancer/freelancer-profile";
 
-
     private static final String LOGOUT_PATH = "/mountainguides/1";
     private static final String FREELANCERS_PATH = "/mountainguides/1";
     private static final String FREELANCER_DETAILS_PATH = "/mountainguides/details/";
@@ -64,6 +64,7 @@ public class FreelancerController extends BaseController {
 
     @GetMapping("/becomeFreelancer")
     @PreAuthorize("!hasAuthority(T(com.dimkov.bgMountains.util.Constants).ROLE_FREELANCER)")
+    @PageTitle("Become Freelancer")
     public ModelAndView showBecomeFreelancerForm(Principal principal) {
         if (this.freelancerService.checkFreelacerExists(principal.getName())) {
             return redirect(FREELANCERS_PATH);
@@ -92,9 +93,9 @@ public class FreelancerController extends BaseController {
         return redirect(LOGOUT_PATH);
     }
 
-
     @SuppressWarnings("Duplicates")
     @GetMapping("/mountainguides/{page}")
+    @PageTitle("Mountain guides")
     public ModelAndView showAllMountainGuides(
             ModelAndView modelAndView,
             @PathVariable("page") int page) {
@@ -123,6 +124,7 @@ public class FreelancerController extends BaseController {
 
 
     @GetMapping("/mountainguides/details/{id}")
+    @PageTitle("Mountain guide - details")
     public ModelAndView showFreelancerDetails(@PathVariable String id, ModelAndView modelAndView) {
         FreelancerServiceModel foundFreelancer = this.freelancerService.findById(id)
                 .orElseThrow(() -> new NoSuchElementException(Constants.FREELANCER_NOT_FOUND_MESSAGE));
@@ -153,6 +155,7 @@ public class FreelancerController extends BaseController {
     }
 
     @GetMapping("/mountainguides/profile")
+    @PageTitle("Mountain guide - profile")
     public ModelAndView showMountainGuideProfile(
             ModelAndView modelAndView,
             Principal principal

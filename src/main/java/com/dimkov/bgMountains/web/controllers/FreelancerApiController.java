@@ -18,12 +18,10 @@ public class FreelancerApiController extends BaseController {
     private final static String END_DATE_PARAM_NAME = "endDate";
 
     private final FreelancerService freelancerService;
-    private final ModelMapper modelMapper;
 
     @Autowired
-    public FreelancerApiController(FreelancerService freelancerService, ModelMapper modelMapper) {
+    public FreelancerApiController(FreelancerService freelancerService) {
         this.freelancerService = freelancerService;
-        this.modelMapper = modelMapper;
     }
 
     @PostMapping("/check/{id}")

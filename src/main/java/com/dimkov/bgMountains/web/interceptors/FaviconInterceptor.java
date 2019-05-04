@@ -12,7 +12,7 @@ public class FaviconInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        String link = "http://decorous.net/wp-content/uploads/2016/01/cropped-favico.png";
+        String link = "https://banner2.kisspng.com/20180419/clq/kisspng-mountain-clip-art-mountain-logo-5ad8515ca033b7.3103192015241260446562.jpg";
 
         if (modelAndView != null) {
             modelAndView.addObject("favicon", link);

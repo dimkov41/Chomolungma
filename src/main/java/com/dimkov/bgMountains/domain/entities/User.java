@@ -3,8 +3,7 @@ package com.dimkov.bgMountains.domain.entities;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -15,12 +14,12 @@ public class User extends BaseEntity implements UserDetails {
     private String password;
     private String email;
 
-    private Set<String> hires;
+    private List<String> hires;
     private Set<Role> authorities;
 
     public User() {
         this.authorities = new HashSet<>();
-        this.hires = new HashSet<>();
+        this.hires = new ArrayList<>();
     }
 
     @Column(nullable = false, unique = true, updatable = false)
@@ -61,11 +60,11 @@ public class User extends BaseEntity implements UserDetails {
     }
 
     @ElementCollection
-    public Set<String> getHires() {
+    public List<String> getHires() {
         return hires;
     }
 
-    public void setHires(Set<String> hires) {
+    public void setHires(List<String> hires) {
         this.hires = hires;
     }
 
@@ -92,7 +91,4 @@ public class User extends BaseEntity implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
-
-
 }

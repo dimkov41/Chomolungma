@@ -12,10 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 @Component
 public class TitleInterceptor extends HandlerInterceptorAdapter {
-    private static final String TITLE = "Chomolungma";
-
     @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
 
         if (modelAndView == null) {
             modelAndView = new ModelAndView();
@@ -25,7 +23,7 @@ public class TitleInterceptor extends HandlerInterceptorAdapter {
 
                 if (methodAnnotation != null) {
                     modelAndView
-                            .addObject("title", TITLE + " - " + methodAnnotation.value());
+                            .addObject("title", methodAnnotation.value());
                 }
             }
         }

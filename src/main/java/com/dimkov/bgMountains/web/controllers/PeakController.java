@@ -10,6 +10,7 @@ import com.dimkov.bgMountains.domain.models.view.PeakViewModel;
 import com.dimkov.bgMountains.service.MountainService;
 import com.dimkov.bgMountains.service.PeakService;
 import com.dimkov.bgMountains.util.Constants;
+import com.dimkov.bgMountains.web.annotations.PageTitle;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -33,7 +34,6 @@ import java.util.stream.IntStream;
 @RequestMapping("/peaks")
 public class PeakController extends BaseController {
     private static final String ALL_PEAKS_PATH = "/peaks";
-    private static final String ADD_PEAK_PATH = "/peaks/add";
     private static final String ADD_PEAK_ERROR_PATH = "/peaks/add?error=true";
 
     private static final String PEAKS_VIEW = "peak/peaks-home";
@@ -57,6 +57,7 @@ public class PeakController extends BaseController {
 
 
     @GetMapping(value = "/{page}")
+    @PageTitle("Peaks")
     public ModelAndView showPaginatedPeakHome(
             @PathVariable("page") int page,
             ModelAndView modelAndView) {
@@ -64,6 +65,7 @@ public class PeakController extends BaseController {
     }
 
     @GetMapping("/add")
+    @PageTitle("Add peak")
     public ModelAndView showAddForm(ModelAndView modelAndView, Model model) {
         List<MountainViewModel> mountains =
                 this.mountainService.findAll()
@@ -105,6 +107,7 @@ public class PeakController extends BaseController {
     }
 
     @GetMapping(value = "/{mountainId}/{page}")
+    @PageTitle("Peaks")
     public ModelAndView showPeaksForMountain(
             @PathVariable("page") int page,
             @PathVariable String mountainId,
@@ -127,6 +130,7 @@ public class PeakController extends BaseController {
 
     @GetMapping("/delete/{id}")
     @PreAuthorize("hasAuthority(T(com.dimkov.bgMountains.util.Constants).ROLE_MODERATOR)")
+    @PageTitle("Peak - delete")
     public ModelAndView deletePeak(
             @PathVariable("id") String id
     ) {
@@ -134,7 +138,6 @@ public class PeakController extends BaseController {
 
         return redirect(ALL_PEAKS_PATH);
     }
-
 
     @SuppressWarnings("Duplicates")
     private ModelAndView findPaginated(int page, String mountainId, ModelAndView modelAndView) {

@@ -1,6 +1,7 @@
 package com.dimkov.bgMountains.web.controllers;
 
 import com.dimkov.bgMountains.util.Constants;
+import com.dimkov.bgMountains.web.annotations.PageTitle;
 import org.apache.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -17,22 +18,20 @@ public class ExeptionHandlingController extends BaseController {
     private static final String NOT_FOUND_VIEW = "errorPages/errorPage";
 
     @ExceptionHandler(NoSuchElementException.class)
+    @PageTitle("Error occurred")
     public ModelAndView handleNoSuchElement(Exception ex) {
-//        logger.error("Request: " + req.getRequestURL() + " raised " + ex);
-
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject(Constants.MODEL_ATTR_NAME, NOT_FOUND_IMG_PATH);
-        modelAndView.addObject(Constants.EXEPTION_MESSAGE_ATTR_NAME, ex.getMessage());
-
-        return view(NOT_FOUND_VIEW, modelAndView);
+        return handleExeption(NOT_FOUND_IMG_PATH, ex);
     }
 
     @ExceptionHandler(Throwable.class)
+    @PageTitle("Error occurred")
     public ModelAndView handleExeption(Throwable th) {
-//        logger.error("Request: " + req.getRequestURL() + " raised " + ex);
+        return handleExeption(TRY_AGAIN_IMG_PATH, th);
+    }
 
+    private ModelAndView handleExeption(String imgPath, Throwable th){
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject(Constants.MODEL_ATTR_NAME, TRY_AGAIN_IMG_PATH);
+        modelAndView.addObject(Constants.MODEL_ATTR_NAME, imgPath);
         modelAndView.addObject(Constants.EXEPTION_MESSAGE_ATTR_NAME, th.getMessage());
 
         return view(NOT_FOUND_VIEW, modelAndView);

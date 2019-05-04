@@ -9,6 +9,7 @@ import com.dimkov.bgMountains.domain.models.view.RouteViewModel;
 import com.dimkov.bgMountains.service.MountainService;
 import com.dimkov.bgMountains.service.RouteService;
 import com.dimkov.bgMountains.util.Constants;
+import com.dimkov.bgMountains.web.annotations.PageTitle;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,6 +47,7 @@ public class RouteController extends BaseController{
     }
 
     @GetMapping("/add")
+    @PageTitle("Add peak")
     public ModelAndView showAddForm(ModelAndView modelAndView, Model model) {
         List<MountainViewModel> mountains =
                 this.mountainService.findAll()
@@ -86,6 +88,7 @@ public class RouteController extends BaseController{
     }
 
     @GetMapping()
+    @PageTitle("Peaks")
     public ModelAndView showAll(ModelAndView modelAndView){
         List<RouteServiceModel> routeServiceModels = this.routeService.findAll();
 

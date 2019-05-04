@@ -74,14 +74,16 @@ public class UserController extends BaseController {
     }
 
     @GetMapping("/login")
+    @PageTitle("Login")
     public ModelAndView showLoginPage() {
         return view(LOGIN_VIEW);
     }
 
     @GetMapping("/profile")
+    @PageTitle("Profile")
     public ModelAndView showProfile(
             ModelAndView modelAndView,
-            Principal principal){
+            Principal principal) {
         UserServiceModel userServiceModel = this.userService.findByUsername(principal.getName())
                 .orElseThrow(() -> new NoSuchElementException(Constants.USERNAME_NOT_FOUND_MESSAGE));
 
@@ -94,8 +96,8 @@ public class UserController extends BaseController {
     public ModelAndView makeChanges(
             @ModelAttribute @Valid UserChangeBindingModel userChangeBindingModel,
             Principal principal,
-            Errors errors){
-        if(errors.hasErrors()){
+            Errors errors) {
+        if (errors.hasErrors()) {
             return redirect(USERS_PROFILE_ERROR_PATH);
         }
 
@@ -103,7 +105,7 @@ public class UserController extends BaseController {
                 this.modelMapper.map(userChangeBindingModel, UserChangeServiceModel.class);
         changeServiceModel.setUsername(principal.getName());
 
-        if(!this.userService.changePassword(changeServiceModel)){
+        if (!this.userService.changePassword(changeServiceModel)) {
             return redirect(USERS_PROFILE_ERROR_PATH);
         }
 
@@ -111,18 +113,19 @@ public class UserController extends BaseController {
     }
 
     @GetMapping("/hiredmountainguides")
+    @PageTitle("Hired mountain guides")
     public ModelAndView showHiredGuides(
             ModelAndView modelAndView,
-            Principal principal){
+            Principal principal) {
 
         Set<FreelancerServiceModel> freelancerServiceModelSet =
                 this.userService.getHiredFreelancers(principal.getName());
 
         Set<FreelancerViewModel> freelancerViewModels =
                 freelancerServiceModelSet
-                .stream()
-                .map(f -> this.modelMapper.map(f, FreelancerViewModel.class))
-                .collect(Collectors.toSet());
+                        .stream()
+                        .map(f -> this.modelMapper.map(f, FreelancerViewModel.class))
+                        .collect(Collectors.toSet());
 
         modelAndView.addObject(Constants.MODEL_ATTR_NAME, freelancerViewModels);
 
@@ -131,23 +134,24 @@ public class UserController extends BaseController {
 
     @GetMapping("/admin")
     @PreAuthorize("hasRole(T(com.dimkov.bgMountains.util.Constants).ROLE_ADMIN)")
-    public ModelAndView showAdminPage(ModelAndView modelAndView){
+    @PageTitle("Admin panel")
+    public ModelAndView showAdminPage(ModelAndView modelAndView) {
         List<UserServiceModel> userServiceModels = this.userService.findAll();
 
         List<UserViewModel> users =
                 userServiceModels
-                .stream()
-                .map(u -> {
-                    UserViewModel v = this.modelMapper.map(u, UserViewModel.class);
-                    Set<String> authorities = u.getAuthorities()
-                            .stream()
-                            .map(Role::getAuthority)
-                            .collect(Collectors.toSet());
+                        .stream()
+                        .map(u -> {
+                            UserViewModel v = this.modelMapper.map(u, UserViewModel.class);
+                            Set<String> authorities = u.getAuthorities()
+                                    .stream()
+                                    .map(Role::getAuthority)
+                                    .collect(Collectors.toSet());
 
-                    v.setAuthorities(authorities);
-                    return v;
-                })
-                .collect(Collectors.toList());
+                            v.setAuthorities(authorities);
+                            return v;
+                        })
+                        .collect(Collectors.toList());
 
         modelAndView.addObject(Constants.MODEL_ATTR_NAME, users);
 
@@ -156,11 +160,12 @@ public class UserController extends BaseController {
 
     @GetMapping("/setAuth/{role}/{id}")
     @PreAuthorize("hasRole(T(com.dimkov.bgMountains.util.Constants).ROLE_ADMIN)")
+    @PageTitle("Set role")
     public ModelAndView setRole(
             @PathVariable("role") String role,
             @PathVariable("id") String id
-    ){
-        if(!this.userService.setUserAuthorities(role,id)){
+    ) {
+        if (!this.userService.setUserAuthorities(role, id)) {
             return redirect(ADMIN_ERROR_PATH);
         }
 
