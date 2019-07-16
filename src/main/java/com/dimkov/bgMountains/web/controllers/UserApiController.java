@@ -26,4 +26,10 @@ public class UserApiController{
     public boolean checkEmail(@PathVariable String email){
         return this.userService.findByEmail(email).isPresent();
     }
+
+    @PostMapping("/checkEmail/{email}")
+    @ResponseBody
+    public boolean posscheckEmail(@PathVariable String email){
+        return true;
+    }
 }

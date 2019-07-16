@@ -1,6 +1,7 @@
 package com.dimkov.bgMountains.web.controllers;
 
 import com.dimkov.bgMountains.util.Constants;
+import com.dimkov.bgMountains.web.annotations.PageTitle;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,7 @@ public class ErrorHandlingController extends BaseController implements ErrorCont
 
 
     @GetMapping("/error")
+    @PageTitle("Error occurred")
     public ModelAndView handleError(HttpServletRequest httpServletRequest, ModelAndView modelAndView) {
         modelAndView.addObject(Constants.MODEL_ATTR_NAME, NOT_FOUND_IMG_PATH);
         return view(NOT_FOUND_VIEW, modelAndView);

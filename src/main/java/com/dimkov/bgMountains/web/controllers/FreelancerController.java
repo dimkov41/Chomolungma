@@ -1,11 +1,16 @@
 package com.dimkov.bgMountains.web.controllers;
 
+import com.dimkov.bgMountains.domain.models.binding.FreelancerChangeBindingModel;
+import com.dimkov.bgMountains.domain.models.binding.FreelancerHireBindingModel;
 import com.dimkov.bgMountains.domain.models.binding.FreelancerRegisterBindingModel;
 import com.dimkov.bgMountains.domain.models.service.FreelancerAddServiceModel;
+import com.dimkov.bgMountains.domain.models.service.FreelancerChangeServiceModel;
+import com.dimkov.bgMountains.domain.models.service.FreelancerHireServiceModel;
 import com.dimkov.bgMountains.domain.models.service.FreelancerServiceModel;
 import com.dimkov.bgMountains.domain.models.view.FreelancerViewModel;
 import com.dimkov.bgMountains.service.FreelancerService;
 import com.dimkov.bgMountains.util.Constants;
+import com.dimkov.bgMountains.web.annotations.PageTitle;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,6 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.security.Principal;
+import java.text.ParseException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -33,9 +39,18 @@ public class FreelancerController extends BaseController {
     private static final String BECOME_FREELANCER_VIEW = "freelancer/become-freelancer";
     private static final String FREELANCER_VIEW = "freelancer/all-freelancers";
     private static final String FREELANCER_DETAILS_VIEW = "freelancer/freelancer-details";
+    private static final String SUCCESSFULL_HIRED_FREELANCER_VIEW = "freelancer/successful-hired-freelancer";
+    private static final String FREELANCER_PROFILE_VIEW = "freelancer/freelancer-profile";
 
+    private static final String LOGOUT_PATH = "/mountainguides/1";
+    private static final String FREELANCERS_PATH = "/mountainguides/1";
+    private static final String FREELANCER_DETAILS_PATH = "/mountainguides/details/";
+    private static final String BECOME_FREELANCER_PATH = "/becomeFreelancer";
+    private static final String MOUNTAINS_GUIDES_PROFILE_ERROR_PATH = "/mountainguides/profile?error=true";
 
-    private static final String FREELANCERS_PATH = "/freelancers";
+    private static final String ERROR_ATTR = "?error=true";
+
+    private static final int MAX_ELEMENTS_PER_PAGE = 8;
 
 
     private final ModelMapper modelMapper;
@@ -49,7 +64,12 @@ public class FreelancerController extends BaseController {
 
     @GetMapping("/becomeFreelancer")
     @PreAuthorize("!hasAuthority(T(com.dimkov.bgMountains.util.Constants).ROLE_FREELANCER)")
-    public ModelAndView showBecomeFreelancerForm() {
+    @PageTitle("Become Freelancer")
+    public ModelAndView showBecomeFreelancerForm(Principal principal) {
+        if (this.freelancerService.checkFreelacerExists(principal.getName())) {
+            return redirect(FREELANCERS_PATH);
+        }
+
         return view(BECOME_FREELANCER_VIEW);
     }
 
@@ -70,17 +90,17 @@ public class FreelancerController extends BaseController {
             return redirect(BECOME_FREELANCER_ERROR_PATH);
         }
 
-        return redirect(FREELANCERS_PATH);
+        return redirect(LOGOUT_PATH);
     }
-
 
     @SuppressWarnings("Duplicates")
     @GetMapping("/mountainguides/{page}")
+    @PageTitle("Mountain guides")
     public ModelAndView showAllMountainGuides(
             ModelAndView modelAndView,
             @PathVariable("page") int page) {
 
-        Page<FreelancerServiceModel> freelancerPage = this.freelancerService.findPaginated(page);
+        Page<FreelancerServiceModel> freelancerPage = this.freelancerService.findPaginated(page, MAX_ELEMENTS_PER_PAGE);
         int pageCount = freelancerPage.getTotalPages();
 
         if (pageCount > Constants.ZERO) {
@@ -104,6 +124,7 @@ public class FreelancerController extends BaseController {
 
 
     @GetMapping("/mountainguides/details/{id}")
+    @PageTitle("Mountain guide - details")
     public ModelAndView showFreelancerDetails(@PathVariable String id, ModelAndView modelAndView) {
         FreelancerServiceModel foundFreelancer = this.freelancerService.findById(id)
                 .orElseThrow(() -> new NoSuchElementException(Constants.FREELANCER_NOT_FOUND_MESSAGE));
@@ -114,5 +135,64 @@ public class FreelancerController extends BaseController {
         );
 
         return view(FREELANCER_DETAILS_VIEW, modelAndView);
+    }
+
+    @PostMapping("/hire/{id}")
+    public ModelAndView hireFreelancer(
+            @PathVariable("id") String id,
+            @ModelAttribute FreelancerHireBindingModel freelancerHireBindingModel,
+            Principal principal
+    ) throws ParseException {
+        freelancerHireBindingModel.setId(id);
+        FreelancerHireServiceModel freelancerHireServiceModel =
+                this.modelMapper.map(freelancerHireBindingModel, FreelancerHireServiceModel.class);
+
+        if (!this.freelancerService.hireFreelancer(freelancerHireServiceModel, principal.getName())) {
+            return redirect(FREELANCER_DETAILS_PATH + id + ERROR_ATTR);
+        }
+
+        return view(SUCCESSFULL_HIRED_FREELANCER_VIEW);
+    }
+
+    @GetMapping("/mountainguides/profile")
+    @PageTitle("Mountain guide - profile")
+    public ModelAndView showMountainGuideProfile(
+            ModelAndView modelAndView,
+            Principal principal
+    ) {
+        String username = principal.getName();
+        if (!this.freelancerService.checkFreelacerExists(username)) {
+            return redirect(BECOME_FREELANCER_PATH);
+        }
+
+        FreelancerServiceModel freelancerServiceModel = this.freelancerService.findByName(username);
+
+        modelAndView.addObject(
+                Constants.MODEL_ATTR_NAME,
+                this.modelMapper.map(freelancerServiceModel, FreelancerViewModel.class)
+        );
+
+        return view(FREELANCER_PROFILE_VIEW, modelAndView);
+    }
+
+    @PostMapping("/mountainguides/profile")
+    public ModelAndView makeChanges(
+            Principal principal,
+            @ModelAttribute @Valid FreelancerChangeBindingModel freelancerChangeBindingModel,
+            Errors errors
+    ) {
+        if (errors.hasErrors()) {
+            return redirect(MOUNTAINS_GUIDES_PROFILE_ERROR_PATH);
+        }
+
+        FreelancerChangeServiceModel freelancerChangeServiceModel =
+                this.modelMapper.map(freelancerChangeBindingModel, FreelancerChangeServiceModel.class);
+
+        freelancerChangeServiceModel.setUsername(principal.getName());
+        if(!this.freelancerService.makeChanges(freelancerChangeServiceModel)){
+            return redirect(MOUNTAINS_GUIDES_PROFILE_ERROR_PATH);
+        }
+
+        return redirect(FREELANCERS_PATH);
     }
 }

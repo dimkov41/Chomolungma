@@ -10,11 +10,11 @@
 </header>
 <main>
     <div class='login'>
-        <h2>Login</h2>
+        <h2>Логин</h2>
         <th:block th:if="${(param.error != null) and (param.error[0] == 'true')}">
             <div id="error" class="error">
-                <p>Wrong username or password!</p>
-                <p>Don't have account? <a th:href="@{/users/register}">Sign up</a></p>
+                <p>Грешно потребителско име или парола</p>
+                <p>Нямаш акаунт? <a th:href="@{/users/register}">Регистрирай се</a></p>
             </div>
         </th:block>
         <form id="login-form" th:action="@{/users/login}" th:method="post">
@@ -28,9 +28,9 @@
                 <i class="fas fa-check"></i>
                 <i class="fas fa-times"></i>
             </div>
-            <input class='animated' type='submit' value='Login'>
+            <input class='animated' type='submit' value='Логин'>
         </form>
-        <a class='forgot' th:href="@{/users/register}">Don't have account? Sign up!</a>
+        <a class='forgot' th:href="@{/users/register}">Нямаш акаунт? Регистрирай се!</a>
     </div>
 </main>
 <footer>

@@ -1,12 +1,15 @@
 package com.dimkov.bgMountains.service;
 
+import com.dimkov.bgMountains.domain.entities.Freelancer;
 import com.dimkov.bgMountains.domain.entities.User;
-import com.dimkov.bgMountains.domain.models.service.UserFreelancerServiceModel;
+import com.dimkov.bgMountains.domain.models.service.FreelancerServiceModel;
+import com.dimkov.bgMountains.domain.models.service.UserChangeServiceModel;
 import com.dimkov.bgMountains.domain.models.service.UserServiceModel;
-import org.springframework.data.domain.Page;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface UserService extends UserDetailsService {
     boolean register(UserServiceModel userServiceModel);
@@ -15,4 +18,14 @@ public interface UserService extends UserDetailsService {
     Optional<UserServiceModel> findByEmail(String email);
 
     boolean setUserAuthorities(User user, String authority);
+
+    boolean setFreelancer(Freelancer freelancer, String username);
+
+    Set<FreelancerServiceModel> getHiredFreelancers(String username);
+
+    boolean changePassword(UserChangeServiceModel userChangeServiceModel);
+
+    boolean setUserAuthorities(String role, String id);
+
+    List<UserServiceModel> findAll();
 }

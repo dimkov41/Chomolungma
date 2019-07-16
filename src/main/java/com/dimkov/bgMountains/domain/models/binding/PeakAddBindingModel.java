@@ -1,5 +1,6 @@
 package com.dimkov.bgMountains.domain.models.binding;
 
+import org.hibernate.validator.constraints.Length;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,6 +26,7 @@ public class PeakAddBindingModel {
     }
 
     @NotEmpty
+    @Length(max = 81)
     public String getDescription() {
         return description;
     }

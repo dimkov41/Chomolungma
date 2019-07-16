@@ -10,6 +10,7 @@ public class FreelancerAddServiceModel {
     private int certificateNumber;
     private String mobileNumber;
     private BigDecimal fee;
+    private String description;
     private MultipartFile image;
 
     public String getFullName() {
@@ -50,6 +51,14 @@ public class FreelancerAddServiceModel {
 
     public void setFee(BigDecimal fee) {
         this.fee = fee;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public MultipartFile getImage() {

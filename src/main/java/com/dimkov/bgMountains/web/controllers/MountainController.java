@@ -8,6 +8,7 @@ import com.dimkov.bgMountains.domain.models.view.MountainViewModel;
 import com.dimkov.bgMountains.service.CloudinaryService;
 import com.dimkov.bgMountains.service.MountainService;
 import com.dimkov.bgMountains.util.Constants;
+import com.dimkov.bgMountains.web.annotations.PageTitle;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,7 +30,6 @@ public class MountainController extends BaseController {
     private static final String ADD_MOUNTAIN_VIEW = "mountain/mountain-add";
     private static final String DETAILS_MOUNTAIN_VIEW = "mountain/mountain-details";
 
-    private static final String ADD_MOUNTAIN_PATH = "/mountains/add";
     private static final String ADD_MOUNTAIN_ERROR_PATH = "/mountains/add?error=true";
     private static final String ALL_MOUNTAINS_PATH = "/mountains";
 
@@ -44,6 +44,7 @@ public class MountainController extends BaseController {
     }
 
     @GetMapping
+    @PageTitle("Mountains")
     public ModelAndView showMountainHome(ModelAndView modelAndView) {
         List<MountainViewModel> mountains = this.mountainService.findAll()
                 .stream()
@@ -57,6 +58,7 @@ public class MountainController extends BaseController {
 
     @GetMapping("/add")
     @PreAuthorize("hasAuthority(T(com.dimkov.bgMountains.util.Constants).ROLE_MODERATOR)")
+    @PageTitle("Add mountain")
     public ModelAndView showAddForm() {
         return view(ADD_MOUNTAIN_VIEW);
     }
@@ -79,6 +81,7 @@ public class MountainController extends BaseController {
     }
 
     @GetMapping("/details/{id}")
+    @PageTitle("Mountain - details")
     public ModelAndView showMountainDetails(@PathVariable String id, ModelAndView modelAndView) {
         MountainServiceModel foundMountain = this.mountainService.findById(id)
                 .orElseThrow(() -> new NoSuchElementException(Constants.MOUNTAIN_NOT_FOUND_MESSAGE));

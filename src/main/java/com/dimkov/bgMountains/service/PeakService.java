@@ -11,9 +11,15 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PeakService {
-    Page<PeakServiceModel> findPaginated(int page);
+    Page<PeakServiceModel> findPaginated(int page, int maxElements);
+
+    Page<PeakServiceModel> findPaginated(int page, int maxElements, String mountainId);
+
+    Optional<PeakServiceModel> findById(String id);
 
     List<PeakServiceModel> findAll();
 
     boolean save(PeakAddServiceModel peakAddServiceModel, String authorName) throws IOException;
+
+    boolean deletePeak(String id);
 }

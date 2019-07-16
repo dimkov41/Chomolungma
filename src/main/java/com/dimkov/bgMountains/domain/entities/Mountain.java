@@ -13,12 +13,10 @@ public class Mountain extends BaseEntity {
     private String description;
     private String imageUrl;
     private List<Peak> peaks;
-    private List<Hut> huts;
     private List<Route> routes;
 
     public Mountain() {
         this.peaks = new ArrayList<>();
-        this.huts = new ArrayList<>();
         this.routes = new ArrayList<>();
     }
 
@@ -56,15 +54,6 @@ public class Mountain extends BaseEntity {
 
     public void setPeaks(List<Peak> peaks) {
         this.peaks = peaks;
-    }
-
-    @OneToMany(targetEntity = Hut.class,  mappedBy = "location")
-    public List<Hut> getHuts() {
-        return huts;
-    }
-
-    public void setHuts(List<Hut> huts) {
-        this.huts = huts;
     }
 
     @OneToMany(targetEntity = Route.class, mappedBy = "location")

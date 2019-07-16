@@ -1,6 +1,10 @@
 $(function () {
         $("#error").css("display", "none");
 
+        if (window.location.search === "?error=true") {
+            $("#error").css("display", "block");
+        }
+
         $("#actualForm").submit(function (event) {
             let name = $("#name").val();
             let elevation = $("#elevation").val();

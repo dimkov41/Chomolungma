@@ -20,13 +20,12 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class PeakServiceImpl implements PeakService {
     private static final String PEAK_VALIDATION_ERROR_MESSAGE = "Entered peak data is not correct!";
-
-    private static final int MAX_ELEMENTS_PER_PAGE = 8;
 
     private final PeakRepository peakRepository;
     private final MountainService mountainService;
@@ -51,15 +50,35 @@ public class PeakServiceImpl implements PeakService {
     }
 
     @Override
-    public Page<PeakServiceModel> findPaginated(int page) {
-        Pageable pageRequest = PageRequest.of(page - Constants.ONE, MAX_ELEMENTS_PER_PAGE);
+    public Page<PeakServiceModel> findPaginated(int page, int maxElements) {
+        Pageable pageRequest = PageRequest.of(page - Constants.ONE, maxElements);
         Page<Peak> peaks = this.peakRepository.findAll(pageRequest);
 
-        if(page > peaks.getTotalPages()){
-            throw new NoSuchElementException(Constants.PAGE_ERROR_MESSAGE);
-        }
+        GenericService.checkPages(page, peaks);
 
         return peaks.map(p -> this.modelMapper.map(p, PeakServiceModel.class));
+    }
+
+    @Override
+    public Page<PeakServiceModel> findPaginated(int page,int maxElements, String mountainId) {
+        MountainServiceModel mountainServiceModel =
+                this.mountainService.findById(mountainId)
+                        .orElseThrow(() -> new NoSuchElementException(Constants.MOUNTAIN_NOT_FOUND_MESSAGE));
+        Mountain mountain = this.modelMapper.map(mountainServiceModel, Mountain.class);
+
+        Pageable pageRequest = PageRequest.of(page - Constants.ONE, maxElements);
+        Page<Peak> peaks = this.peakRepository.findAllByLocation(mountain, pageRequest);
+
+        GenericService.checkPages(page, peaks);
+
+        return peaks.map(p -> this.modelMapper.map(p, PeakServiceModel.class));
+    }
+
+    @Override
+    public Optional<PeakServiceModel> findById(String id){
+        Optional<Peak> peak = this.peakRepository.findById(id);
+        return peak
+                .map(p -> this.modelMapper.map(p, PeakServiceModel.class));
     }
 
     @Override
@@ -112,4 +131,16 @@ public class PeakServiceImpl implements PeakService {
 
         return true;
     }
+
+    @Override
+    public boolean deletePeak(String id){
+        try {
+            this.peakRepository.deleteById(id);
+        } catch (Exception e){
+            return false;
+        }
+
+        return true;
+    }
+
 }

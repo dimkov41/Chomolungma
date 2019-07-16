@@ -2,40 +2,57 @@
 
 <head>
     <th:block th:include="fragments/head::head"/>
-    <script th:src="@{/js/pagination-script.js}"></script>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/peaks-style.css}"/>
+    <script th:src="@{/js/form-script.js}"></script>
+    <script th:src="@{/js/add-peak-script.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/form-style.css}"/>
 </head>
 <body>
 <header>
     <th:block th:include="fragments/header::header"/>
 </header>
 <main>
-    <section class="blog-news">
-        <h3>Peaks</h3>
-        <a href="/peaks/add" class="addButton">Add peak</a>
-        <ul class="blog-list">
-            <th:block th:each="peak, iter : ${__${T(com.dimkov.bgMountains.util.Constants).MODEL_ATTR_NAME}__}">
-                <li class="item">
-                    <section class="avatar">
-                        <img th:src="${peak.imageUrl}">
-                    </section>
-                    <section class="content">
-                        <h4 th:text="${peak.name}"></h4>
-                        <p th:text="${peak.description}"></p>
-                        <a th:href="@{/peaks/details/{id}(id=${peak.id})}">More Info</a>
-                    </section>
-                    <section class="buttons">
-                        <a th:href="@{/mountains/details/{id}(id=${peak.location.id})}">Mountain Info</a>
-                    </section>
-                </li>
-            </th:block>
-        </ul>
-        <div class="pagination">
-            <th:block th:each="pageNumber :  ${__${T(com.dimkov.bgMountains.util.Constants).PEAKS_PAGES_ATTR_NAME}__}">
-                <a th:href="@{|/peaks/${pageNumber}|}" th:utext="${pageNumber}"></a>
-            </th:block>
-        </div>
-    </section>
+    <div id="formWrapper">
+        <form th:method="post" th:object="${__${T(com.dimkov.bgMountains.util.Constants).MODEL_ATTR_NAME}__}"
+              th:action="@{/peaks/add}" enctype="multipart/form-data" id="actualForm">
+            <div id="form">
+                <div class="logo">
+                    <p>Добави връх</p>
+                </div>
+                <div class="error" id="error">
+                    <p>Трябва да попълните всички полета</p>
+                </div>
+                <div class="form-item">
+                    <p class="formLabel">Име</p>
+                    <input th:value="*{name}" type="text" name="name" id="name" class="form-style" autocomplete="off"/>
+                </div>
+                <div class="form-item">
+                    <p class="formLabel">Надморска височина</p>
+                    <input th:value="*{elevation == 0 ? '' : elevation}" type="number" name="elevation" id="elevation"
+                           class="form-style" autocomplete="off"/>
+                </div>
+                <div class="form-item">
+                    <p class="formLabel">Описание</p>
+                    <textarea th:value="*{description}" rows="4" name="description" id="description"></textarea>
+                </div>
+                <div class="form-item">
+                    <input type="file" id="image" name="image" accept="image/*">
+                </div>
+                <div class="form-item">
+                    <select class="form-control" id="mountain" name="mountainName">
+                        <th:block
+                                th:each="mountain, iter : ${__${T(com.dimkov.bgMountains.util.Constants).MOUNTAINS_ATTR_NAME}__}">
+                            <option th:text="${mountain.name}"></option>
+                        </th:block>
+                    </select>
+                </div>
+                <div class="form-item">
+                    <input type="submit" class="login pull-right" value="Add Peak">
+                    <div class="clear-fix"></div>
+                </div>
+
+            </div>
+        </form>
+    </div>
 </main>
 <footer>
     <th:block th:include="fragments/footer::footer"/>

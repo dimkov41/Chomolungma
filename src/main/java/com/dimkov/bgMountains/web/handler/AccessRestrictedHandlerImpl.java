@@ -14,10 +14,13 @@ import java.util.logging.Logger;
 
 
 public class AccessRestrictedHandlerImpl implements AccessDeniedHandler {
+    private static final String INDEX_PAGE_URL = "/";
+
     @Override
     public void handle(HttpServletRequest httpServletRequest,
                        HttpServletResponse httpServletResponse,
                        AccessDeniedException e) throws IOException, ServletException {
+
 //        Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
         //TODO: implement logger
@@ -30,7 +33,7 @@ public class AccessRestrictedHandlerImpl implements AccessDeniedHandler {
         }
 
         //TODO: CHANGE URL
-        httpServletResponse.sendRedirect("/home");
+        httpServletResponse.sendRedirect(INDEX_PAGE_URL);
     }
 
 }

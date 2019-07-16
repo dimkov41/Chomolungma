@@ -1,7 +1,6 @@
 package com.dimkov.bgMountains.domain.models.service;
 
 import com.dimkov.bgMountains.domain.entities.Mountain;
-import com.dimkov.bgMountains.mappings.IHaveCustomMappings;
 import org.springframework.web.multipart.MultipartFile;
 
 public class PeakAddServiceModel {

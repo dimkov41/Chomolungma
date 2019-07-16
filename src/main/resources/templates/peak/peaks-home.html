@@ -26,13 +26,14 @@
                     </section>
                     <section class="buttons">
                         <a th:href="@{/mountains/details/{id}(id=${peak.location.id})}">Mountain Info</a>
+                        <a sec:authorize="hasRole('ROLE_MODERATOR')" th:href="@{|/peaks/delete/${peak.id}|}">Delete</a>
                     </section>
                 </li>
             </th:block>
         </ul>
         <div class="pagination">
             <th:block th:each="pageNumber :  ${__${T(com.dimkov.bgMountains.util.Constants).PAGES_ATTR_NAME}__}">
-                <a th:href="@{|/peaks/${pageNumber}|}" th:utext="${pageNumber}"></a>
+                <a th:href="@{|/peaks/*{pageNumber}|}" th:utext="${pageNumber}"></a>
             </th:block>
         </div>
     </section>

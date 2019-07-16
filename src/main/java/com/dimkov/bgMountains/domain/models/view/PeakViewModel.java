@@ -6,6 +6,7 @@ public class PeakViewModel {
     private String id;
     private String name;
     private String description;
+    private double elevation;
     private String imageUrl;
     private MountainViewModel location;
 
@@ -27,11 +28,19 @@ public class PeakViewModel {
     }
 
     public String getDescription() {
-        return description.substring(0, 101) + "...";
+        return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public double getElevation() {
+        return elevation;
+    }
+
+    public void setElevation(double elevation) {
+        this.elevation = elevation;
     }
 
     public String getImageUrl() {
