@@ -20,11 +20,8 @@ public class TitleInterceptor extends HandlerInterceptorAdapter {
         } else {
             if (handler instanceof HandlerMethod) {
                 PageTitle methodAnnotation = ((HandlerMethod) handler).getMethodAnnotation(PageTitle.class);
-
-                if (methodAnnotation != null) {
-                    modelAndView
-                            .addObject("title", methodAnnotation.value());
-                }
+                modelAndView
+                        .addObject("title", methodAnnotation.value());
             }
         }
     }

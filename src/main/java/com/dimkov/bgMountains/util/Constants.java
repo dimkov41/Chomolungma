@@ -1,29 +1,24 @@
 package com.dimkov.bgMountains.util;
 
-public class Constants {
-    private Constants() {}
+public interface Constants {
+    String MODEL_ATTR_NAME = "model";
+    String MOUNTAINS_ATTR_NAME = "mountains";
+    String EXEPTION_MESSAGE_ATTR_NAME = "exeptionMessage";
+    String PAGES_ATTR_NAME = "pageNumbers";
+    String PEAKS_ATTR_NAME = "peaks";
 
+    String ROLE_USER = "ROLE_USER";
+    String ROLE_FREELANCER = "ROLE_FREELANCER";
+    String ROLE_MODERATOR = "ROLE_MODERATOR";
+    String ROLE_ADMIN = "ROLE_ADMIN";
+    String ROLE_ROOT = "ROLE_ROOT";
 
+    String PEAK_NOT_FOUND_MESSAGE = "Peak with suck id - not found !";
+    String MOUNTAIN_NOT_FOUND_MESSAGE = "Mountain not found!";
+    String USERNAME_NOT_FOUND_MESSAGE = "User with such username does not exists";
+    String FREELANCER_NOT_FOUND_MESSAGE = "Freelancer with such username does not exists";
+    String PAGE_ERROR_MESSAGE = "Such page does not exists";
 
-    public static final String MODEL_ATTR_NAME = "model";
-    public static final String MOUNTAINS_ATTR_NAME = "mountains";
-    public static final String EXEPTION_MESSAGE_ATTR_NAME = "exeptionMessage";
-    public static final String PAGES_ATTR_NAME = "pageNumbers";
-    public static final String PEAKS_ATTR_NAME = "peaks";
-
-    public static final String ROLE_USER = "ROLE_USER";
-    public static final String ROLE_FREELANCER = "ROLE_FREELANCER";
-    public static final String ROLE_MODERATOR = "ROLE_MODERATOR";
-    public static final String ROLE_ADMIN = "ROLE_ADMIN";
-    public static final String ROLE_ROOT = "ROLE_ROOT";
-
-    public static final String PEAK_NOT_FOUND_MESSAGE = "Peak with suck id - not found !";
-    public static final String MOUNTAIN_NOT_FOUND_MESSAGE = "Mountain not found!";
-    public static final String USERNAME_NOT_FOUND_MESSAGE = "User with such username does not exists";
-    public static final String FREELANCER_NOT_FOUND_MESSAGE = "Freelancer with such username does not exists";
-    public static final String PAGE_ERROR_MESSAGE = "Such page does not exists";
-
-
-    public static final int ONE = 1;
-    public static final int ZERO = 0;
+    int ONE = 1;
+    int ZERO = 0;
 }
