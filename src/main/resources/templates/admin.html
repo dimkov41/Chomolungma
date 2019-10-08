@@ -27,21 +27,21 @@
                 <th:block th:unless="${#authentication.principal.username == user.username}">
                     <th:block th:unless="${#lists.contains(user.authorities, 'ROLE_ROOT')}">
                         <th:block th:if="${#lists.contains(user.authorities, 'ROLE_ADMIN')}">
-                            <th><a th:href="@{|/users/setAuth/ROLE_USER/${user.id}|}">Make USER</a></th>
-                            <th><a th:href="@{|/users/setAuth/ROLE_MODERATOR/${user.id}|}">Make MODERATOR</a></th>
+                            <th><a th:href="@{|/users/setAuth/ROLE_USER/${user.id}|}" class="freelancer">Make USER</a></th>
+                            <th><a th:href="@{|/users/setAuth/ROLE_MODERATOR/${user.id}|}" class="freelancer">Make MODERATOR</a></th>
                         </th:block>
                         <th:block th:if="${#lists.contains(user.authorities, 'ROLE_MODERATOR')}">
                             <th:block th:unless="${#lists.contains(user.authorities, 'ROLE_ADMIN')}">
-                                <th><a th:href="@{|/users/setAuth/ROLE_USER/${user.id}|}">Make USER</a></th>
-                                <th><a th:href="@{|/users/setAuth/ROLE_ADMIN/${user.id}|}">Make ADMIN</a></th>
+                                <th><a th:href="@{|/users/setAuth/ROLE_USER/${user.id}|}" class="freelancer">Make USER</a></th>
+                                <th><a th:href="@{|/users/setAuth/ROLE_ADMIN/${user.id}|}" class="freelancer">Make ADMIN</a></th>
                             </th:block>
                         </th:block>
                         <th:block th:if="${#lists.contains(user.authorities, 'ROLE_USER')}">
                             <th:block th:unless="${#lists.contains(user.authorities, 'ROLE_ADMIN')}">
                                 <th:block th:unless="${#lists.contains(user.authorities, 'ROLE_MODERATOR')}">
-                                    <th><a th:href="@{|/users/setAuth/ROLE_MODERATOR/${user.id}|}">Make MODERATOR</a>
+                                    <th><a th:href="@{|/users/setAuth/ROLE_MODERATOR/${user.id}|}" class="freelancer">Make MODERATOR</a>
                                     </th>
-                                    <th><a th:href="@{|/users/setAuth/ROLE_ADMIN/${user.id}|}">Make ADMIN</a></th>
+                                    <th><a th:href="@{|/users/setAuth/ROLE_ADMIN/${user.id}|}" class="freelancer">Make ADMIN</a></th>
                                 </th:block>
                             </th:block>
                         </th:block>
