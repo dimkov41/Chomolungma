@@ -3,7 +3,8 @@ package com.dimkov.bgMountains.util;
 public interface Constants {
     String MODEL_ATTR_NAME = "model";
     String MOUNTAINS_ATTR_NAME = "mountains";
-    String EXEPTION_MESSAGE_ATTR_NAME = "exeptionMessage";
+    String EXCEPTION_CAUSE = "exceptionCause";
+    String EXCEPTION_MESSAGE_ATTR_NAME = "exceptionMessage";
     String PAGES_ATTR_NAME = "pageNumbers";
     String PEAKS_ATTR_NAME = "peaks";
 

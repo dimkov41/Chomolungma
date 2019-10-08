@@ -54,8 +54,6 @@ public class PeakServiceImpl implements PeakService {
         Pageable pageRequest = PageRequest.of(page - Constants.ONE, maxElements);
         Page<Peak> peaks = this.peakRepository.findAll(pageRequest);
 
-        GenericService.checkPages(page, peaks);
-
         return peaks.map(p -> this.modelMapper.map(p, PeakServiceModel.class));
     }
 
@@ -68,8 +66,6 @@ public class PeakServiceImpl implements PeakService {
 
         Pageable pageRequest = PageRequest.of(page - Constants.ONE, maxElements);
         Page<Peak> peaks = this.peakRepository.findAllByLocation(mountain, pageRequest);
-
-        GenericService.checkPages(page, peaks);
 
         return peaks.map(p -> this.modelMapper.map(p, PeakServiceModel.class));
     }

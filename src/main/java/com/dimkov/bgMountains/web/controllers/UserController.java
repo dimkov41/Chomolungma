@@ -100,15 +100,12 @@ public class UserController extends BaseController {
         if (errors.hasErrors()) {
             return redirect(USERS_PROFILE_ERROR_PATH);
         }
-
         UserChangeServiceModel changeServiceModel =
                 this.modelMapper.map(userChangeBindingModel, UserChangeServiceModel.class);
         changeServiceModel.setUsername(principal.getName());
-
         if (!this.userService.changePassword(changeServiceModel)) {
             return redirect(USERS_PROFILE_ERROR_PATH);
         }
-
         return redirect(HOME_PATH);
     }
 

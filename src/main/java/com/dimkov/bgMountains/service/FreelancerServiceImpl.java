@@ -90,11 +90,6 @@ public class FreelancerServiceImpl implements FreelancerService {
     public Page<FreelancerServiceModel> findPaginated(int page, int maxElements) {
         Pageable pageRequest = PageRequest.of(page - Constants.ONE, maxElements);
         Page<Freelancer> freelancers = this.freelancerRepository.findAll(pageRequest);
-
-        if (page > freelancers.getTotalPages()) {
-            throw new NoSuchElementException(Constants.PAGE_ERROR_MESSAGE);
-        }
-
         return freelancers.map(p -> this.modelMapper.map(p, FreelancerServiceModel.class));
     }
 

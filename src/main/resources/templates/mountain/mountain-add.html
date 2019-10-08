@@ -11,19 +11,17 @@
 </header>
 <main>
     <div id="formWrapper">
-        <form th:method="post" th:action="@{/mountains/add}" enctype="multipart/form-data">
+        <form th:method="post" th:action="@{/mountains/add}" enctype="multipart/form-data" id="actualForm">
             <div id="form">
                 <div class="logo">
                     <p>Добавете планина</p>
                 </div>
-                <th:block th:if="${(param.error != null) and (param.error[0] == 'true')}">
-                    <div id="error" class="error">
-                        <p>Трябва да попълните всички полета!</p>
-                    </div>
-                </th:block>
+                <div id="error" class="error">
+                    <p>Трябва да попълните всички полета!</p>
+                </div>
                 <div class="form-item">
                     <p class="formLabel">Име</p>
-                    <input type="text" name="name" id="email" class="form-style" autocomplete="off"/>
+                    <input type="text" name="name" id="name" class="form-style" autocomplete="off"/>
                 </div>
                 <div class="form-item">
                     <p class="formLabel">Описание</p>

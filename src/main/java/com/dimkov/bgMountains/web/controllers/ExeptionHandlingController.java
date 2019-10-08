@@ -1,14 +1,13 @@
 package com.dimkov.bgMountains.web.controllers;
 
-import com.dimkov.bgMountains.util.Constants;
 import com.dimkov.bgMountains.web.annotations.PageTitle;
-import org.apache.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.NoSuchElementException;
+
+import static com.dimkov.bgMountains.util.Constants.*;
 
 @ControllerAdvice
 public class ExeptionHandlingController extends BaseController {
@@ -31,8 +30,9 @@ public class ExeptionHandlingController extends BaseController {
 
     private ModelAndView handleExeption(String imgPath, Throwable th){
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject(Constants.MODEL_ATTR_NAME, imgPath);
-        modelAndView.addObject(Constants.EXEPTION_MESSAGE_ATTR_NAME, th.getMessage());
+        modelAndView.addObject(MODEL_ATTR_NAME, imgPath);
+        modelAndView.addObject(EXCEPTION_CAUSE, th);
+        modelAndView.addObject(EXCEPTION_MESSAGE_ATTR_NAME, th.getMessage());
 
         return view(NOT_FOUND_VIEW, modelAndView);
     }

@@ -1,6 +1,5 @@
 package com.dimkov.bgMountains.web.interceptors;
 
-import com.dimkov.bgMountains.util.Constants;
 import com.dimkov.bgMountains.web.annotations.PageTitle;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
@@ -20,8 +19,10 @@ public class TitleInterceptor extends HandlerInterceptorAdapter {
         } else {
             if (handler instanceof HandlerMethod) {
                 PageTitle methodAnnotation = ((HandlerMethod) handler).getMethodAnnotation(PageTitle.class);
-                modelAndView
-                        .addObject("title", methodAnnotation.value());
+                if(methodAnnotation != null) {
+                    modelAndView
+                            .addObject("title", methodAnnotation.value());
+                }
             }
         }
     }
