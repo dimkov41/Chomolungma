@@ -39,8 +39,8 @@
         <tbody>
         <th:block th:each="route, iter : ${__${T(com.dimkov.bgMountains.util.Constants).MODEL_ATTR_NAME}__}">
             <tr>
-                <td th:text="${route.start}"></td>
-                <td th:text="${route.end}"></td>
+                <td th:text="${route.startPoint}"></td>
+                <td th:text="${route.endPoint}"></td>
                 <td th:text="${route.description}"></td>
                 <td th:text="${route.lenght}"></td>
                 <td th:text="${route.author.username}"></td>

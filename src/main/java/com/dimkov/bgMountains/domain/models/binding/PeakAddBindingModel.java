@@ -1,11 +1,8 @@
 package com.dimkov.bgMountains.domain.models.binding;
 
 import org.hibernate.validator.constraints.Length;
-import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 

@@ -1,9 +1,7 @@
 package com.dimkov.bgMountains.service;
 
-import com.dimkov.bgMountains.domain.entities.Mountain;
 import com.dimkov.bgMountains.domain.models.service.MountainAddServiceModel;
 import com.dimkov.bgMountains.domain.models.service.MountainServiceModel;
-import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;

@@ -1,9 +1,7 @@
 package com.dimkov.bgMountains.domain.models.service;
 
-import com.dimkov.bgMountains.domain.entities.Freelancer;
 import com.dimkov.bgMountains.domain.entities.Role;
 
-import java.util.HashSet;
 import java.util.Set;
 
 public class UserServiceModel {

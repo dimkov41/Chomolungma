@@ -1,9 +1,7 @@
 package com.dimkov.bgMountains.web.controllers;
 
-import com.dimkov.bgMountains.domain.entities.Freelancer;
 import com.dimkov.bgMountains.domain.models.binding.FreelancerRegisterBindingModel;
 import com.dimkov.bgMountains.service.FreelancerService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;

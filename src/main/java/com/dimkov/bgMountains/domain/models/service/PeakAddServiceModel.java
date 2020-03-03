@@ -1,6 +1,5 @@
 package com.dimkov.bgMountains.domain.models.service;
 
-import com.dimkov.bgMountains.domain.entities.Mountain;
 import org.springframework.web.multipart.MultipartFile;
 
 public class PeakAddServiceModel {

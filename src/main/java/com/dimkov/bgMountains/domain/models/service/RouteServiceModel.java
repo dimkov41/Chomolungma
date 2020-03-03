@@ -1,27 +1,27 @@
 package com.dimkov.bgMountains.domain.models.service;
 
 public class RouteServiceModel {
-    private String start;
-    private String end;
+    private String startPoint;
+    private String endPoint;
     private String description;
     private double lenght;
     private UserServiceModel author;
     private MountainServiceModel location;
 
-    public String getStart() {
-        return start;
+    public String getStartPoint() {
+        return startPoint;
     }
 
-    public void setStart(String start) {
-        this.start = start;
+    public void setStartPoint(String startPoint) {
+        this.startPoint = startPoint;
     }
 
-    public String getEnd() {
-        return end;
+    public String getEndPoint() {
+        return endPoint;
     }
 
-    public void setEnd(String end) {
-        this.end = end;
+    public void setEndPoint(String endPoint) {
+        this.endPoint = endPoint;
     }
 
     public String getDescription() {

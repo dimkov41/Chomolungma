@@ -1,7 +1,6 @@
 package com.dimkov.bgMountains.web.controllers;
 
 import com.dimkov.bgMountains.domain.models.binding.PeakAddBindingModel;
-import com.dimkov.bgMountains.domain.models.service.MountainServiceModel;
 import com.dimkov.bgMountains.domain.models.service.PeakAddServiceModel;
 import com.dimkov.bgMountains.domain.models.service.PeakServiceModel;
 import com.dimkov.bgMountains.domain.models.view.MountainViewModel;

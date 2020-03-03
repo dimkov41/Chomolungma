@@ -4,18 +4,14 @@ import com.dimkov.bgMountains.domain.models.binding.CommentBindingModel;
 import com.dimkov.bgMountains.domain.models.service.CommentAddServiceModel;
 import com.dimkov.bgMountains.domain.models.service.CommentServiceModel;
 import com.dimkov.bgMountains.service.CommentService;
-import com.dimkov.bgMountains.util.Constants;
 import com.google.gson.Gson;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @RestController
 @RequestMapping("/comment")

@@ -5,7 +5,6 @@ import com.dimkov.bgMountains.domain.models.service.MountainAddServiceModel;
 import com.dimkov.bgMountains.domain.models.service.MountainServiceModel;
 import com.dimkov.bgMountains.domain.models.view.MountainDetailsViewModel;
 import com.dimkov.bgMountains.domain.models.view.MountainViewModel;
-import com.dimkov.bgMountains.service.CloudinaryService;
 import com.dimkov.bgMountains.service.MountainService;
 import com.dimkov.bgMountains.util.Constants;
 import com.dimkov.bgMountains.web.annotations.PageTitle;

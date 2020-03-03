@@ -1,7 +1,5 @@
 package com.dimkov.bgMountains.domain.models.service;
 
-import com.dimkov.bgMountains.domain.entities.Freelancer;
-
 public class CommentServiceModel {
     private String comment;
     private String date;

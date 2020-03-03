@@ -1,10 +1,7 @@
 package com.dimkov.bgMountains.web.controllers;
 
 import com.dimkov.bgMountains.service.UserService;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.security.Principal;
 
 @RestController
 @RequestMapping(value = "/users")

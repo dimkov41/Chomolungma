@@ -1,7 +1,6 @@
 package com.dimkov.bgMountains.validation;
 
 import com.dimkov.bgMountains.domain.models.service.RouteAddSeviceModel;
-import com.dimkov.bgMountains.service.RouteService;
 import org.springframework.stereotype.Component;
 
 @Component

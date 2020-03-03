@@ -1,7 +1,5 @@
 package com.dimkov.bgMountains.domain.models.service;
 
-import com.dimkov.bgMountains.domain.entities.User;
-
 import java.math.BigDecimal;
 
 public class FreelancerServiceModel {

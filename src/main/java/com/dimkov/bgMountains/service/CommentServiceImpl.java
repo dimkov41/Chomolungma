@@ -2,18 +2,13 @@ package com.dimkov.bgMountains.service;
 
 import com.dimkov.bgMountains.domain.entities.Comment;
 import com.dimkov.bgMountains.domain.entities.Freelancer;
-import com.dimkov.bgMountains.domain.entities.Peak;
 import com.dimkov.bgMountains.domain.models.service.CommentAddServiceModel;
 import com.dimkov.bgMountains.domain.models.service.CommentServiceModel;
 import com.dimkov.bgMountains.domain.models.service.FreelancerServiceModel;
-import com.dimkov.bgMountains.domain.models.service.PeakServiceModel;
 import com.dimkov.bgMountains.repository.CommentRepository;
 import com.dimkov.bgMountains.util.Constants;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -3,7 +3,6 @@ package com.dimkov.bgMountains.domain.entities;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 @Entity(name = "comments")
 public class Comment extends BaseEntity{

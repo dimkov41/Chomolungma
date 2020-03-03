@@ -1,10 +1,8 @@
 package com.dimkov.bgMountains.validation;
 
 import com.dimkov.bgMountains.domain.models.service.PeakAddServiceModel;
-import com.dimkov.bgMountains.domain.models.service.PeakServiceModel;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Field;
 import java.util.Objects;
 
 @Component

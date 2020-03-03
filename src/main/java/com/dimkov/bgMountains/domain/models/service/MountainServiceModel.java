@@ -1,7 +1,5 @@
 package com.dimkov.bgMountains.domain.models.service;
 
-import org.springframework.web.multipart.MultipartFile;
-
 public class MountainServiceModel {
     private String id;
     private String name;

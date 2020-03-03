@@ -1,6 +1,5 @@
 package com.dimkov.bgMountains.domain.models.view;
 
-import com.dimkov.bgMountains.domain.entities.User;
 import com.dimkov.bgMountains.domain.models.service.UserServiceModel;
 
 import java.math.BigDecimal;

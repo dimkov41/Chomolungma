@@ -1,7 +1,5 @@
 package com.dimkov.bgMountains.domain.models.service;
 
-import com.dimkov.bgMountains.domain.models.view.MountainViewModel;
-
 public class PeakServiceModel {
     private String id;
     private String name;

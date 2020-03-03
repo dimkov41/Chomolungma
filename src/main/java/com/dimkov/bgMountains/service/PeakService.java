@@ -1,10 +1,8 @@
 package com.dimkov.bgMountains.service;
 
-import com.dimkov.bgMountains.domain.entities.Peak;
 import com.dimkov.bgMountains.domain.models.service.PeakAddServiceModel;
 import com.dimkov.bgMountains.domain.models.service.PeakServiceModel;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import java.io.IOException;
 import java.util.List;

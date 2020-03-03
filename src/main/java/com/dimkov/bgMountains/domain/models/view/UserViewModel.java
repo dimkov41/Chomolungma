@@ -1,7 +1,5 @@
 package com.dimkov.bgMountains.domain.models.view;
 
-import com.dimkov.bgMountains.domain.entities.Role;
-
 import java.util.Set;
 
 public class UserViewModel {
