@@ -112,7 +112,7 @@ function isValid(wrapperId, inputFieldId) {
 
 function makeAjaxCall(path, param) {
     return $.ajax({
-        url: "http://localhost:8080" + path + "/" + param,
+        url: window.location.origin + path + "/" + param,
         method: "GET"
     });
 }

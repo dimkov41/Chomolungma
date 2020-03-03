@@ -30,7 +30,7 @@ $(function () {
 
         let isValid = false;
         $.ajax({
-            url: "http://localhost:8080/mountainguides/check/" + freelancerId,
+            url: window.location.origin + "/mountainguides/check/" + freelancerId,
             method: "POST",
             data: {
                 startDate: formatDate(startDate),

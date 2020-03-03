@@ -19,7 +19,7 @@ $(function () {
         }
 
         $.ajax({
-            url: "http://localhost:8080/comment/" + freelancerId,
+            url: window.location.origin + "/comment/" + freelancerId,
             data: {
                 comment,
                 currentDate: getDate()
@@ -38,7 +38,7 @@ $(function () {
 
     function loadComments() {
         $.ajax({
-            url: "http://localhost:8080/comment/show/" + freelancerId,
+            url: windows.location.origin + "/comment/show/" + freelancerId,
             method: "GET"
         })
             .done(function (data) {
