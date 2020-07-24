@@ -33,7 +33,6 @@ public class ExeptionHandlingController extends BaseController {
         modelAndView.addObject(MODEL_ATTR_NAME, imgPath);
         modelAndView.addObject(EXCEPTION_CAUSE, th);
         modelAndView.addObject(EXCEPTION_MESSAGE_ATTR_NAME, th.getMessage());
-
         return view(NOT_FOUND_VIEW, modelAndView);
     }
 }

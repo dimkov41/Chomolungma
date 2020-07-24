@@ -9,11 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.dimkov</groupId>
-    <artifactId>demo</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>chomolungma</artifactId>
+    <version>1.0.0</version>
     <name>bgMountains</name>
     <description>Freelance mountains project with SpringBoot</description>
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -80,7 +79,6 @@
             <version>42.2.8</version>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
@@ -97,5 +95,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
