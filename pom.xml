@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.dimkov</groupId>
-    <artifactId>demo</artifactId>
+    <artifactId>Chomolungma</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>bgMountains</name>
     <description>Freelance mountains project with SpringBoot</description>
