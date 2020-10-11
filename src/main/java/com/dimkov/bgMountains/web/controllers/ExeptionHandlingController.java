@@ -31,8 +31,7 @@ public class ExeptionHandlingController extends BaseController {
     private ModelAndView handleExeption(String imgPath, Throwable th){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject(MODEL_ATTR_NAME, imgPath);
-        modelAndView.addObject(EXCEPTION_CAUSE, th);
-        modelAndView.addObject(EXCEPTION_MESSAGE_ATTR_NAME, th.getMessage());
+        modelAndView.addObject(EXCEPTION_MESSAGE_ATTR_NAME, "Internal server error");
         return view(NOT_FOUND_VIEW, modelAndView);
     }
 }
