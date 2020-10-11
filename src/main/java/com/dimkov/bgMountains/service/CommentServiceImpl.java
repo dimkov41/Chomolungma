@@ -11,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -42,22 +43,18 @@ public class CommentServiceImpl implements CommentService {
         FreelancerServiceModel freelancerServiceModel =
                 this.freelancerService.findById(commentAddServiceModel.getFreelancerId())
                         .orElseThrow(() -> new NoSuchElementException(FREELANCER_NOT_FOUND_MESSAGE));
-
         String comment = commentAddServiceModel.getComment();
         if (!comment.equals("") && comment.length() <= MAX_COMMENT_LENGTH) {
-
+            if( commentAddServiceModel.getDate()==null ) commentAddServiceModel.setDate(LocalDate.now().toString());
             Comment c = this.modelMapper.map(commentAddServiceModel, Comment.class);
             c.setFreelancer(this.modelMapper.map(freelancerServiceModel, Freelancer.class));
-
             try {
                 this.commentRepository.save(c);
             } catch (Exception e) {
                 return false;
             }
-
             return true;
         }
-
         return false;
     }
 

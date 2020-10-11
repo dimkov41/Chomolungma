@@ -33,21 +33,15 @@ public class CommentApiController {
             @PathVariable String id,
             HttpServletRequest request,
             @ModelAttribute CommentBindingModel commentBindingModel) throws IOException {
-
         String comment = request.getParameter(COMMENT_PARAM_NAME);
         String date = request.getParameter(DATE_PARAM_NAME);
-
         commentBindingModel = new CommentBindingModel(comment, date, id);
-
         return this.commentService.saveComment(this.modelMapper.map(commentBindingModel, CommentAddServiceModel.class));
     }
 
-        @GetMapping(value = "/show/{id}")
-        public String showPaginatedPeakHome(
-                @PathVariable("id") String id) {
-
-            List<CommentServiceModel> comments = this.commentService.findAll(id);
-
-            return new Gson().toJson(comments);
-        }
+    @GetMapping(value = "/show/{id}")
+    public String showPaginatedPeakHome(@PathVariable("id") String id) {
+        List<CommentServiceModel> comments = this.commentService.findAll(id);
+        return new Gson().toJson(comments);
+    }
 }

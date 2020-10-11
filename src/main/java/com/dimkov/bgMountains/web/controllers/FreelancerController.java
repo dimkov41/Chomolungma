@@ -15,6 +15,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,7 +43,7 @@ public class FreelancerController extends BaseController {
     private static final String SUCCESSFULL_HIRED_FREELANCER_VIEW = "freelancer/successful-hired-freelancer";
     private static final String FREELANCER_PROFILE_VIEW = "freelancer/freelancer-profile";
 
-    private static final String LOGOUT_PATH = "/mountainguides/1";
+    private static final String LOGOUT_PATH = "/logout";
     private static final String FREELANCERS_PATH = "/mountainguides/1";
     private static final String FREELANCER_DETAILS_PATH = "/mountainguides/details/";
     private static final String BECOME_FREELANCER_PATH = "/becomeFreelancer";

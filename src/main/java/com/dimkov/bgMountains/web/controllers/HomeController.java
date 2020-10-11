@@ -7,6 +7,7 @@ import com.dimkov.bgMountains.service.PeakService;
 import com.dimkov.bgMountains.util.Constants;
 import com.dimkov.bgMountains.web.annotations.PageTitle;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -26,6 +27,7 @@ public class HomeController extends BaseController {
     private final PeakService peakService;
     private final ModelMapper modelMapper;
 
+    @Autowired
     public HomeController(FreelancerService freelancerService, PeakService peakService, ModelMapper modelMapper) {
         this.freelancerService = freelancerService;
         this.peakService = peakService;
@@ -47,13 +49,13 @@ public class HomeController extends BaseController {
                 this.peakService.findPaginated(FIRST_PAGE, MAX_PEAK_PER_PAGE)
                         .map(p -> this.modelMapper.map(p, PeakViewModel.class))
                         .map(p -> {
-                            p.setDescription(p.getDescription().substring(0,80) + "...");
+                            if( p.getDescription()!=null && p.getDescription().length()>80 ){
+                                p.setDescription(p.getDescription().substring(0,80) + "...");
+                            }
                             return p;
                         })
                         .getContent();
-
         modelAndView.addObject(Constants.PEAKS_ATTR_NAME, peaks);
-
         return view(VIEW_NAME, modelAndView);
     }
 }

@@ -32,7 +32,7 @@ import java.util.stream.IntStream;
 @Controller
 @RequestMapping("/peaks")
 public class PeakController extends BaseController {
-    private static final String ALL_PEAKS_PATH = "/peaks";
+    private static final String ALL_PEAKS_PAGE_1_PATH = "/peaks/1";
     private static final String ADD_PEAK_ERROR_PATH = "/peaks/add?error=true";
 
     private static final String PEAKS_VIEW = "peak/peaks-home";
@@ -102,7 +102,7 @@ public class PeakController extends BaseController {
         }
 
 
-        return redirect(ALL_PEAKS_PATH);
+        return redirect(ALL_PEAKS_PAGE_1_PATH);
     }
 
     @GetMapping(value = "/{mountainId}/{page}")
@@ -135,7 +135,7 @@ public class PeakController extends BaseController {
     ) {
         this.peakService.deletePeak(id);
 
-        return redirect(ALL_PEAKS_PATH);
+        return redirect(ALL_PEAKS_PAGE_1_PATH);
     }
 
     @SuppressWarnings("Duplicates")

@@ -20,9 +20,7 @@
                 <th th:text="${user.username}">Firstname</th>
                 <th th:text="${user.email}">Lastname</th>
                 <th:block th:each="authority, iter : ${user.authorities}">
-                    <th:block th:unless="${authority == 'ROLE_FREELANCER'}">
-                        <th th:text="${authority}"></th>
-                    </th:block>
+                    <th th:text="${authority}"></th>
                 </th:block>
                 <th:block th:unless="${#authentication.principal.username == user.username}">
                     <th:block th:unless="${#lists.contains(user.authorities, 'ROLE_ROOT')}">

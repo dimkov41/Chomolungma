@@ -9,6 +9,7 @@ $(function () {
     loadComments();
 
     $("#form").submit(function (e) {
+        console.log("submitting form")
         e.preventDefault();
 
         let comment = $("#comment").val();
@@ -38,7 +39,7 @@ $(function () {
 
     function loadComments() {
         $.ajax({
-            url: windows.location.origin + "/comment/show/" + freelancerId,
+            url: window.location.origin + "/comment/show/" + freelancerId,
             method: "GET"
         })
             .done(function (data) {
