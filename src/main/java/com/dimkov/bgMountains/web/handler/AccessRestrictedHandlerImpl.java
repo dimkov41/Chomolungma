@@ -1,5 +1,7 @@
 package com.dimkov.bgMountains.web.handler;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,25 +14,17 @@ import java.io.IOException;
 
 
 public class AccessRestrictedHandlerImpl implements AccessDeniedHandler {
+    private static final Logger log = LoggerFactory.getLogger(AccessRestrictedHandlerImpl.class);
     private static final String INDEX_PAGE_URL = "/";
 
     @Override
     public void handle(HttpServletRequest httpServletRequest,
                        HttpServletResponse httpServletResponse,
                        AccessDeniedException e) throws IOException, ServletException {
-
-//        Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-
-        //TODO: implement logger
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
         if (authentication != null) {
-//            logger.log(Level.INFO, String.format(
-//                    "User: %s attempted to access the protected URL: %s",
-//                    authentication.getName(), httpServletRequest.getRequestURI()));
+            log.info("User: {} attempted to access the protected URL: {}", authentication.getName(), httpServletRequest.getRequestURI());
         }
-
-        //TODO: CHANGE URL
         httpServletResponse.sendRedirect(INDEX_PAGE_URL);
     }
 

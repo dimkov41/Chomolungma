@@ -11,6 +11,8 @@ import com.dimkov.bgMountains.service.PeakService;
 import com.dimkov.bgMountains.util.Constants;
 import com.dimkov.bgMountains.web.annotations.PageTitle;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,12 +28,15 @@ import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/peaks")
 public class PeakController extends BaseController {
+    private static final Logger log = LoggerFactory.getLogger(PeakController.class);
+
     private static final String ALL_PEAKS_PATH = "/peaks";
     private static final String ADD_PEAK_ERROR_PATH = "/peaks/add?error=true";
 
@@ -66,20 +71,18 @@ public class PeakController extends BaseController {
     @GetMapping("/add")
     @PageTitle("Add peak")
     public ModelAndView showAddForm(ModelAndView modelAndView, Model model) {
+        log.debug("Render add peak");
         List<MountainViewModel> mountains =
                 this.mountainService.findAll()
                         .stream()
                         .map(m -> this.modelMapper.map(m, MountainViewModel.class))
                         .collect(Collectors.toList());
-
         PeakRedirectViewModel peakRedirectViewModel = new PeakRedirectViewModel();
         if (model.containsAttribute(Constants.MODEL_ATTR_NAME)) {
             peakRedirectViewModel = (PeakRedirectViewModel) model.asMap().get(Constants.MODEL_ATTR_NAME);
         }
-
         modelAndView.addObject(Constants.MODEL_ATTR_NAME, peakRedirectViewModel);
         modelAndView.addObject(Constants.MOUNTAINS_ATTR_NAME, mountains);
-
         return view(ADD_PEAK_VIEW, modelAndView);
     }
 
@@ -89,19 +92,16 @@ public class PeakController extends BaseController {
                                 Errors errors,
                                 Principal principal) throws IOException {
         if (errors.hasErrors()) {
+            log.error("Error occured while adding a peak: {}", Objects.requireNonNull(errors.getGlobalError()).getDefaultMessage());
             return redirect(ADD_PEAK_ERROR_PATH);
         }
-
         PeakAddServiceModel peakAddServiceModel = this.modelMapper.map(peakAddBindingModel, PeakAddServiceModel.class);
-
+        log.debug("peakAddServiceModel ====> {}", peakAddServiceModel);
         if (!this.peakService.save(peakAddServiceModel, principal.getName())) {
-
             PeakRedirectViewModel peakRedirectViewModel = this.modelMapper.map(peakAddBindingModel, PeakRedirectViewModel.class);
             redirectAttributes.addFlashAttribute(Constants.MODEL_ATTR_NAME, peakRedirectViewModel);
             return redirect(ADD_PEAK_ERROR_PATH);
         }
-
-
         return redirect(ALL_PEAKS_PATH);
     }
 

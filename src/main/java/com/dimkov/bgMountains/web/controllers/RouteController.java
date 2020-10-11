@@ -47,7 +47,7 @@ public class RouteController extends BaseController{
     }
 
     @GetMapping("/add")
-    @PageTitle("Add peak")
+    @PageTitle("Add route")
     public ModelAndView showAddForm(ModelAndView modelAndView, Model model) {
         List<MountainViewModel> mountains =
                 this.mountainService.findAll()
@@ -88,7 +88,7 @@ public class RouteController extends BaseController{
     }
 
     @GetMapping()
-    @PageTitle("Peaks")
+    @PageTitle("Routes")
     public ModelAndView showAll(ModelAndView modelAndView){
         List<RouteServiceModel> routeServiceModels = this.routeService.findAll();
 
