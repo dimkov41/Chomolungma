@@ -47,23 +47,6 @@
             </ul>
 
         </section>
-        <section class="blog-news">
-            <h3>Върхове</h3>
-            <ul class="blog-list">
-                <th:block th:each="peak, iter : ${__${T(com.dimkov.bgMountains.util.Constants).PEAKS_ATTR_NAME}__}">
-                    <li class="item">
-                        <section class="avatar">
-                            <img th:src="${peak.imageUrl}">
-                        </section>
-                        <section class="content">
-                            <h4 th:text="${peak.name}"></h4>
-                            <p th:text="${peak.description}"></p>
-                        </section>
-                    </li>
-                </th:block>
-            </ul>
-
-        </section>
     </main>
     <footer>
         <th:block th:include="fragments/footer::footer" />

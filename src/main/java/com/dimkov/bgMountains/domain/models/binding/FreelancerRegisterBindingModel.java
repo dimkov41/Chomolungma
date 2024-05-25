@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 public class FreelancerRegisterBindingModel {
     private String fullName;
     private int ageExperience;
-    private int certificateNumber;
+    private String certificateNumber;
     private String mobileNumber;
     private BigDecimal fee;
     private String description;
@@ -38,12 +38,11 @@ public class FreelancerRegisterBindingModel {
     }
 
     @NotNull
-    @Range(min = 1)
-    public int getCertificateNumber() {
+    public String getCertificateNumber() {
         return certificateNumber;
     }
 
-    public void setCertificateNumber(int certificateNumber) {
+    public void setCertificateNumber(String certificateNumber) {
         this.certificateNumber = certificateNumber;
     }
 

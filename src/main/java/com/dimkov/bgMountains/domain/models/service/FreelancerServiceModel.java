@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 public class FreelancerServiceModel {
     private String id;
     private int ageExperience;
-    private int certificateNumber;
+    private String certificateNumber;
     private String mobileNumber;
     private BigDecimal fee;
     private String imageUrl;
@@ -29,11 +29,11 @@ public class FreelancerServiceModel {
         this.ageExperience = ageExperience;
     }
 
-    public int getCertificateNumber() {
+    public String getCertificateNumber() {
         return certificateNumber;
     }
 
-    public void setCertificateNumber(int certificateNumber) {
+    public void setCertificateNumber(String certificateNumber) {
         this.certificateNumber = certificateNumber;
     }
 
