@@ -11,6 +11,8 @@ import com.dimkov.bgMountains.repository.PeakRepository;
 import com.dimkov.bgMountains.util.Constants;
 import com.dimkov.bgMountains.validation.PeakValidationService;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,6 +27,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class PeakServiceImpl implements PeakService {
+    private static final Logger log = LoggerFactory.getLogger(PeakServiceImpl.class);
+
     private static final String PEAK_VALIDATION_ERROR_MESSAGE = "Entered peak data is not correct!";
 
     private final PeakRepository peakRepository;
@@ -89,42 +93,26 @@ public class PeakServiceImpl implements PeakService {
 
     @Override
     public boolean save(PeakAddServiceModel peakAddServiceModel, String authorUsername) throws IOException {
-        if (!peakValidationService.isValid(peakAddServiceModel)) {
-            throw new IllegalArgumentException(PEAK_VALIDATION_ERROR_MESSAGE);
-        }
-
-        Peak peak = this.modelMapper.map(peakAddServiceModel, Peak.class);
-
-        MountainServiceModel mountainServiceModel =
-                this.mountainService
-                        .findByName(
-                                peakAddServiceModel.getMountainName()
-                        )
-                        .orElseThrow(() -> new NoSuchElementException(Constants.MOUNTAIN_NOT_FOUND_MESSAGE));
-
-        peak.setLocation(
-                this.modelMapper.map(mountainServiceModel, Mountain.class)
-        );
-
-        UserServiceModel userServiceModel =
-                this.userService.findByUsername(authorUsername)
-                        .orElseThrow(() -> new NoSuchElementException(Constants.USERNAME_NOT_FOUND_MESSAGE));
-
-        peak.setAuthor(
-                this.modelMapper.map(userServiceModel, User.class)
-        );
-
-        peak.setImageUrl(
-                this.cloudinaryService.uploadImage(peakAddServiceModel.getImage())
-        );
-
-
         try {
+            if (!peakValidationService.isValid(peakAddServiceModel)) {
+                log.error("Entered peak data is not correct!");
+                throw new IllegalArgumentException(PEAK_VALIDATION_ERROR_MESSAGE);
+            }
+            Peak peak = this.modelMapper.map(peakAddServiceModel, Peak.class);
+            log.debug("peak ----> {}", peak);
+            MountainServiceModel mountainServiceModel = this.mountainService.findByName(peakAddServiceModel.getMountainName())
+                            .orElseThrow(() -> new NoSuchElementException(Constants.MOUNTAIN_NOT_FOUND_MESSAGE));
+            log.info("Mountain with name: {} found!", peakAddServiceModel.getMountainName());
+            peak.setLocation(this.modelMapper.map(mountainServiceModel, Mountain.class));
+            UserServiceModel userServiceModel = this.userService.findByUsername(authorUsername)
+                            .orElseThrow(() -> new NoSuchElementException(Constants.USERNAME_NOT_FOUND_MESSAGE));
+            peak.setAuthor(this.modelMapper.map(userServiceModel, User.class));
+            peak.setImageUrl(this.cloudinaryService.uploadImage(peakAddServiceModel.getImage()));
             this.peakRepository.save(peak);
         } catch (Exception e) {
+            log.debug("Cannot save peak with name: {} : {}", peakAddServiceModel.getName(), e.getMessage(), e);
             return false;
         }
-
         return true;
     }
 

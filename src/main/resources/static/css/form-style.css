@@ -81,6 +81,7 @@ textarea {
 
 textarea {
     height: initial;
+    outline: none;
 }
 
 div.form-item .form-style:focus {
