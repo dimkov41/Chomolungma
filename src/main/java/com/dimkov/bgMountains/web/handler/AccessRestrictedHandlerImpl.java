@@ -23,8 +23,9 @@ public class AccessRestrictedHandlerImpl implements AccessDeniedHandler {
                        AccessDeniedException e) throws IOException, ServletException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
-            log.info("User: {} attempted to access the protected URL: {}", authentication.getName(), httpServletRequest.getRequestURI());
+            log.info("Access denied! User: '{}', URI: '{}'", authentication.getName(), httpServletRequest.getRequestURI());
         }
+        log.error("Access is restricted.", e);
         httpServletResponse.sendRedirect(INDEX_PAGE_URL);
     }
 

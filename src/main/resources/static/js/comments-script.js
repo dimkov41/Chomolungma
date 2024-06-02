@@ -12,6 +12,12 @@ $(function () {
         console.log("submitting form")
         e.preventDefault();
 
+        const formData = $(this).serialize(); // Serialize the form data
+        const formObject = formData.split('&').reduce(function(obj, item) {
+            let parts = item.split('=');
+            obj[decodeURIComponent(parts[0])] = decodeURIComponent(parts[1]);
+            return obj;
+        }, {});
         let comment = $("#comment").val();
 
         if (comment === "" || comment.length > 255) {
@@ -22,7 +28,7 @@ $(function () {
         $.ajax({
             url: window.location.origin + "/comment/" + freelancerId,
             data: {
-                comment,
+                ...formObject,
                 currentDate: getDate()
             },
             method: "POST"
