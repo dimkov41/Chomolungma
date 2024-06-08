@@ -17,7 +17,7 @@ $(function () {
         let hiredDays = datediff(new Date(startDate), new Date(endDate)) + 1;
 
         if (hiredDays < 1) {
-            ///
+            $("#wrongDate").css("display", "none");
             $("#dateError").css("display", "block");
             event.preventDefault();
             return false;
@@ -29,10 +29,18 @@ $(function () {
         let freelancerId = window.location.pathname.substring(lastSlashIndex + 1);
 
         let isValid = false;
+
+        const formData = $(this).serialize(); // Serialize the form data
+        const formObject = formData.split('&').reduce(function(obj, item) {
+            let parts = item.split('=');
+            obj[decodeURIComponent(parts[0])] = decodeURIComponent(parts[1]);
+            return obj;
+        }, {});
         $.ajax({
             url: window.location.origin + "/mountainguides/check/" + freelancerId,
             method: "POST",
             data: {
+                _csrf: formObject._csrf,
                 startDate: formatDate(startDate),
                 endDate: formatDate(endDate)
             },

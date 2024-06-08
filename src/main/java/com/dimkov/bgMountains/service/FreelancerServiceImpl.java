@@ -189,7 +189,7 @@ public class FreelancerServiceImpl implements FreelancerService {
         }
 
         for (DateTime busyDate : desiredDates) {
-            freelancer.getEmployment().add(busyDate.plusDays(1).toDate());
+            freelancer.getEmployment().add(busyDate.toDate());
         }
 
         try {
