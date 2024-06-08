@@ -4,6 +4,7 @@ public class CommentAddServiceModel {
     private String comment;
     private String date;
     private String freelancerId;
+    private String userCreated;
 
     public String getComment() {
         return comment;
@@ -27,5 +28,13 @@ public class CommentAddServiceModel {
 
     public void setFreelancerId(String freelancerId) {
         this.freelancerId = freelancerId;
+    }
+
+    public String getUserCreated() {
+        return userCreated;
+    }
+
+    public void setUserCreated(String userCreated) {
+        this.userCreated = userCreated;
     }
 }

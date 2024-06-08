@@ -9,6 +9,7 @@ public class Comment extends BaseEntity{
     private String comment;
     private Freelancer freelancer;
     private String date;
+    private String userCreated;
 
     @Column(nullable =  false)
     public String getComment() {
@@ -35,5 +36,14 @@ public class Comment extends BaseEntity{
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    @Column(nullable = false, columnDefinition = "varchar(255) default 'dimkov41'")
+    public String getUserCreated() {
+        return userCreated;
+    }
+
+    public void setUserCreated(String userCreated) {
+        this.userCreated = userCreated;
     }
 }

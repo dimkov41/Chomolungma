@@ -7,6 +7,8 @@ import com.dimkov.bgMountains.service.CommentService;
 import com.google.gson.Gson;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,12 +33,15 @@ public class CommentApiController {
     @PostMapping("/{id}")
     public boolean registerComment(
             @PathVariable String id,
-            HttpServletRequest request,
-            @ModelAttribute CommentBindingModel commentBindingModel) throws IOException {
-        String comment = request.getParameter(COMMENT_PARAM_NAME);
-        String date = request.getParameter(DATE_PARAM_NAME);
-        commentBindingModel = new CommentBindingModel(comment, date, id);
-        return this.commentService.saveComment(this.modelMapper.map(commentBindingModel, CommentAddServiceModel.class));
+            @RequestParam(COMMENT_PARAM_NAME) String comment,
+            @RequestParam(DATE_PARAM_NAME) String date) {
+        // Obtain the current logged-in user
+        Authentication
+                authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userCreated = authentication.getName();
+        CommentBindingModel commentBindingModel = new CommentBindingModel(comment, date, id, userCreated);
+        CommentAddServiceModel commentAddServiceModel = this.modelMapper.map(commentBindingModel, CommentAddServiceModel.class);
+        return this.commentService.saveComment(commentAddServiceModel);
     }
 
     @GetMapping(value = "/show/{id}")

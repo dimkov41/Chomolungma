@@ -75,7 +75,7 @@ $(function () {
 });
 
 var current_page = 1;
-var records_per_page = 2;
+var records_per_page = 3;
 
 function prevPage()
 {
@@ -108,7 +108,11 @@ function changePage(page)
 
     for (var i = (page-1) * records_per_page; i < (page * records_per_page); i++) {
         if(objJson[i] !== undefined) {
-            listing_table.innerHTML += "<p>" + objJson[i].comment + "</p>";
+            listing_table.innerHTML += `<div class="comment-container">
+                <p class="comment-content">${objJson[i].comment}</p>
+                <p class="comment-left">${objJson[i].date}</p>
+                <p class="comment-right">${objJson[i].userCreated}</p>
+            </div>`;
         }
     }
     page_span.innerHTML = page;

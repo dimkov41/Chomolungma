@@ -20,7 +20,6 @@
             </div>
         </th:block>
         <th:block th:object="${__${T(com.dimkov.bgMountains.util.Constants).MODEL_ATTR_NAME}__}">
-            <h3 th:utext="*{fullName}"></h3>
             <ul class="blog-list">
                 <section class="avatar">
                     <img th:src="*{imageUrl}">
@@ -53,7 +52,7 @@
                     <p>About me: </p>
                     <p th:utext="*{description}"></p>
                 </section>
-                <form id="form" th:method="POST" th:action="@{|/comment/*{id}|}">
+                <form id="comment-form" th:method="POST" th:action="@{|/comment/*{id}|}">
                     <div class="formWrapper">
                         <p>Leave a comment:</p>
                         <p class="error" id="error">Коментарът трябва да е между 1 и 255 символа</p>

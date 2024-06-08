@@ -7,7 +7,10 @@ import com.dimkov.bgMountains.domain.models.service.CommentServiceModel;
 import com.dimkov.bgMountains.domain.models.service.FreelancerServiceModel;
 import com.dimkov.bgMountains.repository.CommentRepository;
 import com.dimkov.bgMountains.util.Constants;
+import com.dimkov.bgMountains.web.controllers.PeakController;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,9 +27,11 @@ public class CommentServiceImpl implements CommentService {
 
     private static final int MAX_ELEMENTS_PER_PAGE = 2;
 
+    private static final Logger log = LoggerFactory.getLogger(PeakController.class);
     private final FreelancerService freelancerService;
     private final CommentRepository commentRepository;
     private final ModelMapper modelMapper;
+
 
     @Autowired
     public CommentServiceImpl(
@@ -51,6 +56,7 @@ public class CommentServiceImpl implements CommentService {
             try {
                 this.commentRepository.save(c);
             } catch (Exception e) {
+                log.error(e.getMessage(), e);
                 return false;
             }
             return true;
