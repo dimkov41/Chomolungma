@@ -20,6 +20,7 @@ public class Freelancer extends BaseEntity{
     private String description;
     private User user;
     private List<Date> employment;
+    private List<Date> workingDates;
 
     public Freelancer() {
         this.employment = new ArrayList<>();
@@ -105,5 +106,14 @@ public class Freelancer extends BaseEntity{
 
     public void setEmployment(List<Date> employment) {
         this.employment = employment;
+    }
+
+    @ElementCollection
+    public List<Date> getWorkingDates() {
+        return workingDates;
+    }
+
+    public void setWorkingDates(List<Date> workingDates) {
+        this.workingDates = workingDates;
     }
 }

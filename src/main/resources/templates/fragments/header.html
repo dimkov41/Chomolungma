@@ -14,6 +14,9 @@
                 <th:block sec:authorize="!hasAuthority('ROLE_FREELANCER')">
                     <li><a href="/becomeFreelancer" class="freelancer">Стани водач</a></li>
                 </th:block>
+                <th:block sec:authorize="hasAuthority('ROLE_FREELANCER')">
+                    <li><a href="/setWorkingDays" class="freelancer">Задай работни дни</a></li>
+                </th:block>
                 <th:block sec:authorize="hasAuthority('ROLE_ADMIN')">
                     <li><a href="/users/admin">Админ панел</a></li>
                 </th:block>

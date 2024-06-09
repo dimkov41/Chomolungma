@@ -27,4 +27,8 @@ public interface FreelancerService {
     FreelancerServiceModel findByName(String name);
 
     boolean hireFreelancer(FreelancerHireServiceModel freelancerHireServiceModel, String username) throws ParseException;
+
+    boolean saveWorkingDates(String id, String startDate, String endDate);
+
+    boolean removeWorkingDates(String id, String startDate, String endDate);
 }

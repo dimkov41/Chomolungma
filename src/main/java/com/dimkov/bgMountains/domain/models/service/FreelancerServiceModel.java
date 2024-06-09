@@ -1,6 +1,9 @@
 package com.dimkov.bgMountains.domain.models.service;
 
 import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+
 
 public class FreelancerServiceModel {
     private String id;
@@ -12,6 +15,8 @@ public class FreelancerServiceModel {
     private String fullName;
     private String description;
     private UserServiceModel user;
+
+    private List<Date> workingDates;
 
     public String getId() {
         return id;
@@ -83,5 +88,29 @@ public class FreelancerServiceModel {
 
     public void setUser(UserServiceModel user) {
         this.user = user;
+    }
+
+    public List<Date> getWorkingDates() {
+        return workingDates;
+    }
+
+    public void setWorkingDates(List<Date> workingDates) {
+        this.workingDates = workingDates;
+    }
+
+    @Override
+    public String toString() {
+        return "FreelancerServiceModel{" +
+                "id='" + id + '\'' +
+                ", ageExperience=" + ageExperience +
+                ", certificateNumber='" + certificateNumber + '\'' +
+                ", mobileNumber='" + mobileNumber + '\'' +
+                ", fee=" + fee +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", description='" + description + '\'' +
+                ", user=" + user +
+                ", workingDates=" + workingDates +
+                '}';
     }
 }

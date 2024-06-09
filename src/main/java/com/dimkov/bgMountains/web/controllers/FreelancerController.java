@@ -12,16 +12,14 @@ import com.dimkov.bgMountains.service.FreelancerService;
 import com.dimkov.bgMountains.util.Constants;
 import com.dimkov.bgMountains.web.annotations.PageTitle;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -35,6 +33,8 @@ import java.util.stream.IntStream;
 
 @Controller
 public class FreelancerController extends BaseController {
+
+    private static final Logger log = LoggerFactory.getLogger(FreelancerController.class);
     private static final String BECOME_FREELANCER_ERROR_PATH = "becomeFreelancer?error=true";
 
     private static final String BECOME_FREELANCER_VIEW = "freelancer/become-freelancer";
@@ -195,5 +195,40 @@ public class FreelancerController extends BaseController {
         }
 
         return redirect(FREELANCERS_PATH);
+    }
+
+    @GetMapping("/setWorkingDays")
+    @PreAuthorize("hasAuthority(T(com.dimkov.bgMountains.util.Constants).ROLE_FREELANCER)")
+    public ModelAndView getWorkingDays(ModelAndView modelAndView, Principal principal) {
+        String username = principal.getName();
+        if (!this.freelancerService.checkFreelacerExists(username)) {
+            return redirect(BECOME_FREELANCER_PATH);
+        }
+        FreelancerServiceModel freelancerServiceModel = this.freelancerService.findByName(username);
+        log.info("freelancer->{}" , freelancerServiceModel);
+        modelAndView.addObject(
+                Constants.MODEL_ATTR_NAME,
+                freelancerServiceModel
+        );
+        return view( "freelancer/freelancer-calendar", modelAndView);
+    }
+
+
+    @PostMapping("/{id}/addDate")
+    public ModelAndView addWorkingDate(@PathVariable String id, @RequestParam("startWorkDate") String startWorkDate,
+                                       @RequestParam("endWorkDate") String endWorkDate) {
+        FreelancerServiceModel freelancerServiceModel = freelancerService.findById(id)
+                .orElseThrow(() -> new RuntimeException("Freelancer not found"));
+        freelancerService.saveWorkingDates(freelancerServiceModel.getId(), startWorkDate, endWorkDate);
+        return redirect("/setWorkingDays");
+    }
+
+    @PostMapping("/{id}/removeDate")
+    public ModelAndView removeWorkingDate(@PathVariable String id, @RequestParam("startRemoveDate") String startWorkDate,
+                                          @RequestParam("endRemoveDate") String endWorkDate) {
+        FreelancerServiceModel freelancerServiceModel = freelancerService.findById(id)
+                .orElseThrow(() -> new RuntimeException("Freelancer not found"));
+        freelancerService.removeWorkingDates(freelancerServiceModel.getId(), startWorkDate, endWorkDate);
+        return redirect("/setWorkingDays");
     }
 }

@@ -1,0 +1,46 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:include="fragments/head::head"/>
+    <script th:src="@{/js/form-script.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/form-style.css}"/>
+</head>
+<body>
+<header>
+    <th:block th:include="fragments/header::header"/>
+</header>
+<main>
+    <div class="setWork">
+        <form id="dateForm" style="display:block" class="dateForm" th:action="@{'/' + ${modelAndView.model.model.id} + '/addDate'}" method="post">
+            <div class="formWrapper">
+                <label for="startDate">Начална дата:</label>
+                <input type="date" name="startWorkDate" required/>
+            </div>
+            <div class="formWrapper">
+                <label for="endDate">Крайна дата (незадължително):</label>
+                <input type="date" name="endWorkDate"/>
+            </div>
+            <input type="submit" value="Наеми"/>
+        </form>
+    </div>
+    <div class="removeWork">
+        <form style="display:block" class="dateForm" th:action="@{'/' + ${modelAndView.model.model.id} + '/removeDate'}" method="post">
+            <div class="formWrapper">
+                <label for="startDate">Начална дата:</label>
+                <input type="date" name="startRemoveDate" id="startDate" required/>
+            </div>
+            <div class="formWrapper">
+                <label for="endDate">Крайна дата (незадължително):</label>
+                <input type="date" name="endRemoveDate" id="endDate"/>
+            </div>
+            <input type="submit" value="Наеми"/>
+        </form>
+    </div>
+</main>
+
+<footer>
+    <th:block th:include="fragments/footer::footer"/>
+</footer>
+</body>
+
+</html>

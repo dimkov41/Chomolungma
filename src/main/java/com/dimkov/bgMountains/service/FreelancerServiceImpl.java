@@ -201,6 +201,74 @@ public class FreelancerServiceImpl implements FreelancerService {
         return this.userService.setFreelancer(freelancer, username);
     }
 
+    public boolean saveWorkingDates(String id, String startDate, String endDate) {
+        try {
+            Freelancer freelancer = this.freelancerRepository.findById(id)
+                    .orElseThrow(() -> new NoSuchElementException(Constants.USERNAME_NOT_FOUND_MESSAGE));
+
+            if (!"".equals(endDate)) {
+                List<DateTime> desiredDates = getDesiredDates(startDate, endDate);
+                if (!checkIfAvailable(startDate, endDate, id)) {
+                    //if already added - do nothing
+                    return true;
+                }
+                for (DateTime busyDate : desiredDates) {
+                    freelancer.getWorkingDates().add(busyDate.toDate());
+                }
+                this.freelancerRepository.save(freelancer);
+            } else {
+                List<DateTime> desiredDates = getDesiredDates(startDate, startDate);
+                if (!checkIfAvailable(startDate, startDate, id)) {
+                    //if already added - do nothing
+                    return true;
+                }
+                for (DateTime busyDate : desiredDates) {
+                    freelancer.getWorkingDates().add(busyDate.toDate());
+                }
+                this.freelancerRepository.save(freelancer);
+            }
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean removeWorkingDates(String id, String startDate, String endDate) {
+        try {
+            Freelancer freelancer = this.freelancerRepository.findById(id)
+                    .orElseThrow(() -> new NoSuchElementException(Constants.USERNAME_NOT_FOUND_MESSAGE));
+
+            if (!"".equals(endDate)) {
+                List<DateTime> desiredDates  = getDesiredDates(startDate, endDate);
+                if (checkIfAvailable(startDate, endDate, id)) {
+                    //if already added - remove them
+                    for (DateTime busyDate : desiredDates) {
+                        freelancer.getWorkingDates().remove(busyDate.toDate());
+                    }
+                    this.freelancerRepository.save(freelancer);
+                } else {
+                    //do nothing if no added
+                    return true;
+                }
+            } else {
+                List<DateTime> desiredDates  = getDesiredDates(startDate, startDate);
+                if (checkIfAvailable(startDate, startDate, id)) {
+                    //if already added - remove them
+                    for (DateTime busyDate : desiredDates) {
+                        freelancer.getWorkingDates().remove(busyDate.toDate());
+                    }
+                    this.freelancerRepository.save(freelancer);
+                } else {
+                    //do nothing if no added
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
     private Freelancer mapFields(UserServiceModel userServiceModel, FreelancerAddServiceModel freelancerAddServiceModel) {
         Freelancer freelancer = this.modelMapper.map(userServiceModel, Freelancer.class);
 
