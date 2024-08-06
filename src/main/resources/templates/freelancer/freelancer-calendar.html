@@ -4,38 +4,85 @@
     <th:block th:include="fragments/head::head"/>
     <script th:src="@{/js/form-script.js}"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/css/form-style.css}"/>
+    <link rel="stylesheet" th:href="@{/css/Booking_Calendars.css}"/>
 </head>
 <body>
 <header>
     <th:block th:include="fragments/header::header"/>
 </header>
 <main>
-    <div class="setWork">
-        <form id="dateForm" style="display:block" class="dateForm" th:action="@{'/' + ${modelAndView.model.model.id} + '/addDate'}" method="post">
-            <div class="formWrapper">
-                <label for="startDate">Начална дата:</label>
-                <input type="date" name="startWorkDate" required/>
-            </div>
-            <div class="formWrapper">
-                <label for="endDate">Крайна дата (незадължително):</label>
-                <input type="date" name="endWorkDate"/>
-            </div>
-            <input type="submit" value="Наеми"/>
-        </form>
+    <div id="workCalendarWrapper">
+        <div class="workCalendarInner" id="setWork">
+            <h2>Задай работни дни:</h2>
+            <hr class="calendar-line"/>
+            <form id="dateForm" style="display:block" class="dateForm" th:action="@{'/' + ${modelAndView.model.model.id} + '/addDate'}" method="post">
+                <div class="formWrapper">
+                    <label for="startDate">Начална дата:</label>
+                    <input type="date" name="startWorkDate" required/>
+                </div>
+                <div class="formWrapper">
+                    <label for="endDate">Крайна дата (незадължително):</label>
+                    <input type="date" name="endWorkDate"/>
+                </div>
+                <input type="submit" value="Задай"/>
+            </form>
+        </div>
+        <div id="removeWork" class="workCalendarInner">
+            <h2>Премахни работни дни:</h2>
+            <hr class="calendar-line"/>
+            <form style="display:block" class="dateForm" th:action="@{'/' + ${modelAndView.model.model.id} + '/removeDate'}" method="post">
+                <div class="formWrapper">
+                    <label for="startDate">Начална дата:</label>
+                    <input type="date" name="startRemoveDate" id="startDate" required/>
+                </div>
+                <div class="formWrapper">
+                    <label for="endDate">Крайна дата (незадължително):</label>
+                    <input type="date" name="endRemoveDate" id="endDate"/>
+                </div>
+                <input type="submit" value="Задай"/>
+            </form>
+        </div>
     </div>
-    <div class="removeWork">
-        <form style="display:block" class="dateForm" th:action="@{'/' + ${modelAndView.model.model.id} + '/removeDate'}" method="post">
-            <div class="formWrapper">
-                <label for="startDate">Начална дата:</label>
-                <input type="date" name="startRemoveDate" id="startDate" required/>
-            </div>
-            <div class="formWrapper">
-                <label for="endDate">Крайна дата (незадължително):</label>
-                <input type="date" name="endRemoveDate" id="endDate"/>
-            </div>
-            <input type="submit" value="Наеми"/>
-        </form>
+    <div id="Booking_Calendars_Container" style="margin-bottom: 2em"></div>
+    <div class="legend">
+        <h4 style="margin-bottom: 1em">Легенда</h4>
+        <div class="orange-square"></div><span style="padding: 1em 1em">- работни дни</span>
+        <div class="green-square"></div><span style="padding: 1em 1em">- почивни дни</span>
     </div>
+    <script th:src="@{/js/Booking_Calendars.js}"></script>
+    <script th:inline="javascript">
+        const workingDates = [[${ modelAndView.model.model.workingDates }]];
+        let transformedWorkingDates = workingDates.map(date => {
+            let formattedDate = date.split('T')[0]; // Extract the date part
+            return {
+                date_start: formattedDate,
+                date_end: formattedDate
+            };
+        });
+        transformedWorkingDates.sort((a, b) => {
+            let dateA = new Date(a.date_start);
+            let dateB = new Date(b.date_start);
+            return dateA - dateB;
+        });
+        const Element = document.getElementById('Booking_Calendars_Container');
+        const Options = {
+            names_months: [
+                'January', 'February', 'March', 'April',
+                'May', 'June', 'July', 'August',
+                'September', 'October', 'November', 'December'
+            ],
+            names_days: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+            months_range: false,
+            year: '2024',
+            booked_dates: transformedWorkingDates,
+        };
+        /**
+         * end Options for Booking_Calendars
+         */
+
+        // Run the function !
+        Booking_calendars(Element, Options);
+    </script>
 </main>
 
 <footer>

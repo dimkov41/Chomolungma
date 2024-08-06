@@ -1,0 +1,89 @@
+/* Booking_Calendars.css Version: 3.0.0 (13/05/2024) [dd/mm/yyyy] */
+#Booking_Calendars_Container {
+	margin: 0 auto;
+	display: flex;
+	width: 100%;
+	min-height: 100vh;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-content: flex-start;
+	align-items: flex-start;
+	justify-content: center;
+	gap: 1em;
+}
+table.BC-style_calendar {
+	width: auto;
+	border: 1px solid #7c7c7c;
+	border-collapse: collapse;
+	border-spacing: 0;
+	box-sizing: border-box;
+}
+th.BC-month_name {
+	background: #707070;
+	color: #fefefe;
+	border: 1px solid #7c7c7c;
+	text-align: center;
+	font-size: 1em;
+	font-weight: 400;
+	padding: 0.4em;
+}
+td.BC-days_names {
+	background: #707070;
+	color: #fefefe;
+	border: 1px solid #7c7c7c;
+	text-align: center;
+	width: 40px;
+	height: 40px;
+	font-size: 0.9em;
+	padding: 0;
+}
+td.BC-day {
+	background: lightgreen;
+	color: #2e2e2e;
+	border: 1px solid #7c7c7c;
+	text-align: center;
+	width: 40px;
+	height: 40px;
+	font-size: 0.9em;
+	padding: 0;
+}
+td.BC-day_left {
+	color: rgb(35 35 35 / 36%);
+}
+td.BC-booked {
+	background: orange;
+}
+
+#workCalendarWrapper {
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+}
+
+.workCalendarInner {
+	margin: 1em 2em;
+}
+
+.calendar-line {
+	margin-bottom: 1em;
+}
+
+.orange-square {
+	width: 25px;  /* Adjust the size as needed */
+	height: 25px; /* Adjust the size as needed */
+	background-color: orange;
+	display: inline-block;
+}
+
+.green-square {
+	width: 25px;
+	height: 25px;
+	background-color: lightgreen;
+	display: inline-block;
+}
+
+.legend {
+	padding: 1em 2em;
+}
+
+/* end CSS CALENDARS */
