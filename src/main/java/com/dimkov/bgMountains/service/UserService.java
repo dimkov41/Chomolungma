@@ -5,6 +5,7 @@ import com.dimkov.bgMountains.domain.entities.User;
 import com.dimkov.bgMountains.domain.models.service.FreelancerServiceModel;
 import com.dimkov.bgMountains.domain.models.service.UserChangeServiceModel;
 import com.dimkov.bgMountains.domain.models.service.UserServiceModel;
+import org.joda.time.DateTime;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public interface UserService extends UserDetailsService {
 
     boolean setUserAuthorities(User user, String authority);
 
-    boolean setFreelancer(Freelancer freelancer, String username);
+    boolean setFreelancer(Freelancer freelancer, String username, List<DateTime> employedDates);
 
     Set<FreelancerServiceModel> getHiredFreelancers(String username);
 

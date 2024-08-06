@@ -14,7 +14,7 @@ public class User extends BaseEntity implements UserDetails {
     private String password;
     private String email;
 
-    private List<String> hires;
+    private List<UserHires> hires;
     private Set<Role> authorities;
 
     public User() {
@@ -59,12 +59,12 @@ public class User extends BaseEntity implements UserDetails {
         this.authorities = authorities;
     }
 
-    @ElementCollection
-    public List<String> getHires() {
+    @OneToMany(mappedBy = "employer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    public List<UserHires> getHires() {
         return hires;
     }
 
-    public void setHires(List<String> hires) {
+    public void setHires(List<UserHires> hires) {
         this.hires = hires;
     }
 

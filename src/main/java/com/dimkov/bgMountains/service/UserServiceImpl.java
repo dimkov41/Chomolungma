@@ -3,6 +3,7 @@ package com.dimkov.bgMountains.service;
 import com.dimkov.bgMountains.domain.entities.Freelancer;
 import com.dimkov.bgMountains.domain.entities.Role;
 import com.dimkov.bgMountains.domain.entities.User;
+import com.dimkov.bgMountains.domain.entities.UserHires;
 import com.dimkov.bgMountains.domain.models.service.FreelancerServiceModel;
 import com.dimkov.bgMountains.domain.models.service.UserChangeServiceModel;
 import com.dimkov.bgMountains.domain.models.service.UserServiceModel;
@@ -11,6 +12,7 @@ import com.dimkov.bgMountains.repository.RoleRepository;
 import com.dimkov.bgMountains.repository.UserRepository;
 import com.dimkov.bgMountains.util.Constants;
 import com.dimkov.bgMountains.validation.UserValidationService;
+import org.joda.time.DateTime;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -136,11 +138,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean setFreelancer(Freelancer freelancer, String username){
+    public boolean setFreelancer(Freelancer freelancer, String username, List<DateTime> employedDates){
         User user = this.userRepository.findByUsername(username)
                 .orElseThrow(() -> new NoSuchElementException(Constants.USERNAME_NOT_FOUND_MESSAGE));
 
-        user.getHires().add(freelancer.getUser().getUsername());
+        for (DateTime employedDate : employedDates) {
+            UserHires userHires = new UserHires();
+            userHires.setFreelancer(freelancer);
+            userHires.setEmployer(user);
+            userHires.setEmploymentDate(employedDate.toDate());
+            user.getHires().add(userHires);
+        }
 
         try{
             this.userRepository.save(user);
@@ -155,18 +163,7 @@ public class UserServiceImpl implements UserService {
     public Set<FreelancerServiceModel> getHiredFreelancers(String username){
         User user = this.userRepository.findByUsername(username)
                 .orElseThrow(() -> new NoSuchElementException(Constants.USERNAME_NOT_FOUND_MESSAGE));
-
-        Set<Freelancer> freelancerSet = new HashSet<>();
-
-        Set<String> freelancerNames = new HashSet<>(user.getHires());
-        for (String currentName : freelancerNames) {
-            Freelancer freelancer = this.freelancerRepository.findByUserUsername(currentName)
-                    .orElseThrow(NoSuchElementException::new);
-
-            freelancerSet.add(freelancer);
-        }
-
-
+        Set<Freelancer> freelancerSet =  user.getHires().stream().map(h -> h.getFreelancer()).collect(Collectors.toSet());
         return freelancerSet
                 .stream()
                 .map(f -> this.modelMapper.map(f,FreelancerServiceModel.class))

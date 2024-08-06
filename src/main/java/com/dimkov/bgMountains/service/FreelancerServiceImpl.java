@@ -198,7 +198,7 @@ public class FreelancerServiceImpl implements FreelancerService {
             return false;
         }
 
-        return this.userService.setFreelancer(freelancer, username);
+        return this.userService.setFreelancer(freelancer, username, desiredDates);
     }
 
     public boolean saveWorkingDates(String id, String startDate, String endDate) {
