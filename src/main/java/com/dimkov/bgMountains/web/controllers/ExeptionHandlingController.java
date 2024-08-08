@@ -13,7 +13,7 @@ import static com.dimkov.bgMountains.util.Constants.*;
 
 @ControllerAdvice
 public class ExeptionHandlingController extends BaseController {
-    private static final Logger log = LoggerFactory.getLogger(PeakController.class);
+    private static final Logger log = LoggerFactory.getLogger(ExeptionHandlingController.class);
     private static final String NOT_FOUND_IMG_PATH = "/images/ic_notfound.png";
     private static final String TRY_AGAIN_IMG_PATH = "/images/tryAgain.jpg";
 

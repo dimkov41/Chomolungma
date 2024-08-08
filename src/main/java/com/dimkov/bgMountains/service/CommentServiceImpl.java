@@ -7,7 +7,6 @@ import com.dimkov.bgMountains.domain.models.service.CommentServiceModel;
 import com.dimkov.bgMountains.domain.models.service.FreelancerServiceModel;
 import com.dimkov.bgMountains.repository.CommentRepository;
 import com.dimkov.bgMountains.util.Constants;
-import com.dimkov.bgMountains.web.controllers.PeakController;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +26,7 @@ public class CommentServiceImpl implements CommentService {
 
     private static final int MAX_ELEMENTS_PER_PAGE = 2;
 
-    private static final Logger log = LoggerFactory.getLogger(PeakController.class);
+    private static final Logger log = LoggerFactory.getLogger(CommentService.class);
     private final FreelancerService freelancerService;
     private final CommentRepository commentRepository;
     private final ModelMapper modelMapper;
