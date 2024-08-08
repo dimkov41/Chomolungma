@@ -1,6 +1,6 @@
 package com.dimkov.bgMountains.config;
 
-import com.dimkov.bgMountains.domain.entities.Role;
+import com.dimkov.bgMountains.domain.entities.Authority;
 import com.dimkov.bgMountains.repository.RoleRepository;
 import com.dimkov.bgMountains.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,21 +20,21 @@ public class DatabaseSeeder {
     @PostConstruct
     public void seed() {
         if (this.roleRepository.findAll().isEmpty()) {
-            Role userRole = new Role(Constants.ROLE_USER);
+            Authority userAuthority = new Authority(Constants.ROLE_USER);
 
-            Role freelancerRole = new Role(Constants.ROLE_FREELANCER);
+            Authority freelancerAuthority = new Authority(Constants.ROLE_FREELANCER);
 
-            Role moderatorRole = new Role(Constants.ROLE_MODERATOR);
+            Authority moderatorAuthority = new Authority(Constants.ROLE_MODERATOR);
 
-            Role adminRole = new Role(Constants.ROLE_ADMIN);
+            Authority adminAuthority = new Authority(Constants.ROLE_ADMIN);
 
-            Role rootRole = new Role(Constants.ROLE_ROOT);
+            Authority rootAuthority = new Authority(Constants.ROLE_ROOT);
 
-            this.roleRepository.save(userRole);
-            this.roleRepository.save(freelancerRole);
-            this.roleRepository.save(moderatorRole);
-            this.roleRepository.save(adminRole);
-            this.roleRepository.save(rootRole);
+            this.roleRepository.save(userAuthority);
+            this.roleRepository.save(freelancerAuthority);
+            this.roleRepository.save(moderatorAuthority);
+            this.roleRepository.save(adminAuthority);
+            this.roleRepository.save(rootAuthority);
         }
     }
 }

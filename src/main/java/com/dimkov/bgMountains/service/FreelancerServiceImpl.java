@@ -1,7 +1,7 @@
 package com.dimkov.bgMountains.service;
 
 import com.dimkov.bgMountains.domain.entities.Freelancer;
-import com.dimkov.bgMountains.domain.entities.Role;
+import com.dimkov.bgMountains.domain.entities.Authority;
 import com.dimkov.bgMountains.domain.entities.User;
 import com.dimkov.bgMountains.domain.models.service.*;
 import com.dimkov.bgMountains.repository.FreelancerRepository;
@@ -113,7 +113,7 @@ public class FreelancerServiceImpl implements FreelancerService {
 
         List<DateTime> freelancerBusyDates =
                 freelancer
-                        .getEmployment()
+                        .getEmployedDates()
                         .stream()
                         .map(DateTime::new)
                         .collect(Collectors.toList());
@@ -157,9 +157,9 @@ public class FreelancerServiceImpl implements FreelancerService {
                 this.userService.findByUsername(username)
                         .orElseThrow(() -> new NoSuchElementException(Constants.USERNAME_NOT_FOUND_MESSAGE));
 
-        Set<Role> roles = userServiceModel.getAuthorities();
-        for (Role role : roles) {
-            if (role.getAuthority().equalsIgnoreCase(Constants.ROLE_FREELANCER)) {
+        Set<Authority> authorities = userServiceModel.getAuthorities();
+        for (Authority authority : authorities) {
+            if (authority.getAuthority().equalsIgnoreCase(Constants.ROLE_FREELANCER)) {
                 return true;
             }
         }
@@ -189,7 +189,7 @@ public class FreelancerServiceImpl implements FreelancerService {
         }
 
         for (DateTime busyDate : desiredDates) {
-            freelancer.getEmployment().add(busyDate.toDate());
+            freelancer.getEmployedDates().add(busyDate.toDate());
         }
 
         try {
@@ -278,7 +278,7 @@ public class FreelancerServiceImpl implements FreelancerService {
         freelancer.setFee(freelancerAddServiceModel.getFee());
         freelancer.setFullName(freelancerAddServiceModel.getFullName());
         freelancer.setDescription(freelancerAddServiceModel.getDescription());
-        freelancer.setEmployment(new ArrayList<>());
+        freelancer.setEmployedDates(new ArrayList<>());
 
         return freelancer;
     }

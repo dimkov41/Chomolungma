@@ -19,11 +19,11 @@ public class Freelancer extends BaseEntity{
     private String fullName;
     private String description;
     private User user;
-    private List<Date> employment;
+    private List<Date> employedDates;
     private List<Date> workingDates;
 
     public Freelancer() {
-        this.employment = new ArrayList<>();
+        this.employedDates = new ArrayList<>();
     }
 
     @Column(nullable = false)
@@ -100,12 +100,12 @@ public class Freelancer extends BaseEntity{
     }
 
     @ElementCollection
-    public List<Date> getEmployment() {
-        return employment;
+    public List<Date> getEmployedDates() {
+        return employedDates;
     }
 
-    public void setEmployment(List<Date> employment) {
-        this.employment = employment;
+    public void setEmployedDates(List<Date> employment) {
+        this.employedDates = employment;
     }
 
     @ElementCollection

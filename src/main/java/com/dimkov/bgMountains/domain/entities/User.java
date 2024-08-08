@@ -15,7 +15,7 @@ public class User extends BaseEntity implements UserDetails {
     private String email;
 
     private List<UserHires> hires;
-    private Set<Role> authorities;
+    private Set<Authority> authorities;
 
     public User() {
         this.authorities = new HashSet<>();
@@ -50,12 +50,12 @@ public class User extends BaseEntity implements UserDetails {
     }
 
     @Override
-    @ManyToMany(targetEntity = Role.class,fetch = FetchType.EAGER)
-    public Set<Role> getAuthorities() {
+    @ManyToMany(targetEntity = Authority.class,fetch = FetchType.EAGER)
+    public Set<Authority> getAuthorities() {
         return authorities;
     }
 
-    public void setAuthorities(Set<Role> authorities) {
+    public void setAuthorities(Set<Authority> authorities) {
         this.authorities = authorities;
     }
 

@@ -4,14 +4,14 @@ import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.Entity;
 
-@Entity(name = "roles")
-public class Role extends BaseEntity implements GrantedAuthority{
+@Entity(name = "authorities")
+public class Authority extends BaseEntity implements GrantedAuthority{
     private String authority;
 
-    public Role() {
+    public Authority() {
     }
 
-    public Role(String authority) {
+    public Authority(String authority) {
         this.authority = authority;
     }
 

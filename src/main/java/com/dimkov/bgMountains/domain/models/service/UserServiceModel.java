@@ -1,6 +1,6 @@
 package com.dimkov.bgMountains.domain.models.service;
 
-import com.dimkov.bgMountains.domain.entities.Role;
+import com.dimkov.bgMountains.domain.entities.Authority;
 
 import java.util.Set;
 
@@ -10,7 +10,7 @@ public class UserServiceModel {
     private String password;
     private String email;
 
-    private Set<Role> authorities;
+    private Set<Authority> authorities;
 
     public UserServiceModel() {
     }
@@ -47,11 +47,11 @@ public class UserServiceModel {
         this.email = email;
     }
 
-    public Set<Role> getAuthorities() {
+    public Set<Authority> getAuthorities() {
         return authorities;
     }
 
-    public void setAuthorities(Set<Role> authorities) {
+    public void setAuthorities(Set<Authority> authorities) {
         this.authorities = authorities;
     }
 }

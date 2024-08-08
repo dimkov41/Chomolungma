@@ -1,6 +1,6 @@
 package com.dimkov.bgMountains.web.controllers;
 
-import com.dimkov.bgMountains.domain.entities.Role;
+import com.dimkov.bgMountains.domain.entities.Authority;
 import com.dimkov.bgMountains.domain.models.binding.UserChangeBindingModel;
 import com.dimkov.bgMountains.domain.models.binding.UserRegisterBindingModel;
 import com.dimkov.bgMountains.domain.models.service.FreelancerServiceModel;
@@ -142,7 +142,7 @@ public class UserController extends BaseController {
                             UserViewModel v = this.modelMapper.map(u, UserViewModel.class);
                             Set<String> authorities = u.getAuthorities()
                                     .stream()
-                                    .map(Role::getAuthority)
+                                    .map(Authority::getAuthority)
                                     .collect(Collectors.toSet());
 
                             v.setAuthorities(authorities);

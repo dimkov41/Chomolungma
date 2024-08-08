@@ -1,7 +1,7 @@
 package com.dimkov.bgMountains.service;
 
 import com.dimkov.bgMountains.domain.entities.Freelancer;
-import com.dimkov.bgMountains.domain.entities.Role;
+import com.dimkov.bgMountains.domain.entities.Authority;
 import com.dimkov.bgMountains.domain.entities.User;
 import com.dimkov.bgMountains.domain.entities.UserHires;
 import com.dimkov.bgMountains.domain.models.service.FreelancerServiceModel;
@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService {
         List<String> authorities =
                 user.getAuthorities()
                 .stream()
-                .map(Role::getAuthority)
+                .map(Authority::getAuthority)
                 .collect(Collectors.toList());
         if(authorities.contains(Constants.ROLE_FREELANCER)){
             isFreelancer = true;
