@@ -1,5 +1,7 @@
 FROM openjdk:11-jdk-slim
+RUN apt-get update && apt-get install -y maven
 WORKDIR /app
-COPY target/Chomolungma-1.0.0.jar /app/Chomolungma-1.0.0.jar
+COPY . /app
+RUN mvn clean package -DskipTests
 EXPOSE 8080
-CMD ["java", "-jar", "Chomolungma-1.0.0.jar", "--spring.profiles.active=prod"]
+CMD ["java", "-jar", "target/Chomolungma-1.0.0.jar", "--spring.profiles.active=prod"]
